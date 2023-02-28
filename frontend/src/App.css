@@ -1,0 +1,29 @@
+/* .sidebar {
+  height: 100vh;
+  background-color: #003162;
+}
+
+.sidebar li {
+  width: 100%;
+  border-color: black;
+  background-color: #003162;
+  padding: 10px 5px;
+  text-align: center;
+}
+
+.sidebar li button {
+  /* border-style: solid; */
+/* color: black;
+} */
+/*
+.sidebar li a {
+  text-decoration: none;
+}
+ */
+/* .mcq-checkbox {
+  margin-left: 15px;
+} */
+
+.side-bar-container {
+  height: 100%;
+}

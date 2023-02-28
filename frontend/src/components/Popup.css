@@ -1,0 +1,33 @@
+/* .popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    transition: width 2s, height 2s, transform 2s;
+    z-index: 9;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+
+.popup-inner {
+    border-width: 1px;
+    border-style: solid;
+    /* top: 10%; */
+    left: 25%;
+    position: fixed;
+    padding: 32px;
+    width: 60%;
+    height: 85%;
+    max-width: 60%;
+    background-color: #FFF;
+    z-index: 9;
+    overflow-y: scroll;
+}
+
+.btn-close {
+    position: fixed;
+}
