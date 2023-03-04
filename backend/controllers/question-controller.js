@@ -9,15 +9,9 @@ export function createQuestionMcq(req, res) {
     const questionType = req.body.questionType
     const questionHeader = req.body.questionHeader
     const correctAnswer = req.body.correctAnswer
-    const answerOption_1 = req.body.answerOption_1
-    const answerOption_2 = req.body.answerOption_2
-    const answerOption_3 = req.body.answerOption_3
-    const answerOption_4 = req.body.answerOption_4
-    const answerOption_5 = req.body.answerOption_5
-    const answerOption_6 = req.body.answerOption_6
-    const answerOption_7 = req.body.answerOption_7
-    const answerOption_8 = req.body.answerOption_8
     const questionBankId = req.body.questionBankId
+    const options = req.body.options
+
 
     connection.promise()
         .query(`INSERT INTO question(question_type, question_header, correct_answer,
@@ -25,9 +19,9 @@ export function createQuestionMcq(req, res) {
               answer_option_4, answer_option_5, answer_option_6,
                answer_option_7, answer_option_8, question_bank_id)
         VALUES('${questionType}','${questionHeader}', '${correctAnswer}',
-         '${answerOption_1}', '${answerOption_2}', '${answerOption_3}',
-          '${answerOption_4}', '${answerOption_5}', '${answerOption_6}',
-           '${answerOption_7}', '${answerOption_8}', '${questionBankId}')`)
+         '${options.option_1}', '${options.option_2}', '${options.option_3}',
+          '${options.option_4}', '${options.option_5}', '${options.option_6}',
+           '${options.option_7}', '${options.option_8}', '${questionBankId}')`)
         .then(data => {
             res.status(201).json({
                 status: "ok",
@@ -44,10 +38,10 @@ export function createQuestionMcq(req, res) {
 }
 
 export function createQuestionEssay(req, res) {
-    const questionType = "essay"
+    const questionType = req.body.questionType
     const questionHeader = req.body.questionHeader
     const correctAnswer = req.body.correctAnswer
-    const questionBankId = req.query.questionBank
+    const questionBankId = req.body.questionBankId
 
     connection.promise()
         .query(`INSERT INTO question (question_type, question_header,
@@ -69,7 +63,7 @@ export function createQuestionEssay(req, res) {
 }
 
 export function deleteQuestion (req, res){
-    const questionId = req.query.question
+    const questionId = req.query.questionId
 
      connection.promise().query(`
         DELETE FROM question

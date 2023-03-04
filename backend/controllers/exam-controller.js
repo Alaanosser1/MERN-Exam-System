@@ -1,28 +1,216 @@
-import express from "express"
-import connection from '../database.js'
+import express from "express";
+import connection from "../database.js";
 
-const app = express()
+const app = express();
 
 //Add new Instructor
-export function createExam(req, res) {
-    const examName = 'req.body.examName'
-    const examDescription = 'req.body.examDescription'
-    const examGrade = 'req.body.examGrade'
-    
-    connection.promise()
-        .query(`INSERT INTO exam(exam_name,exam_description, exam_grade)
-        VALUES('${examName}','${examDescription}','${examGrade}')`)
-        .then(data => {
-            res.status(201).json({
-                status: "ok",
-                msg: "Created"
-            })
-        })
-        .catch(error => {
-            console.log(error);
-            res.status(500).json({
-                status: "error",
-                msg: "500 Internal Server Error"
-            })
-        })
-}
+export const createExam = (req, res) => {
+  const examName = req.body.examName;
+  const examDescription = req.body.examDescription;
+  const examGrade = req.body.examGrade;
+
+  connection
+    .promise()
+    .query(
+      `INSERT INTO exam(exam_name,exam_description, exam_grade)
+        VALUES('${examName}','${examDescription}','${examGrade}')`
+    )
+    .then((data) => {
+      res.status(201).json({
+        status: "ok",
+        msg: "Created",
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 Internal Server Error",
+      });
+    });
+};
+
+export const editExam = (req, res) => {
+  const examName = req.body.examName;
+  const examDescription = req.body.examDescription;
+  const examGrade = req.body.examGrade;
+  const examId = req.body.examId;
+  const schema = Joi.object().keys({
+    examName: Joi.string().min(3).required(),
+    examDescription: Joi.string().min(3).required(),
+    examGrade: Joi.allow(),
+    examId: Joi.allow(),
+  });
+  const result = schema.validate(req.body);
+  if (result.error) {
+    return res.status(400).send(result.error.details[0].message);
+  }
+  connection
+    .promise()
+    .query(
+      `
+        UPDATE exam
+        SET exam_name = '${questionBankName}',
+        exam_description = '${questionBankDescription}',
+        exam_grade = '${questionBankDescription}'
+        WHERE exam_id = '${examId}'
+        `
+    )
+    .then((data) => {
+      if (data[0].affectedRows != 0) {
+        res.status(200).json({
+          status: "ok",
+          msg: "Updated",
+        });
+      } else {
+        res.status(404).json({
+          msg: "No exam with that ID",
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 Internal Server Error",
+      });
+    });
+};
+
+export const deleteExam = (req, res) => {
+  const examId = req.query.examId;
+  connection
+    .promise()
+    .query(
+      `
+          DELETE FROM exam
+          WHERE exam_id = '${examId}'
+          `
+    )
+    .then((data) => {
+      if (data[0].affectedRows != 0) {
+        res.status(200).json({
+          status: "Ok",
+          msg: "Deleted",
+        });
+      } else {
+        res.status(404).json({
+          status: "error",
+          msg: "No exam with this ID",
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 internal server error",
+      });
+    });
+};
+
+export const getExams = async (req, res) => {
+  let exams;
+  let isError = false;
+  try {
+    await connection
+      .promise()
+      .query(`SELECT * FROM exam`)
+      .then((data) => {
+        console.log(data[0], "1ST");
+        exams = data[0];
+      })
+      .catch((error) => {
+        res.status(500).json({
+          status: "error",
+          msg: "500 internal server error",
+        });
+      });
+    console.log(exams, "2ND");
+    for (let i = 0; i < exams.length; i++) {
+      await connection
+        .promise()
+        .query(
+          `SELECT COUNT(*) as count FROM exam_has_question WHERE exam_id = ${exams[i].exam_id} `
+        )
+        .then((data) => {
+          Object.assign(exams[i], {
+            NumberOfQuestions: data[0][0].count,
+          });
+        });
+    }
+    console.log(exams, "exams");
+  } catch (error) {
+    isError = true;
+    console.log(error);
+    res.status(500).json({
+      status: "error",
+      msg: "500 internal server error",
+    });
+  }
+  if (!isError) {
+    res.status(200).json({
+      exams: exams,
+    });
+  }
+};
+
+export const getExamQuestions = (req, res) => {
+  const examId = req.query.examId;
+
+  connection
+    .promise()
+    .query(
+      `
+    SELECT * FROM exam_has_question 
+    JOIN question ON question.question_id = exam_has_question.question_id
+    WHERE exam_has_question.exam_id = ${examId}
+    `
+    )
+    .then((data) => {
+      res.status(200).json({
+        questions: data[0],
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 internal server error",
+      });
+    });
+};
+export const removeQuestionFromExam = (req, res) => {
+  const examId = req.query.examId;
+  const questionId = req.query.questionId;
+
+  console.log(req.body);
+  connection
+    .promise()
+    .query(
+      `
+    DELETE FROM exam_has_question
+    WHERE exam_id = ${examId} AND question_id = ${questionId}
+    `
+    )
+    .then((data) => {
+      if (data[0].affectedRows != 0) {
+        res.status(200).json({
+          status: "Ok",
+          msg: "Deleted",
+        });
+      } else {
+        res.status(404).json({
+          status: "error",
+          msg: "No Question in this exam with this ID",
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 internal server error",
+      });
+    });
+};

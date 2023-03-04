@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { React, useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
-export default function AddQuestionBank(props) {
-  const [questionBankName, setName] = useState("");
-  const [questionBankDescription, setDescription] = useState("");
+const AddExam = (props) => {
+  const [examName, setExamName] = useState("");
+  const [examDescription, setExamDescription] = useState("");
+  const [examGrade, setExamGrade] = useState(0);
   const {
     register,
     handleSubmit,
@@ -15,9 +15,10 @@ export default function AddQuestionBank(props) {
 
   const formSubmit = () => {
     axios
-      .post("http://localhost:4000/questionBank/createQuestionBank", {
-        questionBankName,
-        questionBankDescription,
+      .post("http://localhost:4000/exam/createExam", {
+        examName,
+        examDescription,
+        examGrade,
       })
       .then((data) => {
         props.rerender();
@@ -28,35 +29,49 @@ export default function AddQuestionBank(props) {
   return (
     <>
       <div className="container">
-        <h1>Add Question Bank</h1>
+        <h1 className="m-3">Add Exam</h1>
         <form onSubmit={handleSubmit(formSubmit)}>
+          <h5 className="m-3">Name</h5>
           <input
             autoFocus
             className="form-control form-control-lg mt-2"
             type="text"
-            placeholder="Name"
             aria-label=".form-control-lg example"
             {...register("nameRequired", { required: true })}
             onChange={(e) => {
-              setName(e.target.value);
+              setExamName(e.target.value);
               console.log(e.target.value);
             }}
           />
           {errors.nameRequired && (
             <span className="text-danger">This field is required</span>
           )}
+          <h5 className="m-3">Description</h5>
           <input
             className="form-control form-control-lg mt-2"
             type="text"
-            placeholder="Description"
             aria-label=".form-control-lg example"
             {...register("descriptionRequired", { required: true })}
             onChange={(e) => {
-              setDescription(e.target.value);
+              setExamDescription(e.target.value);
               console.log(e.target.value);
             }}
           />
           {errors.descriptionRequired && (
+            <span className="text-danger">This field is required</span>
+          )}
+          <h5 className="m-3">Grade</h5>
+          <input
+            className="form-control form-control-lg mt-2"
+            type="text"
+            aria-label=".form-control-lg example"
+            {...register("gradeRequired", { required: true })}
+            onChange={(e) => {
+              setExamGrade(e.target.value);
+              console.log(e.target.value);
+            }}
+          />
+          {errors.gradeRequired && (
             <span className="text-danger">This field is required</span>
           )}
           <br></br>
@@ -67,4 +82,5 @@ export default function AddQuestionBank(props) {
       </div>
     </>
   );
-}
+};
+export default AddExam;
