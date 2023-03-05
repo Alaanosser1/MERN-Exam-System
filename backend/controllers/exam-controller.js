@@ -19,6 +19,7 @@ export const createExam = (req, res) => {
       res.status(201).json({
         status: "ok",
         msg: "Created",
+        data: data,
       });
     })
     .catch((error) => {
@@ -211,6 +212,33 @@ export const removeQuestionFromExam = (req, res) => {
       res.status(500).json({
         status: "error",
         msg: "500 internal server error",
+      });
+    });
+};
+
+export const assignQuestionToExam = (req, res) => {
+  const questionId = req.body.questionId;
+  const examId = req.body.examId;
+
+  connection
+    .promise()
+    .query(
+      `
+      INSERT INTO exam_has_question(exam_id, question_id)
+      VALUES('${examId}','${questionId}')
+               `
+    )
+    .then((data) => {
+      res.status(201).json({
+        status: "ok",
+        msg: "Assigned",
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 Internal Server Error",
       });
     });
 };

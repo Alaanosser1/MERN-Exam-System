@@ -42,17 +42,6 @@ const EditAndPreviewExam = () => {
       }
     });
   };
-  const getQuestionBanks = () => {
-    axios
-      .get("http://localhost:4000/questionBank/getQuestionBanks")
-      .then((res) => {
-        console.log(res.data.questionBanks, "QUESTIONBANKS");
-        setQuestionBanks(res.data.questionBanks);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
   const getExamQuestions = () => {
     axios
       .get("http://localhost:4000/exam/getExamQuestions", {
@@ -71,14 +60,15 @@ const EditAndPreviewExam = () => {
   return (
     <>
       <div className="container m-5">
-        <div className="row m-5">
-          <div className="col-8">
+        <div className="row">
+          <div className="col-9 mt-5">
             <h1>Exam Number {examId}</h1>
           </div>
           <div className="col-3">
-            <button className="btn btn-success">Add Questions</button>
+            <button className="btn btn-success mt-5">Add Questions</button>
           </div>
         </div>
+        <div className="row justify-content-center g-0">
         {Object.entries(examQuestions).map((question, i) => {
           console.log(question[1]);
           if (question[1].question_type == "Essay") {
@@ -117,7 +107,7 @@ const EditAndPreviewExam = () => {
             );
           } else {
             return (
-              <div className="card m-5 ">
+              <div className="card m-5">
                 <p className="card-header text-white bg-primary ">
                   Question {i + 1}
                 </p>
@@ -224,6 +214,7 @@ const EditAndPreviewExam = () => {
             );
           }
         })}
+        </div>
       </div>
     </>
   );
