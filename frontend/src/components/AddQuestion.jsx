@@ -6,6 +6,8 @@ import axios from "axios";
 import "../styles/Popup.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCoffee, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function AddQuestion(props) {
   const [questionHeader, setQuestionHeader] = useState("");
@@ -21,6 +23,7 @@ function AddQuestion(props) {
   } = useForm();
   const onSubmit = (data) => console.log(data, "validation");
   const [arr, setArr] = useState([1, 2, 3, 4]);
+  const MySwal = withReactContent(Swal);
 
   useEffect(() => {
     renderBasedOnQuestionType();
@@ -148,7 +151,7 @@ function AddQuestion(props) {
           <div className="row justify-content-end">
             <div className="col-1">
               <button
-                className="btn btn-success"
+                className="btn btn-outline-success"
                 onClick={(e) => {
                   if (arr.length <= 7) {
                     arr.push(0);
@@ -165,7 +168,7 @@ function AddQuestion(props) {
             </div>
             <div className="col-1">
               <button
-                className="btn btn-danger"
+                className="btn btn-outline-danger"
                 onClick={(e) => {
                   if (arr.length > 2) {
                     arr.pop();

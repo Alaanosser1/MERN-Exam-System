@@ -1,5 +1,5 @@
 import { React, useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import Popup from "../components/Popup";
 import AddQuestionBank from "../components/AddQuestionBank";
@@ -7,16 +7,16 @@ import ChooseQuestionsFromQuestionBank from "./ChooseQuestionsFromQuestionBank";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 
- const CreateExamStep2 = (props)=> {
+const CreateExamStep2 = (props) => {
   const [questionBanks, setQuestionBanks] = useState([]);
   const [addQuestionBankPopup, setAddQuestionBankPopup] = useState(false);
   const [
     chooseQuestionsFromQuestionBankPopup,
     setChooseQuestionsFromQuestionBankPopup,
   ] = useState(false);
+  let { examId } = useParams();
   const [questionBankName, setName] = useState("");
   const [questionBankId, setQuestionBankId] = useState("");
-  const [examId, setExamId] = useState("");
   const [questionBankDescription, setDescription] = useState("");
   const refOne = useRef(null);
   const {
@@ -59,8 +59,14 @@ import { useForm } from "react-hook-form";
   return (
     <>
       <div className="container m-5">
-        <Popup trigger={chooseQuestionsFromQuestionBankPopup} setTrigger={setChooseQuestionsFromQuestionBankPopup}>
-        <ChooseQuestionsFromQuestionBank questionBankId = {questionBankId} examId = {props.examId}></ChooseQuestionsFromQuestionBank>
+        <Popup
+          trigger={chooseQuestionsFromQuestionBankPopup}
+          setTrigger={setChooseQuestionsFromQuestionBankPopup}
+        >
+          <ChooseQuestionsFromQuestionBank
+            questionBankId={questionBankId}
+            examId={props.examId || examId}
+          ></ChooseQuestionsFromQuestionBank>
         </Popup>
         <div className="row">
           <div className="col-9">
@@ -97,16 +103,15 @@ import { useForm } from "react-hook-form";
                   </td>
                   <td className="text-center">{bank[1].NumberOfQuestions}</td>
                   <td className="text-center">
-                      <button
-                        onClick={()=>{
-                          setChooseQuestionsFromQuestionBankPopup(true)
-                          setQuestionBankId(bank[1].question_bank_id);
-                        }
-                        }
-                        className="btn btn-primary m-2"
-                      >
-                        Choose Questions
-                      </button>
+                    <button
+                      onClick={() => {
+                        setChooseQuestionsFromQuestionBankPopup(true);
+                        setQuestionBankId(bank[1].question_bank_id);
+                      }}
+                      className="btn btn-outline-primary m-2"
+                    >
+                      Choose Questions
+                    </button>
                   </td>
                 </tr>
               );
@@ -116,5 +121,5 @@ import { useForm } from "react-hook-form";
       </div>
     </>
   );
-}
-export default CreateExamStep2
+};
+export default CreateExamStep2;

@@ -242,3 +242,71 @@ export const assignQuestionToExam = (req, res) => {
       });
     });
 };
+export const getQuestionBankQuestionsToAddQuestionsToExam = (req, res) => {
+  const questionBankId = req.query.questionBankId;
+  const examId = req.query.examId;
+  let questionBankQuestions;
+  let examQuestions;
+
+  const combineQuestionBankQuestionsAndExamQuestions = () => {
+    for (let i = 0; i < questionBankQuestions.length; i++) {
+      Object.assign(questionBankQuestions[i], {
+        isQuestionInExam: false,
+      });
+      for (let j = 0; j < examQuestions.length; j++) {
+        if (
+          questionBankQuestions[i].question_id == examQuestions[j].question_id
+        ) {
+          Object.assign(questionBankQuestions[i], {
+            isQuestionInExam: true,
+          });
+          console.log(
+            questionBankQuestions[i].question_id,
+            examQuestions[j].question_id,
+            "FOUND"
+          );
+        }
+      }
+    }
+    return questionBankQuestions;
+  };
+
+  connection
+    .promise()
+    .query(
+      `SELECT * FROM question WHERE question_bank_id = '${questionBankId}'`
+    )
+    .then((data) => {
+      questionBankQuestions = data[0];
+      connection
+        .promise()
+        .query(
+          `
+        SELECT * FROM exam_has_question 
+        WHERE exam_id = ${examId}
+        `
+        )
+        .then(async (data) => {
+          examQuestions = data[0];
+          await combineQuestionBankQuestionsAndExamQuestions();
+          res.status(200).json({
+            questionBankQuestions:
+              combineQuestionBankQuestionsAndExamQuestions(),
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(500).json({
+            status: "error",
+            msg: "500 internal server error",
+          });
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        status: "error",
+        msg: "500 internal server error",
+      });
+    });
+};

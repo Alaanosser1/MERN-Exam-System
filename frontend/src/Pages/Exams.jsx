@@ -2,7 +2,7 @@ import { React, useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Popup from "../components/Popup";
-import AddExam from "../components/AddExam";
+import CreateExamForm from "../components/CreateExamForm";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 
@@ -10,6 +10,7 @@ const Exams = () => {
   const [exams, setExams] = useState("");
   const [addExamPopup, setAddExamPopup] = useState("");
   const [examId, setExamId] = useState("");
+  const [showCreateExam, setShowCreateExam] = useState("");
   const refOne = useRef(null);
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
@@ -63,23 +64,30 @@ const Exams = () => {
     <>
       <div className="container m-5">
         <div ref={refOne}>
-          <Popup trigger={addExamPopup} setTrigger={setAddExamPopup}>
-            <AddExam rerender={getExams} hidePopup={setAddExamPopup}></AddExam>
-          </Popup>
+          {showCreateExam ? (
+            <CreateExamForm
+              rerender={getExams}
+              hidePopup={setAddExamPopup}
+            ></CreateExamForm>
+          ) : (
+            ""
+          )}
         </div>
         <div className="row">
           <div className="col-9">
             <h1 className="mt-5">Exams</h1>
           </div>
           <div className="col-3">
-            <button
-              onClick={() => {
-                setAddExamPopup(true);
-              }}
-              className="btn btn-success mt-5"
-            >
-              Add New Exam
-            </button>
+            <Link to={"createExamForm"}>
+              <button
+                onClick={() => {
+                  setShowCreateExam(true);
+                }}
+                className="btn btn-outline-success mt-5"
+              >
+                Add New Exam
+              </button>
+            </Link>
           </div>
         </div>
 
@@ -115,7 +123,7 @@ const Exams = () => {
                   <td className="text-center">{bank[1].NumberOfQuestions}</td>
                   <td className="text-center">
                     <button
-                      className="btn btn-danger m-2"
+                      className="btn btn-outline-danger m-2"
                       onClick={() => {
                         deleteExam(bank[1]);
                       }}
@@ -129,7 +137,7 @@ const Exams = () => {
                           setExamId(bank[1].exam_id);
                           // console.log(questionBankId);
                         }}
-                        className="btn btn-primary m-2"
+                        className="btn btn-outline-primary m-2"
                       >
                         Edit and Preview
                       </button>

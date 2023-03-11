@@ -4,12 +4,15 @@ import axios from "axios";
 import AddQuestion from "./AddQuestion";
 import Popup from "./Popup";
 import Swal from "sweetalert2";
+import "../styles/Checkbox.less";
 
 const ChooseQuestionsFromQuestionBank = (props) => {
   let questionBankId = props.questionBankId;
   const [questionBankQuestions, setQuestionBankQuestions] = useState([]);
   const [buttonPopup, setButtonPopup] = useState(false);
   const [examQuestions, setExamQuestions] = useState([]);
+  const [addToExamButton, setAddToExamButton] = useState(false);
+  const [questionId, setQuestionId] = useState(false);
   const refOne = useRef(null);
   let examQuestionsId = [];
 
@@ -34,11 +37,17 @@ const ChooseQuestionsFromQuestionBank = (props) => {
   const getQuestionBankQuestions = () => {
     axios
       .get(
-        `http://localhost:4000/questionBank/getQuestions?questionBank=${questionBankId}`
+        `http://localhost:4000/exam/getQuestionBankQuestionsToAddQuestionsToExam`,
+        {
+          params: {
+            examId: props.examId,
+            questionBankId,
+          },
+        }
       )
       .then((res) => {
-        setQuestionBankQuestions(res.data);
-        console.log("RERRNDERED FROM GETQBQ");
+        setQuestionBankQuestions(res.data.questionBankQuestions);
+        console.log(questionBankQuestions, "NEWARRAYAYAYAYAYAYAYYA");
       })
       .catch((error) => {
         console.log(error);
@@ -69,10 +78,35 @@ const ChooseQuestionsFromQuestionBank = (props) => {
         examId: props.examId,
         questionId,
       })
-      .then((res) => {
-        // getQuestionBankQuestions();
+      .then(async (res) => {
+        getQuestionBankQuestions();
+        getExamQuestions();
         console.log(res, "Assigned");
+        setAddToExamButton(!addToExamButton);
       });
+  };
+  const removeQuestionFromExam = (questionId) => {
+    axios
+      .delete("http://localhost:4000/exam/removeQuestionFromExam", {
+        params: {
+          examId: props.examId,
+          questionId,
+        },
+      })
+      .then((res) => {
+        getQuestionBankQuestions();
+        getExamQuestions();
+        console.log(res, "Removed");
+        setAddToExamButton(!addToExamButton);
+      });
+  };
+
+  const checkQuestionInExam = () => {
+    if (examQuestions.includes(questionId)) {
+      setAddToExamButton(true);
+    } else {
+      setAddToExamButton(false);
+    }
   };
 
   return (
@@ -105,26 +139,25 @@ const ChooseQuestionsFromQuestionBank = (props) => {
                   <p className="card-text mb-4">
                     Answer: {question[1].correct_answer}
                   </p>
-                  <div className="row">
-                    <div className="col-3">
-                      {examQuestions.includes(question[1].question_id) ? (
+                  <div className="row justify-content-center">
+                    <div className="col-4">
+                      {!question[1].isQuestionInExam ? (
                         <button
                           onClick={() => {
-                            // deleteQuestionHandler(question[1]);
+                            assignQuestionToExam(question[1].question_id);
                           }}
-                          className="btn btn-danger m-2 w-100"
+                          className="btn btn-outline-success w-100"
                         >
-                          remove
+                          Add
                         </button>
                       ) : (
                         <button
                           onClick={() => {
-                            assignQuestionToExam(question[1].question_id);
-                            getQuestionBankQuestions();
+                            removeQuestionFromExam(question[1].question_id);
                           }}
-                          className="btn btn-success m-2 w-100"
+                          className="btn btn-outline-danger w-100"
                         >
-                          Add
+                          Remove
                         </button>
                       )}
                     </div>
@@ -219,25 +252,25 @@ const ChooseQuestionsFromQuestionBank = (props) => {
                   <p className="card-text m-3">
                     Answer: {question[1].correct_answer}
                   </p>
-                  <div className="row">
-                    <div className="col-3">
-                      {examQuestions.includes(question[1].question_id) ? (
+                  <div className="row justify-content-center">
+                    <div className="col-4 ">
+                      {!question[1].isQuestionInExam ? (
                         <button
                           onClick={() => {
-                            // deleteQuestionHandler(question[1]);
+                            assignQuestionToExam(question[1].question_id);
                           }}
-                          className="btn btn-danger m-2 w-100"
+                          className="btn btn-outline-success w-100"
                         >
-                          remove
+                          Add
                         </button>
                       ) : (
                         <button
                           onClick={() => {
-                            // deleteQuestionHandler(question[1]);
+                            removeQuestionFromExam(question[1].question_id);
                           }}
-                          className="btn btn-success m-2 w-100"
+                          className="btn btn-outline-danger w-100"
                         >
-                          Add
+                          Remove
                         </button>
                       )}
                     </div>

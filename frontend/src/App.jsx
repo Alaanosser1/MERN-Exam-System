@@ -11,6 +11,8 @@ import ViewQuestionBank from "./components/ViewQuestionBank";
 import AddQuestion from "./components/AddQuestion";
 import EditAndPreviewExam from "./components/EditAndPreviewExam";
 import CreateExamForm from "./components/CreateExamForm";
+import CreateExamStep2 from "./components/CreateExamStep2";
+import AddToExamButton from "./components/AddToExamButton";
 
 function App() {
   return (
@@ -22,9 +24,14 @@ function App() {
         <div className="col-9">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/lol" element={<CreateExamForm />} />
+            <Route path="/lol" element={<AddToExamButton />} />
             <Route path="/exams" element={<Exams />} />
             <Route path="/exams/:examId" element={<EditAndPreviewExam />} />
+            <Route path="exams/createExamForm" element={<CreateExamForm />} />
+            <Route
+              path="exams/:examId/addQuestions"
+              element={<CreateExamStep2 />}
+            />
             <Route path="/questionBanks" element={<QuestionBanks />} />
             <Route
               path="/questionBanks/:questionBankId"
