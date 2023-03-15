@@ -1,10 +1,8 @@
 import { React, useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Popup from "../components/Popup";
 import CreateExamForm from "../components/CreateExamForm";
 import Swal from "sweetalert2";
-import { useForm } from "react-hook-form";
 
 const Exams = () => {
   const [exams, setExams] = useState("");
@@ -15,7 +13,6 @@ const Exams = () => {
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
     getExams();
-
     return () => {
       document.removeEventListener("click", handleClickOutside, true);
     };
@@ -62,7 +59,7 @@ const Exams = () => {
   };
   return (
     <>
-      <div className="container m-5">
+      <div className="container list-container m-5">
         <div ref={refOne}>
           {showCreateExam ? (
             <CreateExamForm
@@ -78,7 +75,7 @@ const Exams = () => {
             <h1 className="mt-5">Exams</h1>
           </div>
           <div className="col-3">
-            <Link to={"createExamForm"}>
+            <Link to={"/app/createExamForm"}>
               <button
                 onClick={() => {
                   setShowCreateExam(true);
@@ -117,8 +114,12 @@ const Exams = () => {
               return (
                 <tr scope="row" key={bank[1].exam_id}>
                   {/* <th scope="row">{bank[1].question_bank_id}</th> */}
-                  <td className="text-center">{bank[1].exam_name}</td>
-                  <td className="text-center">{bank[1].exam_description}</td>
+                  <td className="text-center">
+                    {bank[1].exam_name.substring(0, 30)}
+                  </td>
+                  <td className="text-center">
+                    {bank[1].exam_description.substring(0, 25)}...
+                  </td>
                   <td className="text-center">{bank[1].exam_grade}</td>
                   <td className="text-center">{bank[1].NumberOfQuestions}</td>
                   <td className="text-center">
@@ -130,7 +131,7 @@ const Exams = () => {
                     >
                       Delete
                     </button>
-                    <Link to={`/exams/${bank[1].exam_id}`}>
+                    <Link to={`/app/exams/${bank[1].exam_id}`}>
                       <button
                         onClick={() => {
                           // setEditQuestionBankPopup(true);

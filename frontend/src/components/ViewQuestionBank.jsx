@@ -63,7 +63,7 @@ function ViewQuestionBank() {
   return (
     <>
       <div
-        className="container m-5"
+        className="container list-container m-5"
         onClick={() => {
           console.log("clicked");
         }}

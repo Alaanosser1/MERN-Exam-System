@@ -58,7 +58,7 @@ const CreateExamStep2 = (props) => {
   };
   return (
     <>
-      <div className="container m-5">
+      <div className="container list-container m-5">
         <Popup
           trigger={chooseQuestionsFromQuestionBankPopup}
           setTrigger={setChooseQuestionsFromQuestionBankPopup}

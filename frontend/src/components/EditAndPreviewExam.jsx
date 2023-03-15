@@ -62,13 +62,13 @@ const EditAndPreviewExam = () => {
   };
   return (
     <>
-      <div className="container m-5">
+      <div className="container list-container m-5">
         <div className="row">
           <div className="col-9 mt-5">
             <h1>Exam Number {examId}</h1>
           </div>
           <div className="col-3">
-            <Link to={"addQuestions"}>
+            <Link to={`/app/exams/${examId}/addQuestions`}>
               <button
                 onClick={() => {
                   setShowCreateExamStep2(true);

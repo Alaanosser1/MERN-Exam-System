@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../styles/Sidebar.css";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
@@ -18,7 +19,7 @@ export default function SideBar() {
             <li>
               <a href="#">
                 <i className="fas fa-home"></i>
-                <Link to={"/"}>
+                <Link to={"/app/home"}>
                   {" "}
                   <FontAwesomeIcon icon={faHome} /> &nbsp; Home
                 </Link>
@@ -27,7 +28,7 @@ export default function SideBar() {
             <li>
               <a href="#">
                 <i className="fas fa-user"></i>
-                <Link to={"/questionBanks"}>
+                <Link to={"/app/questionBanks"}>
                   <FontAwesomeIcon icon={faBuildingColumns} /> &nbsp;
                   QuestionBank
                 </Link>
@@ -36,7 +37,7 @@ export default function SideBar() {
             <li>
               <a>
                 <i className="fas fa-user"></i>
-                <Link to={"/exams"}>
+                <Link to={"/app/exams"}>
                   <FontAwesomeIcon icon={faPen} /> &nbsp; Exam
                 </Link>
               </a>

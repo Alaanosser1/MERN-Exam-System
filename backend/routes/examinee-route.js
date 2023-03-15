@@ -1,8 +1,7 @@
-//add examinee
-//add instructor
-//sign in
-//signup
-//list exams
-//list exam questions
-//list examinee answer
-//evalute answers
+import express from "express";
+import { addExaminee } from "../controllers/examinee-controller.js";
+
+const examineeRouter = express.Router();
+examineeRouter.get("/addExaminee", addExaminee);
+
+export default examineeRouter;

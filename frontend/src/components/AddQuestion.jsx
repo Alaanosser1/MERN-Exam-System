@@ -5,7 +5,12 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import "../styles/Popup.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCoffee, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCoffee,
+  faLongArrowRight,
+  faMinus,
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
@@ -13,7 +18,13 @@ function AddQuestion(props) {
   const [questionHeader, setQuestionHeader] = useState("");
   const [correctAnswer, setCorrectAnswer] = useState("");
   const [questionType, setQuestionType] = useState("");
-  const [rerenderComponent, setRerenderComponent] = useState("");
+  const [optionList, setOptionList] = useState([
+    { option: "" },
+    { option: "" },
+    { option: "" },
+    { option: "" },
+  ]);
+
   let { questionBankId } = useParams();
   const {
     register,
@@ -21,7 +32,6 @@ function AddQuestion(props) {
     watch,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data, "validation");
   const [arr, setArr] = useState([1, 2, 3, 4]);
   const MySwal = withReactContent(Swal);
 
@@ -29,27 +39,31 @@ function AddQuestion(props) {
     renderBasedOnQuestionType();
   }, []);
 
-  const formSubmit = (data, e) => {
-    let options = {
-      option_1: null,
-      option_2: null,
-      option_3: null,
-      option_4: null,
-      option_5: null,
-      option_6: null,
-      option_7: null,
-      option_8: null,
-    };
+  const handleOptionChange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...optionList];
+    list[index][name] = value;
+    setOptionList(list);
+  };
 
+  const handleOptionRemove = (index) => {
+    const list = [...optionList];
+    list.splice(index, 1);
+    setOptionList(list);
+  };
+
+  const handleOptionAdd = () => {
+    setOptionList([...optionList, { option: "" }]);
+  };
+
+  const formSubmit = (data, e) => {
     e.preventDefault();
-    if (questionType == "Mcq") {
-      for (let i = 0; i < 8; i++) {
-        if (e.target[i].id == "questionOption") {
-          options[`option_${i - 1}`] = e.target[i].value;
-          console.log(options, "********");
-        }
-      }
-    }
+    // if (questionType == "Mcq") {
+    //   for (let i = 0; i < 8; i++) {
+    //     options[`option_${i + 1}`] = e.target[i + 1].value;
+    //     console.log(options, "********", i);
+    //   }
+    // }
 
     axios
       .post(`http://localhost:4000/question/createQuestion${questionType}`, {
@@ -57,7 +71,7 @@ function AddQuestion(props) {
         correctAnswer,
         questionBankId,
         questionType,
-        options,
+        options: optionList,
       })
       .then((data) => {
         console.log(data);
@@ -74,7 +88,7 @@ function AddQuestion(props) {
   const handleOnChangeCorrectAnswer = (e) => {
     e.preventDefault();
     setCorrectAnswer(e.target.value);
-    console.log(e.target.value, "value");
+    console.log(e.target.value, "CorrectANswer");
   };
 
   const renderAnswerOptions = () => {
@@ -90,12 +104,14 @@ function AddQuestion(props) {
         <option disabled selected value="">
           Choose Question Type
         </option>
-        {arr.map((arr, i) => {
+        {optionList.map((option, i) => {
           return (
             <>
-              <option key={i} value={`option_${i + 1}`}>
-                Option {i + 1}
-              </option>
+              {option.option && (
+                <option key={i} value={option.option}>
+                  Option{i + 1}: {option.option}
+                </option>
+              )}
             </>
           );
         })}
@@ -106,8 +122,6 @@ function AddQuestion(props) {
 
   const renderBasedOnQuestionType = () => {
     let result;
-
-    console.log(questionType, "/////");
     questionType === "Mcq" &&
       (result = (
         <div>
@@ -125,39 +139,15 @@ function AddQuestion(props) {
           {errors.headerRequired && (
             <span className="text-danger m-3">This field is required</span>
           )}
-          {arr.map((arr, i) => {
-            return (
-              <>
-                <h5 className="m-3">Choice # {i + 1}</h5>
-                <input
-                  {...register("optionRequired", { required: true })}
-                  className="form-control form-control-lg m-3"
-                  key={i}
-                  id="questionOption"
-                  type="text"
-                  aria-label=".form-control-lg example"
-                  onChange={(e) => {
-                    console.log(e.target.value);
-                  }}
-                />
-                {errors.optionRequired && (
-                  <span className="text-danger m-3">
-                    This field is required
-                  </span>
-                )}
-              </>
-            );
-          })}
-          <div className="row justify-content-end">
+          <div className="row p-3">
+            <div className="col-11"></div>
             <div className="col-1">
               <button
+                type="button"
                 className="btn btn-outline-success"
-                onClick={(e) => {
-                  if (arr.length <= 7) {
-                    arr.push(0);
-                    setArr(arr);
-                    e.preventDefault();
-                    setRerenderComponent(e);
+                onClick={() => {
+                  if (optionList.length <= 7) {
+                    handleOptionAdd();
                   } else {
                     console.log("no more choices");
                   }
@@ -166,24 +156,38 @@ function AddQuestion(props) {
                 <FontAwesomeIcon icon={faPlus} />
               </button>
             </div>
-            <div className="col-1">
-              <button
-                className="btn btn-outline-danger"
-                onClick={(e) => {
-                  if (arr.length > 2) {
-                    arr.pop();
-                    setArr(arr);
-                    e.preventDefault();
-                    setRerenderComponent(e);
-                  } else {
-                    console.log("no more choices");
-                  }
-                }}
-              >
-                <FontAwesomeIcon icon={faMinus} />
-              </button>
-            </div>
           </div>
+          {optionList.map((singleOption, index) => (
+            <div key={index} className="options">
+              <div className="row">
+                <h5 className="ms-3">Option {index + 1}</h5>
+              </div>
+              <div className="row p-3">
+                <div className="col-11">
+                  <input
+                    className="form-control"
+                    name="option"
+                    type="text"
+                    id="option"
+                    value={singleOption.option}
+                    onChange={(e) => handleOptionChange(e, index)}
+                    required
+                  />
+                </div>
+                <div className="col-1">
+                  {optionList.length !== 1 && (
+                    <button
+                      type="button"
+                      onClick={() => handleOptionRemove(index)}
+                      className="btn btn-outline-danger"
+                    >
+                      <FontAwesomeIcon icon={faMinus} />
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
           <h5 className="m-3 ">Correct Answer</h5>
           {renderAnswerOptions()}
           {errors.correctAnswerRequired && (
@@ -251,7 +255,6 @@ function AddQuestion(props) {
         <button type="submit" className="btn btn-primary m-3 w-25">
           Add
         </button>
-        {console.log(errors)}
       </form>
     </div>
   );

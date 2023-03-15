@@ -3,6 +3,7 @@ import urlencoded from "body-parser";
 import cors from "cors";
 
 import instructorRouter from "./routes/instructor-route.js";
+import examineeRouter from "./routes/examinee-route.js";
 import questionBankRouter from "./routes/question-bank-route.js";
 import questionRouter from "./routes/question-route.js";
 import examRouter from "./routes/exam-route.js";
@@ -27,6 +28,7 @@ app.use(function (req, res, next) {
 app.use(cors());
 
 app.use("/instructor", instructorRouter);
+app.use("/examineeRouter", examineeRouter);
 app.use("/questionBank", questionBankRouter);
 app.use("/question", questionRouter);
 app.use("/exam", examRouter);

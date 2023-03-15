@@ -87,7 +87,7 @@ export default function QuestionBanks() {
   };
   return (
     <>
-      <div className="container m-5">
+      <div className="container list-container m-5">
         <div ref={refOne}>
           <Popup
             trigger={addQuestionBankPopup}
@@ -189,7 +189,7 @@ export default function QuestionBanks() {
                   </td>
                   <td className="text-center">{bank[1].NumberOfQuestions}</td>
                   <td className="text-center">
-                    <Link to={`/questionBanks/${bank[1].question_bank_id}`}>
+                    <Link to={`/app/questionBanks/${bank[1].question_bank_id}`}>
                       <button className="btn btn-primary m-2"> View</button>
                     </Link>
                     <button

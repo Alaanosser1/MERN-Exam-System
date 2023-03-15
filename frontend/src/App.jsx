@@ -12,9 +12,12 @@ import AddQuestion from "./components/AddQuestion";
 import EditAndPreviewExam from "./components/EditAndPreviewExam";
 import CreateExamForm from "./components/CreateExamForm";
 import CreateExamStep2 from "./components/CreateExamStep2";
-import AddToExamButton from "./components/AddToExamButton";
+import ExamineeHome from "./Pages/ExamineeHome";
+import ExamineeExam from "./Pages/ExamineeExam";
+import Login from "./components/Login";
 
 function App() {
+  console.log(window.location);
   return (
     <div className="App">
       <div className="row">
@@ -23,8 +26,10 @@ function App() {
         </div>
         <div className="col-9">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/lol" element={<AddToExamButton />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/examineeHome" element={<ExamineeHome />} />
+            <Route path="/ExamineeExam/:examId" element={<ExamineeExam />} />
             <Route path="/exams" element={<Exams />} />
             <Route path="/exams/:examId" element={<EditAndPreviewExam />} />
             <Route path="exams/createExamForm" element={<CreateExamForm />} />

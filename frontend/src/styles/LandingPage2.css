@@ -1,0 +1,48 @@
+.main-container{
+    background: #E4E0E0;
+    font-size:6px;
+     padding:4rem 2rem;
+     -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    font-family: 'Poppins', sans-serif;
+}
+
+.landing-container{
+    position:relative;
+    max-width: 112rem;
+    min-width: 480px;
+    background:#fff;
+    margin: 0 auto;
+    overflow:hidden;
+    box-shadow: 0 0 35px 20px rgba(79,69,66,0.2);
+    margin-top: 5%;
+    border-radius: 1rem;
+    
+    
+}
+Link{
+    text-decoration: none;
+}
+.landing-btn {
+    position:relative;
+    padding:1.3rem 3.5rem;
+    text-align:center;
+    display:block;
+    border-radius:1rem;
+    text-transform:uppercase;
+    border:none;
+    font-size:1.4rem;
+    margin-top:2rem;
+    font-weight:bolder;
+    outline:none;
+    box-shadow: 0 0 1rem 0 rgba(0,0,0,0.2);
+    
+  }
+
+  .btn-col{
+    margin-top: 14%;
+  }
+
+  .img-container{
+    margin-left: 30px;
+  }
