@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import axios from "axios";
+import ExamineeExam from "./ExamineeExam";
 
 const ExamineeHome = () => {
   const [exams, setExams] = useState([]);
@@ -30,6 +31,7 @@ const ExamineeHome = () => {
         <br />
         <div className="row">
           {Object.entries(exams).map((exam) => {
+            console.log(exam[1].NumberOfQuestions);
             return (
               <div
                 className="col-4 d-flex justify-content-center mb-5"
@@ -43,11 +45,15 @@ const ExamineeHome = () => {
                     <p className="card-text">
                       {exam[1].exam_description.substring(0, 30)}...
                     </p>
-                    <br />
+                    <p className="card-text">
+                      عدد الاسئلة {exam[1].NumberOfQuestions}
+                    </p>
                     <div className="row">
                       <Link
-                        to={`/app/ExamineeExam/${exam[1].exam_id}`}
-                        className="btn btn-outline-primary"
+                        to={`/ExamineeExam/${exam[1].exam_id}`}
+                        className={`btn btn-outline-primary ${
+                          exam[1].NumberOfQuestions < 1 && "disabled"
+                        }`}
                       >
                         ابدأ الامتحان
                       </Link>

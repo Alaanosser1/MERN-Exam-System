@@ -18,6 +18,7 @@ import QuestionBanks from "./Pages/QuestionBanks";
 import ViewQuestionBank from "./components/ViewQuestionBank";
 import AddQuestion from "./components/AddQuestion";
 import AddQuestionBank from "./components/AddQuestionBank";
+import ExamineePreExam from "./Pages/ExamineePreExam";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -25,11 +26,13 @@ ReactDOM.render(
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/examineeHome" element={<ExamineeHome />} />
+        <Route path="/examineePreExam" element={<ExamineePreExam />} />
+
+        <Route path="/ExamineeExam/:examId" element={<ExamineeExam />} />
         <Route path="/login" element={<Login />} />
 
         <Route path="app" element={<App />}>
           <Route path="/app/home" element={<Home />} />
-          <Route path="/app/ExamineeExam/:examId" element={<ExamineeExam />} />
           <Route path="/app/exams" element={<Exams />} />
           <Route path="/app/exams/:examId" element={<EditAndPreviewExam />} />
           <Route

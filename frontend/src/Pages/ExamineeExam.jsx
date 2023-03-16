@@ -40,14 +40,16 @@ const ExamineeExam = () => {
   };
 
   const question = () => {
-    console.log(examQuestions, "TEST");
+    if (examQuestions) {
+      console.log(examQuestions, "TEST LOLOLOLOL");
+    }
     if (examQuestions[questionNumber - 1].question_type == "Essay") {
       return (
         <>
           <div className="row justify-content-center w-100">
             <div className="card m-5 w-75 p-0 ">
               <p5 className="card-header bg-primary text-white">
-                Question {questionNumber}
+                السؤال رقم {questionNumber}
               </p5>
               <div className="card-body">
                 <p className="card-title ">
@@ -73,7 +75,7 @@ const ExamineeExam = () => {
           <div className="row justify-content-center w-100">
             <div className="card m-5 w-75 p-0 ">
               <p5 className="card-header bg-primary text-white">
-                Question {questionNumber}
+                السؤال رقم {questionNumber}
               </p5>
               <div className="card-body">
                 <p className="card-title ">
@@ -89,6 +91,7 @@ const ExamineeExam = () => {
                         <div className="container">
                           <div className="form-check">
                             <input
+                              style={{ float: "right", margin: 5 }}
                               class="form-check-input"
                               type="radio"
                               name="exampleRadios"
@@ -114,6 +117,7 @@ const ExamineeExam = () => {
                         <div className="container">
                           <div className="form-check">
                             <input
+                              style={{ float: "right", margin: 5 }}
                               class="form-check-input"
                               type="radio"
                               name="exampleRadios"
@@ -139,6 +143,7 @@ const ExamineeExam = () => {
                         <div className="container">
                           <div className="form-check">
                             <input
+                              style={{ float: "right", margin: 5 }}
                               class="form-check-input"
                               type="radio"
                               name="exampleRadios"
@@ -164,6 +169,7 @@ const ExamineeExam = () => {
                         <div className="container">
                           <div className="form-check">
                             <input
+                              style={{ float: "right", margin: 5 }}
                               class="form-check-input"
                               type="radio"
                               name="exampleRadios"
@@ -192,6 +198,7 @@ const ExamineeExam = () => {
                           <div className="container">
                             <div className="form-check">
                               <input
+                                style={{ float: "right", margin: 5 }}
                                 class="form-check-input"
                                 type="radio"
                                 name="exampleRadios"
@@ -217,6 +224,7 @@ const ExamineeExam = () => {
                           <div className="container">
                             <div className="form-check">
                               <input
+                                style={{ float: "right", margin: 5 }}
                                 class="form-check-input"
                                 type="radio"
                                 name="exampleRadios"
@@ -242,6 +250,7 @@ const ExamineeExam = () => {
                           <div className="container">
                             <div className="form-check">
                               <input
+                                style={{ float: "right", margin: 5 }}
                                 class="form-check-input"
                                 type="radio"
                                 name="exampleRadios"
@@ -267,6 +276,7 @@ const ExamineeExam = () => {
                           <div className="container">
                             <div className="form-check">
                               <input
+                                style={{ float: "right", margin: 5 }}
                                 class="form-check-input"
                                 type="radio"
                                 name="exampleRadios"
@@ -297,9 +307,15 @@ const ExamineeExam = () => {
   };
   return (
     <>
-      <div className="h-100 d-flex align-items-center justify-content-center">
-        <div className=" container border m-2 p-5">
-          <nav className="d-flex">
+      <div
+        style={{ margin: 170, fontSize: 20 }}
+        className="h-100 d-flex align-items-center justify-content-center"
+      >
+        <div
+          dir="rtl"
+          className="container question-card-container   border m-2 p-5"
+        >
+          <nav dir="ltr" className="d-flex">
             {Object.entries(examQuestions).map((question, i) => {
               return (
                 <ul class="pagination pagination-sm">
@@ -324,13 +340,13 @@ const ExamineeExam = () => {
               );
             })}
           </nav>
-          {examQuestions && question()}
-          <div className="row">
+          {examQuestions.length > 0 && question()}
+          <div dir="ltr" className="row">
             <div className="col-2"></div>
             <div className="col-3">
               <button
                 onClick={() => {
-                  if (questionNumber > 0) {
+                  if (questionNumber > 1) {
                     setInputValue("");
                     questionNumber--;
                     getExamQuestions();
@@ -364,7 +380,7 @@ const ExamineeExam = () => {
                 <button
                   onClick={() => {
                     console.log(examQuestions.length, "LENGTH");
-                    if (questionNumber < examQuestions.length) {
+                    if (questionNumber > examQuestions.length) {
                       setInputValue("");
                       questionNumber++;
                       getExamQuestions();

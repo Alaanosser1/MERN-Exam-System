@@ -1,5 +1,5 @@
 import { React, useEffect, useState, useRef } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Popup from "../components/Popup";
 import AddQuestionBank from "../components/AddQuestionBank";
@@ -25,6 +25,7 @@ const CreateExamStep2 = (props) => {
     watch,
     formState: { errors },
   } = useForm();
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
@@ -71,6 +72,18 @@ const CreateExamStep2 = (props) => {
         <div className="row">
           <div className="col-9">
             <h1 className="mt-5">Add Questions to exam {props.examId}</h1>
+          </div>
+          <div className="col-3">
+            <button
+              onClick={() => {
+                props.setPage(3);
+                navigate("/app/exams");
+              }}
+              className="mt-5 w-75 btn btn-outline-success"
+            >
+              {" "}
+              Finish
+            </button>
           </div>
         </div>
 

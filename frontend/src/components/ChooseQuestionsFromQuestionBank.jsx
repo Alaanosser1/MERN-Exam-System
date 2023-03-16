@@ -161,6 +161,15 @@ const ChooseQuestionsFromQuestionBank = (props) => {
                         </button>
                       )}
                     </div>
+                    <div className="col-2">
+                      <input
+                        step="1"
+                        max="10"
+                        value={1}
+                        type="number"
+                        className="form-control  quantity-field text-center"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -273,6 +282,15 @@ const ChooseQuestionsFromQuestionBank = (props) => {
                           Remove
                         </button>
                       )}
+                    </div>
+                    <div className="col-2">
+                      <input
+                        step="1"
+                        max="10"
+                        value={1}
+                        type="number"
+                        className="form-control  quantity-field text-center"
+                      />
                     </div>
                   </div>
                 </div>

@@ -72,7 +72,7 @@ const AddExam = (props) => {
               <h5 className="m-3">Grade</h5>
               <input
                 className="form-control form-control-lg mt-2"
-                type="text"
+                type="number"
                 aria-label=".form-control-lg example"
                 {...register("gradeRequired", { required: true })}
                 onChange={(e) => {

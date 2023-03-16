@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import CreateExamForm from "../components/CreateExamForm";
 import Swal from "sweetalert2";
+import SearchBar from "../components/SearchBar";
 
 const Exams = () => {
   const [exams, setExams] = useState("");
   const [addExamPopup, setAddExamPopup] = useState("");
   const [examId, setExamId] = useState("");
   const [showCreateExam, setShowCreateExam] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
   const refOne = useRef(null);
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
@@ -32,6 +34,7 @@ const Exams = () => {
       .get("http://localhost:4000/exam/getExams")
       .then((res) => {
         console.log(res.data.exams, "EXAMS");
+        setSearchResults(res.data.exams);
         setExams(res.data.exams);
       })
       .catch((error) => {
@@ -75,7 +78,7 @@ const Exams = () => {
             <h1 className="mt-5">Exams</h1>
           </div>
           <div className="col-3">
-            <Link to={"/app/createExamForm"}>
+            <Link to={"/app/exams/createExamForm"}>
               <button
                 onClick={() => {
                   setShowCreateExam(true);
@@ -87,8 +90,11 @@ const Exams = () => {
             </Link>
           </div>
         </div>
+        <div className="row d-flex justify-content-end align-items-end m-3">
+          <SearchBar content={exams} setSearchResults={setSearchResults} />
+        </div>
 
-        <table className="table mt-5 table-striped border table-responsive-lg">
+        <table className="table mt-2 table-striped border table-responsive-lg">
           <thead>
             <tr>
               {/* <th scope="col">ID</th> */}
@@ -110,7 +116,7 @@ const Exams = () => {
             </tr>
           </thead>
           <tbody>
-            {Object.entries(exams).map((bank) => {
+            {Object.entries(searchResults).map((bank) => {
               return (
                 <tr scope="row" key={bank[1].exam_id}>
                   {/* <th scope="row">{bank[1].question_bank_id}</th> */}

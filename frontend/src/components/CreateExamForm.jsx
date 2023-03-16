@@ -22,24 +22,24 @@ const CreateExamForm = () => {
       {
         console.log(examId, "FROM EXAM FORM");
       }
-      return <CreateExamStep2 examId={examId}></CreateExamStep2>;
+      return (
+        <CreateExamStep2 setPage={setPage} examId={examId}></CreateExamStep2>
+      );
     }
   };
   return (
     <>
       <div className="container">
-        <div class="progress m-5">
+        <div class=" progress m-5">
           <div
-            class={`progress-bar ${page === 1 && "w-0"} ${
-              page === 2 && "w-25"
-            }   `}
+            class={`progress-bar ${page === 1 && "w-0"}
+             ${page === 2 && "w-50"} ${page === 3 && "w-100"}   `}
             role="progressbar"
             aria-valuenow="25"
             aria-valuemin="0"
             aria-valuemax="100"
           ></div>
         </div>
-
         {pageDisplay()}
       </div>
     </>
