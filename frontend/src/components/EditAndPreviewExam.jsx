@@ -11,6 +11,7 @@ const EditAndPreviewExam = () => {
   const [examQuestions, setExamQuestions] = useState([]);
   const [showCreateExamStep2, setShowCreateExamStep2] = useState(false);
   const [questionId, setQuestionId] = useState([]);
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     // document.addEventListener("click", handleClickOutside, true);
@@ -34,6 +35,9 @@ const EditAndPreviewExam = () => {
               examId,
               questionId: question.question_id,
             },
+            headers: {
+              "auth-token": user.token,
+            },
           })
           .then((res) => {
             console.log(res.data);
@@ -50,6 +54,9 @@ const EditAndPreviewExam = () => {
       .get("http://localhost:4000/exam/getExamQuestions", {
         params: {
           examId,
+        },
+        headers: {
+          "auth-token": user.token,
         },
       })
       .then((res) => {
@@ -85,14 +92,14 @@ const EditAndPreviewExam = () => {
             console.log(question[1]);
             if (question[1].question_type == "Essay") {
               return (
-                <div className="card m-5">
-                  <p5 className="card-header bg-primary text-white">
+                <div key={i} className="card m-5">
+                  <p className="card-header bg-primary text-white">
                     Question {i + 1}
-                  </p5>
+                  </p>
                   <div className="card-body  m-2">
-                    <p4 className="card-title mb-4">
+                    <p className="card-title mb-4">
                       {question[1].question_header}
-                    </p4>
+                    </p>
                     <hr></hr>
                     <p className="card-text mb-4">
                       Answer: {question[1].correct_answer}
@@ -114,7 +121,7 @@ const EditAndPreviewExam = () => {
               );
             } else {
               return (
-                <div className="card m-5">
+                <div key={i} className="card m-5">
                   <p className="card-header text-white bg-primary ">
                     Question {i + 1}
                   </p>

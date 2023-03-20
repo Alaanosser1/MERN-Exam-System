@@ -14,6 +14,8 @@ const ChooseQuestionsFromQuestionBank = (props) => {
   const [addToExamButton, setAddToExamButton] = useState(false);
   const [questionId, setQuestionId] = useState(false);
   const refOne = useRef(null);
+  const user = JSON.parse(localStorage.getItem("user"));
+
   let examQuestionsId = [];
 
   useEffect(() => {
@@ -43,6 +45,9 @@ const ChooseQuestionsFromQuestionBank = (props) => {
             examId: props.examId,
             questionBankId,
           },
+          headers: {
+            "auth-token": user.token,
+          },
         }
       )
       .then((res) => {
@@ -59,6 +64,9 @@ const ChooseQuestionsFromQuestionBank = (props) => {
         params: {
           examId: props.examId,
         },
+        headers: {
+          "auth-token": user.token,
+        },
       })
       .then((res) => {
         console.log(res.data.questions, "Exam Questions");
@@ -74,10 +82,18 @@ const ChooseQuestionsFromQuestionBank = (props) => {
   };
   const assignQuestionToExam = (questionId) => {
     axios
-      .post("http://localhost:4000/exam/assignQuestionToExam", {
-        examId: props.examId,
-        questionId,
-      })
+      .post(
+        "http://localhost:4000/exam/assignQuestionToExam",
+        {
+          examId: props.examId,
+          questionId,
+        },
+        {
+          headers: {
+            "auth-token": user.token,
+          },
+        }
+      )
       .then(async (res) => {
         getQuestionBankQuestions();
         getExamQuestions();
@@ -92,6 +108,9 @@ const ChooseQuestionsFromQuestionBank = (props) => {
           examId: props.examId,
           questionId,
         },
+        headers: {
+          "auth-token": user.token,
+        },
       })
       .then((res) => {
         getQuestionBankQuestions();
@@ -99,14 +118,6 @@ const ChooseQuestionsFromQuestionBank = (props) => {
         console.log(res, "Removed");
         setAddToExamButton(!addToExamButton);
       });
-  };
-
-  const checkQuestionInExam = () => {
-    if (examQuestions.includes(questionId)) {
-      setAddToExamButton(true);
-    } else {
-      setAddToExamButton(false);
-    }
   };
 
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/Sidebar.css";
 import logo from "../assets/logo.png";
 
@@ -11,9 +11,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function SideBar() {
+  const navigate = useNavigate();
+  const logout = () => {
+    localStorage.removeItem("user");
+    navigate("/");
+  };
   return (
     <>
-      <nav className="wrapper g-0">
+      <nav dir="rtl" className="wrapper g-0">
         <div className="sidebar bg-light">
           <div className="row d-flex justifty-content-center align-items-center">
             <img src={logo} alt="" />
@@ -41,6 +46,11 @@ export default function SideBar() {
               <Link to={"/app/exams"}>
                 <FontAwesomeIcon icon={faPen} /> &nbsp; Exam
               </Link>
+            </a>
+          </li>
+          <li>
+            <a href="/" onClick={logout}>
+              <FontAwesomeIcon icon={faPen} /> &nbsp; تسجيل الخروج
             </a>
           </li>
         </div>

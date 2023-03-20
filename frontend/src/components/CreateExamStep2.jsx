@@ -19,6 +19,8 @@ const CreateExamStep2 = (props) => {
   const [questionBankId, setQuestionBankId] = useState("");
   const [questionBankDescription, setDescription] = useState("");
   const refOne = useRef(null);
+  const user = JSON.parse(localStorage.getItem("user"));
+
   const {
     register,
     handleSubmit,
@@ -48,7 +50,11 @@ const CreateExamStep2 = (props) => {
 
   const getQuestionBanks = () => {
     axios
-      .get("http://localhost:4000/questionBank/getQuestionBanks")
+      .get("http://localhost:4000/questionBank/getQuestionBanks", {
+        headers: {
+          "auth-token": user.token,
+        },
+      })
       .then((res) => {
         console.log(res.data.questionBanks, "QUESTIONBANKS");
         setQuestionBanks(res.data.questionBanks);

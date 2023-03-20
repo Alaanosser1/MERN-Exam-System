@@ -31,28 +31,26 @@ ReactDOM.render(
         <Route path="/ExamineeExam/:examId" element={<ExamineeExam />} />
         <Route path="/login" element={<Login />} />
 
-        <Route path="app" element={<App />}>
-          <Route path="/app/home" element={<Home />} />
-          <Route path="/app/exams" element={<Exams />} />
-          <Route path="/app/exams/:examId" element={<EditAndPreviewExam />} />
+        <Route path="app/*" element={<App />}>
+          <Route path="app/exams" element={<Exams />} />
+          <Route path="app/home" element={<Home />} />
+          //
+          <Route path="app/exams/:examId" element={<EditAndPreviewExam />} />
+          <Route path="app/exams/createExamForm" element={<CreateExamForm />} />
           <Route
-            path="/app/exams/createExamForm"
-            element={<CreateExamForm />}
-          />
-          <Route
-            path="/app/exams/:examId/addQuestions"
+            path="app/exams/:examId/addQuestions"
             element={<CreateExamStep2 />}
           />
-          <Route path="/app/questionBanks" element={<QuestionBanks />} />
+          <Route path="app/questionBanks" element={<QuestionBanks />} />
           <Route
-            path="/app/questionBanks/:questionBankId"
+            path="app/questionBanks/:questionBankId"
             element={<ViewQuestionBank />}
           />
           <Route
-            path="/app/questionBanks/:questionBankId/addQuestion"
+            path="app/questionBanks/:questionBankId/addQuestion"
             element={<AddQuestion />}
           />
-          <Route path="/app/addQuestionBank" element={<AddQuestionBank />} />
+          <Route path="app/addQuestionBank" element={<AddQuestionBank />} />
         </Route>
       </Routes>
     </BrowserRouter>

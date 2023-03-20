@@ -1,8 +1,11 @@
-import express from "express"
-import {addInstructor} from '../controllers/instructor-controller.js'
+import express from "express";
+import {
+  addInstructor,
+  instructorLogin,
+} from "../controllers/instructor-controller.js";
 
-const instructorRouter = express.Router()
-instructorRouter.get('/addInstructor', addInstructor)
+const instructorRouter = express.Router();
+instructorRouter.post("/addInstructor", addInstructor);
+instructorRouter.post("/instructorLogin", instructorLogin);
 
-
-export default instructorRouter
+export default instructorRouter;

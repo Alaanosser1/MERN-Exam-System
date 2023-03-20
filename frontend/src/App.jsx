@@ -15,6 +15,7 @@ import CreateExamStep2 from "./components/CreateExamStep2";
 import ExamineeHome from "./Pages/ExamineeHome";
 import ExamineeExam from "./Pages/ExamineeExam";
 import Login from "./components/Login";
+import PrivateRoutes from "./ustils/PrivateRoutes";
 
 function App() {
   console.log(window.location);
@@ -26,27 +27,28 @@ function App() {
         </div>
         <div className="col-9">
           <Routes>
-            <Route path="/home" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/examineeHome" element={<ExamineeHome />} />
-            <Route path="/ExamineeExam/:examId" element={<ExamineeExam />} />
-            <Route path="/exams" element={<Exams />} />
-            <Route path="/exams/:examId" element={<EditAndPreviewExam />} />
-            <Route path="exams/createExamForm" element={<CreateExamForm />} />
-            <Route
-              path="exams/:examId/addQuestions"
-              element={<CreateExamStep2 />}
-            />
-            <Route path="/questionBanks" element={<QuestionBanks />} />
-            <Route
-              path="/questionBanks/:questionBankId"
-              element={<ViewQuestionBank />}
-            />
-            <Route
-              path="/questionBanks/:questionBankId/addQuestion"
-              element={<AddQuestion />}
-            />
-            <Route path="/addQuestionBank" element={<AddQuestionBank />} />
+            <Route element={<PrivateRoutes />}>
+              <Route path="/home" element={<Home />} />
+              <Route path="/examineeHome" element={<ExamineeHome />} />
+              <Route path="/ExamineeExam/:examId" element={<ExamineeExam />} />
+              <Route path="/exams" element={<Exams />} />
+              <Route path="/exams/:examId" element={<EditAndPreviewExam />} />
+              <Route path="exams/createExamForm" element={<CreateExamForm />} />
+              <Route
+                path="exams/:examId/addQuestions"
+                element={<CreateExamStep2 />}
+              />
+              <Route path="/questionBanks" element={<QuestionBanks />} />
+              <Route
+                path="/questionBanks/:questionBankId"
+                element={<ViewQuestionBank />}
+              />
+              <Route
+                path="/questionBanks/:questionBankId/addQuestion"
+                element={<AddQuestion />}
+              />
+              <Route path="/addQuestionBank" element={<AddQuestionBank />} />
+            </Route>
           </Routes>
         </div>
       </div>

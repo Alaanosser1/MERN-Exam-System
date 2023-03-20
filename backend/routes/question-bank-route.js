@@ -1,4 +1,5 @@
 import express from "express";
+import auth from "../middleware/verifyToken.js";
 import {
   createQuestionBank,
   deleteQuestionBank,
@@ -9,10 +10,10 @@ import {
 
 const questionBankRouter = express.Router();
 
-questionBankRouter.post("/createQuestionbank", createQuestionBank);
-questionBankRouter.get("/getQuestionBanks", getQuestionBanks);
-questionBankRouter.get("/getQuestions", getQuestions);
-questionBankRouter.delete("/deleteQuestionBank", deleteQuestionBank);
-questionBankRouter.put("/editQuestionBank", editQuestionBank);
+questionBankRouter.post("/createQuestionbank", auth, createQuestionBank);
+questionBankRouter.get("/getQuestionBanks", auth, getQuestionBanks);
+questionBankRouter.get("/getQuestions", auth, getQuestions);
+questionBankRouter.delete("/deleteQuestionBank", auth, deleteQuestionBank);
+questionBankRouter.put("/editQuestionBank", auth, editQuestionBank);
 
 export default questionBankRouter;

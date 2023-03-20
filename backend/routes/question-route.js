@@ -1,12 +1,17 @@
-import express from "express"
-import {createQuestionMcq, createQuestionEssay, editQuestion, deleteQuestion} from '../controllers/question-controller.js'
+import express from "express";
+import {
+  createQuestionMcq,
+  createQuestionEssay,
+  editQuestion,
+  deleteQuestion,
+} from "../controllers/question-controller.js";
+import auth from "../middleware/verifyToken.js";
 
-const questionRouter = express.Router()
+const questionRouter = express.Router();
 
-questionRouter.post('/createQuestionMcq', createQuestionMcq)
-questionRouter.post('/createQuestionEssay', createQuestionEssay)
-questionRouter.put('/editQuestion', editQuestion)
-questionRouter.delete('/deleteQuestion', deleteQuestion)
+questionRouter.post("/createQuestionMcq", auth, createQuestionMcq);
+questionRouter.post("/createQuestionEssay", auth, createQuestionEssay);
+questionRouter.put("/editQuestion", auth, editQuestion);
+questionRouter.delete("/deleteQuestion", auth, deleteQuestion);
 
-
-export default questionRouter
+export default questionRouter;

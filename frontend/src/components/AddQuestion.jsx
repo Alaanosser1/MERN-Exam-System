@@ -34,6 +34,7 @@ function AddQuestion(props) {
   } = useForm();
   const [arr, setArr] = useState([1, 2, 3, 4]);
   const MySwal = withReactContent(Swal);
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     renderBasedOnQuestionType();
@@ -66,13 +67,21 @@ function AddQuestion(props) {
     // }
 
     axios
-      .post(`http://localhost:4000/question/createQuestion${questionType}`, {
-        questionHeader,
-        correctAnswer,
-        questionBankId,
-        questionType,
-        options: optionList,
-      })
+      .post(
+        `http://localhost:4000/question/createQuestion${questionType}`,
+        {
+          questionHeader,
+          correctAnswer,
+          questionBankId,
+          questionType,
+          options: optionList,
+        },
+        {
+          headers: {
+            "auth-token": user.token,
+          },
+        }
+      )
       .then((data) => {
         console.log(data);
         props.rerender();

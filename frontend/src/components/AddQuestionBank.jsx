@@ -12,13 +12,22 @@ export default function AddQuestionBank(props) {
     watch,
     formState: { errors },
   } = useForm();
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const formSubmit = () => {
     axios
-      .post("http://localhost:4000/questionBank/createQuestionBank", {
-        questionBankName,
-        questionBankDescription,
-      })
+      .post(
+        "http://localhost:4000/questionBank/createQuestionBank",
+        {
+          questionBankName,
+          questionBankDescription,
+        },
+        {
+          headers: {
+            "auth-token": user.token,
+          },
+        }
+      )
       .then((data) => {
         props.rerender();
         props.hidePopup(false);

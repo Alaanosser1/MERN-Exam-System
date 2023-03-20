@@ -10,6 +10,7 @@ function ViewQuestionBank() {
   const [questions, setQuestions] = useState([]);
   const [buttonPopup, setButtonPopup] = useState(false);
   const refOne = useRef(null);
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
@@ -37,6 +38,9 @@ function ViewQuestionBank() {
             params: {
               questionId: question.question_id,
             },
+            headers: {
+              "auth-token": user.token,
+            },
           })
           .then((res) => {
             console.log(res.data);
@@ -49,7 +53,12 @@ function ViewQuestionBank() {
   const getQuestions = () => {
     axios
       .get(
-        `http://localhost:4000/questionBank/getQuestions?questionBank=${questionBankId}`
+        `http://localhost:4000/questionBank/getQuestions?questionBank=${questionBankId}`,
+        {
+          headers: {
+            "auth-token": user.token,
+          },
+        }
       )
       .then((res) => {
         console.log(res.data[0].question_header, "/////////");

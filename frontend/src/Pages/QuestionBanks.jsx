@@ -14,6 +14,8 @@ export default function QuestionBanks() {
   const [questionBankId, setQuestionBankId] = useState("");
   const [questionBankDescription, setDescription] = useState("");
   const refOne = useRef(null);
+  const user = JSON.parse(localStorage.getItem("user"));
+
   const {
     register,
     handleSubmit,
@@ -42,7 +44,11 @@ export default function QuestionBanks() {
 
   const getQuestionBanks = () => {
     axios
-      .get("http://localhost:4000/questionBank/getQuestionBanks")
+      .get("http://localhost:4000/questionBank/getQuestionBanks", {
+        headers: {
+          "auth-token": user.token,
+        },
+      })
       .then((res) => {
         console.log(res.data.questionBanks, "QUESTIONBANKS");
         setQuestionBanks(res.data.questionBanks);
@@ -62,6 +68,9 @@ export default function QuestionBanks() {
             params: {
               questionBankId: questionBank.question_bank_id,
             },
+            headers: {
+              "auth-token": user.token,
+            },
           })
           .then((res) => {
             console.log(res.data);
@@ -74,11 +83,19 @@ export default function QuestionBanks() {
   const editQuestionBankHandler = () => {
     console.log(questionBankId);
     axios
-      .put(`http://localhost:4000/questionBank/editQuestionBank`, {
-        questionBankId,
-        questionBankName,
-        questionBankDescription,
-      })
+      .put(
+        `http://localhost:4000/questionBank/editQuestionBank`,
+        {
+          questionBankId,
+          questionBankName,
+          questionBankDescription,
+        },
+        {
+          headers: {
+            "auth-token": user.token,
+          },
+        }
+      )
       .then((res) => {
         console.log(res.data);
         getQuestionBanks();
@@ -99,7 +116,7 @@ export default function QuestionBanks() {
             ></AddQuestionBank>
           </Popup>
         </div>
-        <div>
+        <div ref={refOne}>
           <Popup
             trigger={editQuestionBankPopup}
             setTrigger={setEditQuestionBankPopup}

@@ -8,6 +8,7 @@ const AddExam = (props) => {
   const [examDescription, setExamDescription] = useState("");
   const [page, setPage] = useState(0);
   const [examGrade, setExamGrade] = useState(0);
+  const user = JSON.parse(localStorage.getItem("user"));
   const {
     register,
     handleSubmit,
@@ -17,11 +18,19 @@ const AddExam = (props) => {
 
   const formSubmit = () => {
     axios
-      .post("http://localhost:4000/exam/createExam", {
-        examName,
-        examDescription,
-        examGrade,
-      })
+      .post(
+        "http://localhost:4000/exam/createExam",
+        {
+          examName,
+          examDescription,
+          examGrade,
+        },
+        {
+          headers: {
+            "auth-token": user.token,
+          },
+        }
+      )
       .then((res) => {
         console.log(res.data.data[0].insertId, "SUBMITTED");
         props.setExamId(res.data.data[0].insertId);

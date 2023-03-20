@@ -12,6 +12,8 @@ const Exams = () => {
   const [showCreateExam, setShowCreateExam] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const refOne = useRef(null);
+  const user = JSON.parse(localStorage.getItem("user"));
+
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
     getExams();
@@ -31,7 +33,11 @@ const Exams = () => {
 
   const getExams = () => {
     axios
-      .get("http://localhost:4000/exam/getExams")
+      .get("http://localhost:4000/exam/getExams", {
+        headers: {
+          "auth-token": user.token,
+        },
+      })
       .then((res) => {
         console.log(res.data.exams, "EXAMS");
         setSearchResults(res.data.exams);
@@ -51,6 +57,9 @@ const Exams = () => {
           .delete(`http://localhost:4000/exam/deleteExam`, {
             params: {
               examId: exam.exam_id,
+            },
+            headers: {
+              "auth-token": user.token,
             },
           })
           .then((res) => {
