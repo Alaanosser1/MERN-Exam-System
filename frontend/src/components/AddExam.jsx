@@ -23,7 +23,6 @@ const AddExam = (props) => {
         {
           examName,
           examDescription,
-          examGrade,
         },
         {
           headers: {
@@ -76,20 +75,6 @@ const AddExam = (props) => {
                 }}
               />
               {errors.descriptionRequired && (
-                <span className="text-danger">This field is required</span>
-              )}
-              <h5 className="m-3">Grade</h5>
-              <input
-                className="form-control form-control-lg mt-2"
-                type="number"
-                aria-label=".form-control-lg example"
-                {...register("gradeRequired", { required: true })}
-                onChange={(e) => {
-                  setExamGrade(e.target.value);
-                  console.log(e.target.value);
-                }}
-              />
-              {errors.gradeRequired && (
                 <span className="text-danger">This field is required</span>
               )}
               <br></br>

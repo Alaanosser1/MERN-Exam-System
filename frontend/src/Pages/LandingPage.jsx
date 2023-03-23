@@ -10,29 +10,24 @@ const LandingPage = () => {
   const navigate = useNavigate();
   return (
     <>
-      {/* <div className="container">
-        <Link to={"/examineeHome"}>
-          <button className="btn btn-light">دارس</button>
-        </Link>
-      </div> */}
-      <div className="h-100 w-100 main-container d-flex align-items-center justify-content-center bg-light">
+      <div className="h-100 w-100 main-container d-flex align-items-center justify-content-center">
         <div className="container landing-container w-75 h-75 bg-white">
           <div className="row">
-            <div className="col-6">
+            <div className="col-6 bg-light p-5">
               <div class="img-container">
                 <img src={logo} alt="" />
               </div>
             </div>
-            <div className="col-6 btn-col">
+            <div className="col-6 btn-col p-5">
               <Link style={{ textDecoration: "none" }} to={"/examineeHome"}>
-                <div className="row w-75">
+                <div className="row w-75 ms-3">
                   <button className="btn landing-btn btn-outline-success">
                     ابدأ الامتحان
                   </button>
                 </div>
               </Link>
               <Link style={{ textDecoration: "none" }} to={"/login"}>
-                <div className="row w-75">
+                <div className="row w-75 ms-3">
                   <button className="btn landing-btn btn-outline-success">
                     تسجيل الدخول
                   </button>

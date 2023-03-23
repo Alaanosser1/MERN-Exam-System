@@ -59,13 +59,6 @@ function AddQuestion(props) {
 
   const formSubmit = (data, e) => {
     e.preventDefault();
-    // if (questionType == "Mcq") {
-    //   for (let i = 0; i < 8; i++) {
-    //     options[`option_${i + 1}`] = e.target[i + 1].value;
-    //     console.log(options, "********", i);
-    //   }
-    // }
-
     axios
       .post(
         `http://localhost:4000/question/createQuestion${questionType}`,

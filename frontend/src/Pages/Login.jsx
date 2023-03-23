@@ -5,10 +5,13 @@ import axios from "axios";
 const Login = () => {
   const [policeNumber, setPoliceNumber] = useState("");
   const [password, setPassword] = useState("");
+  const [wrongCredentials, setWrongCredentials] = useState(false);
+  const [loadingSpinner, setLoadingSpinner] = useState(false);
   const navigate = useNavigate();
   const formSubmit = (e) => {
     e.preventDefault();
-
+    setLoadingSpinner(true);
+    setTimeout(() => {}, 3000);
     axios
       .post(`http://localhost:4000/instructor/instructorLogin`, {
         policeNumber,
@@ -18,14 +21,24 @@ const Login = () => {
         if (res.data.token) {
           localStorage.setItem("user", JSON.stringify(res.data));
         }
-        console.log(res);
+        setLoadingSpinner(false);
         navigate("/app/home");
+      })
+      .catch((err) => {
+        if (err.response.status == 401) {
+          setWrongCredentials(true);
+          setLoadingSpinner(false);
+        }
       });
   };
   return (
     <>
       <div className="h-100 d-flex align-items-center justify-content-center">
         <div className="container login-container " id="container">
+          {loadingSpinner && (
+            <div class="spinner-border spinner" role="status"></div>
+          )}
+
           <div className="form-container sign-in-container">
             <form onSubmit={formSubmit}>
               <h1 className="mb-4">تسجيل الدخول</h1>
@@ -42,18 +55,23 @@ const Login = () => {
                 dir="rtl"
                 className="form-control text-end"
                 type="password"
-                placeholder="كلمة السر"
+                placeholder="كلمة المرور"
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
               />
-              <a href="#">هل نسيت كلمة المرور؟</a>
-              {/* <Link to={"/app/home"}> */}
+              {wrongCredentials && (
+                <h5 className="text-danger">
+                  !رقم الشرطة او كلمة المرور خاطئة
+                </h5>
+              )}
+              {/* <Link className="h1 text-primary mb-0" href="#">
+                <h6>هل نسيت كلمة المرور؟</h6>
+              </Link> */}
+              <Link to={"/register"} className=" text-primary mt-0">
+                <h6>انشاء حساب جديد</h6>
+              </Link>
               <button type="submit">تسجيل الدخول </button>
-              <button className="mt-3 btn btn-success" type="submit">
-                انشاء حساب جديد
-              </button>
-              {/* </Link> */}
             </form>
           </div>
         </div>

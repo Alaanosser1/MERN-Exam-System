@@ -14,7 +14,6 @@ import CreateExamForm from "./components/CreateExamForm";
 import CreateExamStep2 from "./components/CreateExamStep2";
 import ExamineeHome from "./Pages/ExamineeHome";
 import ExamineeExam from "./Pages/ExamineeExam";
-import Login from "./components/Login";
 import PrivateRoutes from "./ustils/PrivateRoutes";
 
 function App() {

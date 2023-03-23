@@ -12,7 +12,7 @@ const ChooseQuestionsFromQuestionBank = (props) => {
   const [buttonPopup, setButtonPopup] = useState(false);
   const [examQuestions, setExamQuestions] = useState([]);
   const [addToExamButton, setAddToExamButton] = useState(false);
-  const [questionId, setQuestionId] = useState(false);
+  const [grade, setGrade] = useState(1);
   const refOne = useRef(null);
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -87,6 +87,7 @@ const ChooseQuestionsFromQuestionBank = (props) => {
         {
           examId: props.examId,
           questionId,
+          grade,
         },
         {
           headers: {
@@ -97,6 +98,7 @@ const ChooseQuestionsFromQuestionBank = (props) => {
       .then(async (res) => {
         getQuestionBankQuestions();
         getExamQuestions();
+        calculateExamTotalGrade();
         console.log(res, "Assigned");
         setAddToExamButton(!addToExamButton);
       });
@@ -115,8 +117,27 @@ const ChooseQuestionsFromQuestionBank = (props) => {
       .then((res) => {
         getQuestionBankQuestions();
         getExamQuestions();
+        calculateExamTotalGrade();
         console.log(res, "Removed");
         setAddToExamButton(!addToExamButton);
+      });
+  };
+
+  const calculateExamTotalGrade = () => {
+    axios
+      .get("http://localhost:4000/exam/calculateExamTotalGrade", {
+        params: {
+          examId: props.examId,
+        },
+        headers: {
+          "auth-token": user.token,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -159,7 +180,7 @@ const ChooseQuestionsFromQuestionBank = (props) => {
                           }}
                           className="btn btn-outline-success w-100"
                         >
-                          Add
+                          إضافة
                         </button>
                       ) : (
                         <button
@@ -168,18 +189,24 @@ const ChooseQuestionsFromQuestionBank = (props) => {
                           }}
                           className="btn btn-outline-danger w-100"
                         >
-                          Remove
+                          إزالة
                         </button>
                       )}
                     </div>
-                    <div className="col-2">
-                      <input
-                        step="1"
-                        max="10"
-                        value={1}
-                        type="number"
-                        className="form-control  quantity-field text-center"
-                      />
+                    <div dir="rtl" className="row mt-3">
+                      <div className="col-2 h5 mt-1">
+                        <label className="text-primary">درجة السؤال</label>
+                      </div>
+                      <div className="col-2">
+                        <input
+                          defaultValue={1}
+                          type="number"
+                          className="form-control  quantity-field text-center"
+                          onChange={(e) => {
+                            setGrade(e.target.value);
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -294,14 +321,21 @@ const ChooseQuestionsFromQuestionBank = (props) => {
                         </button>
                       )}
                     </div>
-                    <div className="col-2">
-                      <input
-                        step="1"
-                        max="10"
-                        value={1}
-                        type="number"
-                        className="form-control  quantity-field text-center"
-                      />
+                    <div dir="rtl" className="row mt-3">
+                      <div className="col-2 h5 mt-1">
+                        <label className="text-primary">درجة السؤال</label>
+                      </div>
+                      <div className="col-2">
+                        <input
+                          step="1"
+                          defaultValue={1}
+                          type="number"
+                          className="form-control  quantity-field text-center"
+                          onChange={(e) => {
+                            setGrade(e.target.value);
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>

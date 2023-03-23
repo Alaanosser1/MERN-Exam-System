@@ -8,21 +8,21 @@ const app = express();
 
 //Add new Instructor
 export const addInstructor = async (req, res) => {
-  const name = req.body.name;
-  const userName = req.body.userName;
-  const password = req.body.password;
-  const policeNumber = req.body.policeNumber;
-  const rank = req.body.rank;
+  const name = req.body.instructorName;
+  const password = req.body.instructorPassword;
+  const policeNumber = req.body.instructorPoliceNumber;
+  const rank = req.body.instructorRank;
 
+  console.log(req.body);
   const schema = Joi.object().keys({
-    name: Joi.string().required(),
-    userName: Joi.string().min(3).required(),
-    password: Joi.string().min(3).required(),
-    policeNumber: Joi.string().required(),
-    rank: Joi.string().required(),
+    instructorName: Joi.string().required(),
+    instructorPassword: Joi.string().required(),
+    instructorPoliceNumber: Joi.required(),
+    instructorRank: Joi.string().required(),
   });
   const result = schema.validate(req.body);
   if (result.error) {
+    console.log(result.error.details[0].message);
     return res.status(400).send(result.error.details[0].message);
   }
 
@@ -32,7 +32,7 @@ export const addInstructor = async (req, res) => {
       `SELECT * FROM instructor WHERE instructor_police_number ='${policeNumber}'`
     );
   if (user[0].length > 0) {
-    return res.status(400).json({
+    return res.status(409).json({
       status: "error",
       msg: "Police Number is already registered",
     });
@@ -49,9 +49,9 @@ export const addInstructor = async (req, res) => {
       connection
         .promise()
         .query(
-          `INSERT INTO instructor(instructor_name,instructor_username,
+          `INSERT INTO instructor(instructor_name,
         instructor_password, instructor_police_number, instructor_rank)
-            VALUES('${name}','${userName}','${hashedPassword}','${policeNumber}', '${rank}')`
+            VALUES('${name}','${hashedPassword}','${policeNumber}', '${rank}')`
         )
         .then((data) => {
           res.status(201).json({
@@ -80,8 +80,8 @@ export const instructorLogin = async (req, res) => {
              `);
   console.log(user[0], "LOLOLO");
   if (user[0].length == 0) {
-    res.status(404).json({
-      status: "404",
+    res.status(401).json({
+      status: "401",
       msg: "wrong credentials police number",
     });
   } else {
@@ -93,7 +93,7 @@ export const instructorLogin = async (req, res) => {
           console.log(error);
         }
         if (!result) {
-          res.status(404).send("wrong credentials pass");
+          res.status(401).send("wrong credentials pass");
         } else {
           const token = jwt.sign(
             {
@@ -101,7 +101,6 @@ export const instructorLogin = async (req, res) => {
               firstName: user[0][0].instructor_name,
               policeNumber: user[0][0].instructor_police_number,
               rank: user[0][0].instructor_rank,
-              userName: user[0][0].instuctor_username,
             },
             `${process.env.TOKEN_SECRET}`
           );

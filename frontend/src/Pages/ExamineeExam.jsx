@@ -12,6 +12,7 @@ const ExamineeExam = () => {
   let isActive = false;
 
   useEffect(() => {
+    questionNumber = 1;
     getExamQuestions();
     console.log("lol");
   }, []);

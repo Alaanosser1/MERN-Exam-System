@@ -82,7 +82,6 @@ const CreateExamStep2 = (props) => {
           <div className="col-3">
             <button
               onClick={() => {
-                props.setPage(3);
                 navigate("/app/exams");
               }}
               className="mt-5 w-75 btn btn-outline-success"

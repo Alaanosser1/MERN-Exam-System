@@ -7,7 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import LandingPage from "./Pages/LandingPage";
 import App from "./App";
 import ExamineeHome from "./Pages/ExamineeHome";
-import Login from "./components/Login";
+import Login from "./Pages/Login";
 import Exams from "./Pages/Exams";
 import Home from "./Pages/Home";
 import ExamineeExam from "./Pages/ExamineeExam";
@@ -19,6 +19,7 @@ import ViewQuestionBank from "./components/ViewQuestionBank";
 import AddQuestion from "./components/AddQuestion";
 import AddQuestionBank from "./components/AddQuestionBank";
 import ExamineePreExam from "./Pages/ExamineePreExam";
+import InstructorSignUp from "./Pages/InstructorSignUp";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -30,6 +31,7 @@ ReactDOM.render(
 
         <Route path="/ExamineeExam/:examId" element={<ExamineeExam />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<InstructorSignUp />} />
 
         <Route path="app/*" element={<App />}>
           <Route path="app/exams" element={<Exams />} />

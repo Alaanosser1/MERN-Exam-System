@@ -118,7 +118,6 @@ export const getExams = async (req, res) => {
       .promise()
       .query(`SELECT * FROM exam`)
       .then((data) => {
-        console.log(data[0], "1ST");
         exams = data[0];
       })
       .catch((error) => {
@@ -127,7 +126,6 @@ export const getExams = async (req, res) => {
           msg: "500 internal server error",
         });
       });
-    console.log(exams, "2ND");
     for (let i = 0; i < exams.length; i++) {
       await connection
         .promise()
@@ -140,7 +138,6 @@ export const getExams = async (req, res) => {
           });
         });
     }
-    console.log(exams, "exams");
   } catch (error) {
     isError = true;
     console.log(error);
@@ -185,7 +182,6 @@ export const removeQuestionFromExam = (req, res) => {
   const examId = req.query.examId;
   const questionId = req.query.questionId;
 
-  console.log(req.body);
   connection
     .promise()
     .query(
@@ -219,13 +215,14 @@ export const removeQuestionFromExam = (req, res) => {
 export const assignQuestionToExam = (req, res) => {
   const questionId = req.body.questionId;
   const examId = req.body.examId;
+  const grade = req.body.grade;
 
   connection
     .promise()
     .query(
       `
-      INSERT INTO exam_has_question(exam_id, question_id)
-      VALUES('${examId}','${questionId}')
+      INSERT INTO exam_has_question(exam_id, question_id, grade)
+      VALUES('${examId}','${questionId}', '${grade}')
                `
     )
     .then((data) => {
@@ -301,6 +298,65 @@ export const getQuestionBankQuestionsToAddQuestionsToExam = (req, res) => {
             msg: "500 internal server error",
           });
         });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        status: "error",
+        msg: "500 internal server error",
+      });
+    });
+};
+
+export const calculateExamTotalGrade = (req, res) => {
+  const examId = req.query.examId;
+  let examQuestions;
+  let totalGrade = 0;
+
+  const calculate = async (examQuestions) => {
+    for (let i = 0; i < examQuestions.length; i++) {
+      totalGrade += examQuestions[i].grade;
+    }
+  };
+
+  const updateExamGrade = async () => {
+    connection
+      .promise()
+      .query(
+        `
+      UPDATE exam
+      SET
+      exam_grade = '${totalGrade}'
+      WHERE exam_id = '${examId}'
+      `
+      )
+      .then((data) => {
+        res.status(200).json({
+          status: "ok",
+          msg: "Updated",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(500).json({
+          status: "error",
+          msg: "500 Internal Server Error",
+        });
+      });
+  };
+
+  connection
+    .promise()
+    .query(
+      `
+  SELECT * FROM exam_has_question 
+  WHERE exam_id = ${examId}
+  `
+    )
+    .then(async (data) => {
+      examQuestions = data[0];
+      await calculate(examQuestions);
+      await updateExamGrade();
     })
     .catch((err) => {
       console.log(err);

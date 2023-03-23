@@ -9,13 +9,15 @@ import {
   removeQuestionFromExam,
   assignQuestionToExam,
   getQuestionBankQuestionsToAddQuestionsToExam,
+  calculateExamTotalGrade,
 } from "../controllers/exam-controller.js";
 
 const examRouter = express.Router();
 
 examRouter.post("/createExam", auth, createExam);
-examRouter.get("/getExams", auth, getExams);
-examRouter.get("/getExamQuestions", auth, getExamQuestions);
+examRouter.get("/getExams", getExams);
+examRouter.get("/getExamQuestions", getExamQuestions);
+examRouter.get("/calculateExamTotalGrade", calculateExamTotalGrade);
 examRouter.get(
   "/getQuestionBankQuestionsToAddQuestionsToExam",
   auth,
