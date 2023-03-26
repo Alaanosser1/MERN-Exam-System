@@ -1,7 +1,11 @@
 import express from "express";
-import { addExaminee } from "../controllers/examinee-controller.js";
+import {
+  addExaminee,
+  storeExamineeAnswer,
+} from "../controllers/examinee-controller.js";
 
 const examineeRouter = express.Router();
-examineeRouter.get("/addExaminee", addExaminee);
+examineeRouter.post("/addExaminee", addExaminee);
+examineeRouter.post("/storeExamineeAnswer", storeExamineeAnswer);
 
 export default examineeRouter;

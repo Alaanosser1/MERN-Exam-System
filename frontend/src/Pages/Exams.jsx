@@ -12,7 +12,7 @@ const Exams = () => {
   const [showCreateExam, setShowCreateExam] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const refOne = useRef(null);
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("instructor-token"));
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
@@ -49,8 +49,10 @@ const Exams = () => {
   };
   const deleteExam = (exam) => {
     Swal.fire({
-      title: `Are You Sure You Want to Delete ${exam.exam_name}?`,
+      title: `هل انت متأكد من مسح هذا الامتحان؟`,
       showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
     }).then((res) => {
       if (res.isConfirmed) {
         axios

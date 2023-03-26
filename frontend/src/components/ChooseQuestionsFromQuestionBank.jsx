@@ -14,7 +14,7 @@ const ChooseQuestionsFromQuestionBank = (props) => {
   const [addToExamButton, setAddToExamButton] = useState(false);
   const [grade, setGrade] = useState(1);
   const refOne = useRef(null);
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("instructor-token"));
 
   let examQuestionsId = [];
 

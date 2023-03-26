@@ -8,6 +8,7 @@ const Login = () => {
   const [wrongCredentials, setWrongCredentials] = useState(false);
   const [loadingSpinner, setLoadingSpinner] = useState(false);
   const navigate = useNavigate();
+
   const formSubmit = (e) => {
     e.preventDefault();
     setLoadingSpinner(true);
@@ -19,7 +20,7 @@ const Login = () => {
       })
       .then((res) => {
         if (res.data.token) {
-          localStorage.setItem("user", JSON.stringify(res.data));
+          localStorage.setItem("instructor-token", JSON.stringify(res.data));
         }
         setLoadingSpinner(false);
         navigate("/app/home");

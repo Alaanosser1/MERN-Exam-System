@@ -12,7 +12,7 @@ export default function AddQuestionBank(props) {
     watch,
     formState: { errors },
   } = useForm();
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("instructor-token"));
 
   const formSubmit = () => {
     axios

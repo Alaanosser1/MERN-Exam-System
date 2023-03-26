@@ -20,6 +20,7 @@ import AddQuestion from "./components/AddQuestion";
 import AddQuestionBank from "./components/AddQuestionBank";
 import ExamineePreExam from "./Pages/ExamineePreExam";
 import InstructorSignUp from "./Pages/InstructorSignUp";
+import PrivateRoutesExaminee from "./ustils/PrivateRoutesExaminee";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -27,9 +28,10 @@ ReactDOM.render(
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/examineeHome" element={<ExamineeHome />} />
-        <Route path="/examineePreExam" element={<ExamineePreExam />} />
-
-        <Route path="/ExamineeExam/:examId" element={<ExamineeExam />} />
+        <Route path="/examineePreExam/:examId" element={<ExamineePreExam />} />
+        <Route element={<PrivateRoutesExaminee />}>
+          <Route path="/ExamineeExam/:examId" element={<ExamineeExam />} />
+        </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<InstructorSignUp />} />
 

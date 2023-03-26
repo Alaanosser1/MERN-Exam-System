@@ -1,11 +1,11 @@
 import { React, useState, useEffect } from "react";
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ExamineeExam from "./ExamineeExam";
 
 const ExamineeHome = () => {
   const [exams, setExams] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     getExams();
   }, []);
@@ -20,6 +20,13 @@ const ExamineeHome = () => {
       .catch((error) => {
         console.log(error);
       });
+  };
+  const startExamHandler = (examId) => {
+    if (localStorage.getItem("examinee-token")) {
+      navigate(`/examineeExam/${examId}`);
+    } else {
+      navigate(`/examineePreExam/${examId}`);
+    }
   };
   return (
     <>
@@ -49,14 +56,33 @@ const ExamineeHome = () => {
                       عدد الاسئلة {exam[1].NumberOfQuestions}
                     </p>
                     <div className="row">
-                      <Link
+                      {/* <Link
                         to={`/ExamineeExam/${exam[1].exam_id}`}
                         className={`btn btn-outline-primary ${
                           exam[1].NumberOfQuestions < 1 && "disabled"
                         }`}
                       >
                         ابدأ الامتحان
-                      </Link>
+                      </Link> */}
+                      {/* <Link
+                        to={`/examineePreExam/${exam[1].exam_id}`}
+                        className={`btn btn-outline-primary ${
+                          exam[1].NumberOfQuestions < 1 && "disabled"
+                        }`}
+                      >
+                        ابدأ الامتحان
+                      </Link> */}
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          startExamHandler(exam[1].exam_id);
+                        }}
+                        className={`btn btn-outline-primary ${
+                          exam[1].NumberOfQuestions < 1 && "disabled"
+                        }`}
+                      >
+                        ابدأ الامتحان
+                      </button>
                     </div>
                   </div>
                 </div>

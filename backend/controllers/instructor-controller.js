@@ -78,7 +78,6 @@ export const instructorLogin = async (req, res) => {
             SELECT * FROM instructor
              WHERE instructor_police_number ='${policeNumber}'
              `);
-  console.log(user[0], "LOLOLO");
   if (user[0].length == 0) {
     res.status(401).json({
       status: "401",
@@ -112,6 +111,7 @@ export const instructorLogin = async (req, res) => {
     );
   }
 };
+
 export const instructorLogout = async (req, res) => {
   req.session.destroy((err) => {
     res.clearCookie("connect.sid");

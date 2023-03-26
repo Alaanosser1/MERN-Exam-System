@@ -19,7 +19,7 @@ const CreateExamStep2 = (props) => {
   const [questionBankId, setQuestionBankId] = useState("");
   const [questionBankDescription, setDescription] = useState("");
   const refOne = useRef(null);
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("instructor-token"));
 
   const {
     register,

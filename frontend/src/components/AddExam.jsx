@@ -7,8 +7,7 @@ const AddExam = (props) => {
   const [examName, setExamName] = useState("");
   const [examDescription, setExamDescription] = useState("");
   const [page, setPage] = useState(0);
-  const [examGrade, setExamGrade] = useState(0);
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("instructor-token"));
   const {
     register,
     handleSubmit,

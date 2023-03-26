@@ -14,7 +14,7 @@ export default function QuestionBanks() {
   const [questionBankId, setQuestionBankId] = useState("");
   const [questionBankDescription, setDescription] = useState("");
   const refOne = useRef(null);
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("instructor-token"));
 
   const {
     register,
@@ -59,8 +59,10 @@ export default function QuestionBanks() {
   };
   const deleteQuestionBank = (questionBank) => {
     Swal.fire({
-      title: `Are You Sure You Want to Delete ${questionBank.question_bank_name}?`,
+      title: `هل انت متأكد من مسح هذا البنك`,
       showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
     }).then((res) => {
       if (res.isConfirmed) {
         axios

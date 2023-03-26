@@ -28,7 +28,7 @@ app.use(function (req, res, next) {
 app.use(cors());
 
 app.use("/instructor", instructorRouter);
-app.use("/examineeRouter", examineeRouter);
+app.use("/examinee", examineeRouter);
 app.use("/questionBank", questionBankRouter);
 app.use("/question", questionRouter);
 app.use("/exam", examRouter);

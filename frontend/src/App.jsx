@@ -14,7 +14,7 @@ import CreateExamForm from "./components/CreateExamForm";
 import CreateExamStep2 from "./components/CreateExamStep2";
 import ExamineeHome from "./Pages/ExamineeHome";
 import ExamineeExam from "./Pages/ExamineeExam";
-import PrivateRoutes from "./ustils/PrivateRoutes";
+import PrivateRoutesInstructor from "./ustils/PrivateRoutesInstructor";
 
 function App() {
   console.log(window.location);
@@ -26,7 +26,7 @@ function App() {
         </div>
         <div className="col-9">
           <Routes>
-            <Route element={<PrivateRoutes />}>
+            <Route element={<PrivateRoutesInstructor />}>
               <Route path="/home" element={<Home />} />
               <Route path="/examineeHome" element={<ExamineeHome />} />
               <Route path="/ExamineeExam/:examId" element={<ExamineeExam />} />

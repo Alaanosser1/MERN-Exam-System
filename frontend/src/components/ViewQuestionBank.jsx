@@ -10,7 +10,7 @@ function ViewQuestionBank() {
   const [questions, setQuestions] = useState([]);
   const [buttonPopup, setButtonPopup] = useState(false);
   const refOne = useRef(null);
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("instructor-token"));
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
@@ -28,8 +28,10 @@ function ViewQuestionBank() {
 
   const deleteQuestionHandler = (question) => {
     Swal.fire({
-      title: `Are You Sure You Want to Delete This Question?`,
+      title: `هل انت متأكد من مسح هذا السؤال؟`,
       showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
     }).then((res) => {
       console.log(question);
       if (res.isConfirmed) {

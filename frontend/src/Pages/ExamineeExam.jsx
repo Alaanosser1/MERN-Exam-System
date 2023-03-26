@@ -1,20 +1,50 @@
 import { React, useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
+import Swal from "sweetalert2";
+import Popup from "../components/Popup";
+
 let questionNumber = 1;
 
 const ExamineeExam = () => {
   let { examId } = useParams();
   const [examQuestions, setExamQuestions] = useState("");
   const [inputValue, setInputValue] = useState("");
-  const [message, setMessage] = useState("");
+  const [onLeavePopUp, setOnLeavePopUp] = useState(true);
+  const user = JSON.parse(localStorage.getItem("examinee-token"));
+  const decodedToken = jwt_decode(user.token);
+  const navigate = useNavigate();
 
-  let isActive = false;
-
+  console.log(decodedToken.examineeId);
+  const storeExamineeAnswer = (questionId) => {
+    console.log(inputValue, "INPUTVALUE");
+    axios
+      .post("http://localhost:4000/examinee/storeExamineeAnswer", {
+        examId,
+        questionId,
+        examineeId: decodedToken.examineeId,
+        examineeAnswer: inputValue,
+      })
+      .then((res) => {
+        // setExamQuestions(res.data.questions);
+        console.log(res.data);
+        setInputValue("");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   useEffect(() => {
     questionNumber = 1;
     getExamQuestions();
-    console.log("lol");
+    const onLeaveAlert = (event) => {
+      event.preventDefault();
+      event.returnValue = "";
+      return "";
+    };
+    window.addEventListener("beforeunload", onLeaveAlert);
+    return () => window.removeEventListener("beforeunload", onLeaveAlert);
   }, []);
 
   const getExamQuestions = () => {
@@ -25,33 +55,42 @@ const ExamineeExam = () => {
         },
       })
       .then((res) => {
-        console.log(res.data.questions, "Questions");
         setExamQuestions(res.data.questions);
-        console.log(examQuestions);
       })
       .catch((error) => {
         console.log(error);
       });
   };
-  const resetInputValue = () => {
-    setInputValue("");
-  };
   const handleChange = (event) => {
     setInputValue(event.target.value);
   };
+  const onFinishExam = () => {
+    Swal.fire({
+      title: "هل انت متأكد من الانتهاء و حفظ الاجابات؟",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "نعم",
+      cancelButtonText: "لا",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("تم حفظ الاجابات", "", "success");
+        localStorage.removeItem("examinee-token");
+        navigate("/ExamineeHome");
+      }
+    });
+  };
 
   const question = () => {
-    if (examQuestions) {
-      console.log(examQuestions, "TEST LOLOLOLOL");
-    }
-    if (examQuestions[questionNumber - 1].question_type == "Essay") {
+    if (examQuestions[questionNumber - 1].question_type === "Essay") {
       return (
         <>
           <div className="row justify-content-center w-100">
             <div className="card m-5 w-75 p-0 ">
-              <p5 className="card-header bg-primary text-white">
+              <p className="card-header bg-primary text-white">
                 السؤال رقم {questionNumber}
-              </p5>
+              </p>
               <div className="card-body">
                 <p className="card-title ">
                   {examQuestions[questionNumber - 1].question_header}
@@ -75,9 +114,9 @@ const ExamineeExam = () => {
         <>
           <div className="row justify-content-center w-100">
             <div className="card m-5 w-75 p-0 ">
-              <p5 className="card-header bg-primary text-white">
+              <p className="card-header bg-primary text-white">
                 السؤال رقم {questionNumber}
-              </p5>
+              </p>
               <div className="card-body">
                 <p className="card-title ">
                   {examQuestions[questionNumber - 1].question_header}
@@ -85,9 +124,9 @@ const ExamineeExam = () => {
                 <hr></hr>
                 <div className="row">
                   <div className="col-6">
-                    {examQuestions[questionNumber - 1].answer_option_1 !=
+                    {examQuestions[questionNumber - 1].answer_option_1 !==
                       "null" &&
-                      examQuestions[questionNumber - 1].answer_option_1 !=
+                      examQuestions[questionNumber - 1].answer_option_1 !==
                         null && (
                         <div className="container">
                           <div className="form-check">
@@ -97,12 +136,23 @@ const ExamineeExam = () => {
                               type="radio"
                               name="exampleRadios"
                               id="exampleRadios1"
-                              value=""
+                              checked={
+                                inputValue ===
+                                examQuestions[questionNumber - 1]
+                                  .answer_option_1
+                                  ? true
+                                  : false
+                              }
+                              value={
+                                examQuestions[questionNumber - 1]
+                                  .answer_option_1
+                              }
+                              onClick={(e) => {
+                                setInputValue(e.target.value);
+                                console.log(e.target.value);
+                              }}
                             />
-                            <label
-                              class="form-check-label"
-                              for="exampleRadios1"
-                            >
+                            <label className="form-check-label">
                               {
                                 examQuestions[questionNumber - 1]
                                   .answer_option_1
@@ -111,9 +161,9 @@ const ExamineeExam = () => {
                           </div>
                         </div>
                       )}
-                    {examQuestions[questionNumber - 1].answer_option_2 !=
+                    {examQuestions[questionNumber - 1].answer_option_2 !==
                       "null" &&
-                      examQuestions[questionNumber - 1].answer_option_2 !=
+                      examQuestions[questionNumber - 1].answer_option_2 !==
                         null && (
                         <div className="container">
                           <div className="form-check">
@@ -122,13 +172,24 @@ const ExamineeExam = () => {
                               class="form-check-input"
                               type="radio"
                               name="exampleRadios"
-                              id="exampleRadios1"
-                              value=""
+                              id="exampleRadios2"
+                              checked={
+                                inputValue ===
+                                examQuestions[questionNumber - 1]
+                                  .answer_option_2
+                                  ? true
+                                  : false
+                              }
+                              value={
+                                examQuestions[questionNumber - 1]
+                                  .answer_option_2
+                              }
+                              onClick={(e) => {
+                                setInputValue(e.target.value);
+                                console.log(e.target.value);
+                              }}
                             />
-                            <label
-                              class="form-check-label"
-                              for="exampleRadios1"
-                            >
+                            <label className="form-check-label">
                               {
                                 examQuestions[questionNumber - 1]
                                   .answer_option_2
@@ -137,9 +198,9 @@ const ExamineeExam = () => {
                           </div>
                         </div>
                       )}
-                    {examQuestions[questionNumber - 1].answer_option_3 !=
+                    {examQuestions[questionNumber - 1].answer_option_3 !==
                       "null" &&
-                      examQuestions[questionNumber - 1].answer_option_3 !=
+                      examQuestions[questionNumber - 1].answer_option_3 !==
                         null && (
                         <div className="container">
                           <div className="form-check">
@@ -148,13 +209,24 @@ const ExamineeExam = () => {
                               class="form-check-input"
                               type="radio"
                               name="exampleRadios"
-                              id="exampleRadios1"
-                              value=""
+                              id="exampleRadios3"
+                              checked={
+                                inputValue ===
+                                examQuestions[questionNumber - 1]
+                                  .answer_option_3
+                                  ? true
+                                  : false
+                              }
+                              value={
+                                examQuestions[questionNumber - 1]
+                                  .answer_option_3
+                              }
+                              onClick={(e) => {
+                                setInputValue(e.target.value);
+                                console.log(e.target.value);
+                              }}
                             />
-                            <label
-                              class="form-check-label"
-                              for="exampleRadios1"
-                            >
+                            <label className="form-check-label">
                               {
                                 examQuestions[questionNumber - 1]
                                   .answer_option_3
@@ -163,9 +235,9 @@ const ExamineeExam = () => {
                           </div>
                         </div>
                       )}
-                    {examQuestions[questionNumber - 1].answer_option_4 !=
+                    {examQuestions[questionNumber - 1].answer_option_4 !==
                       "null" &&
-                      examQuestions[questionNumber - 1].answer_option_4 !=
+                      examQuestions[questionNumber - 1].answer_option_4 !==
                         null && (
                         <div className="container">
                           <div className="form-check">
@@ -174,13 +246,24 @@ const ExamineeExam = () => {
                               class="form-check-input"
                               type="radio"
                               name="exampleRadios"
-                              id="exampleRadios1"
-                              value=""
+                              id="exampleRadios4"
+                              checked={
+                                inputValue ===
+                                examQuestions[questionNumber - 1]
+                                  .answer_option_4
+                                  ? true
+                                  : false
+                              }
+                              value={
+                                examQuestions[questionNumber - 1]
+                                  .answer_option_4
+                              }
+                              onClick={(e) => {
+                                setInputValue(e.target.value);
+                                console.log(e.target.value);
+                              }}
                             />
-                            <label
-                              class="form-check-label"
-                              for="exampleRadios1"
-                            >
+                            <label className="form-check-label">
                               {
                                 examQuestions[questionNumber - 1]
                                   .answer_option_4
@@ -192,9 +275,9 @@ const ExamineeExam = () => {
                   </div>
                   <div className="col-6">
                     <div className="col-6">
-                      {examQuestions[questionNumber - 1].answer_option_5 !=
+                      {examQuestions[questionNumber - 1].answer_option_5 !==
                         "null" &&
-                        examQuestions[questionNumber - 1].answer_option_5 !=
+                        examQuestions[questionNumber - 1].answer_option_5 !==
                           null && (
                           <div className="container">
                             <div className="form-check">
@@ -204,12 +287,24 @@ const ExamineeExam = () => {
                                 type="radio"
                                 name="exampleRadios"
                                 id="exampleRadios1"
-                                value=""
+                                checked={
+                                  inputValue ===
+                                  examQuestions[questionNumber - 1]
+                                    .answer_option_5
+                                    ? true
+                                    : false
+                                }
+                                value={
+                                  examQuestions[questionNumber - 1]
+                                    .answer_option_5
+                                }
+                                onClick={(e) => {
+                                  // setIsChecked5(true);
+                                  setInputValue(e.target.value);
+                                  console.log(e.target.value);
+                                }}
                               />
-                              <label
-                                class="form-check-label"
-                                for="exampleRadios1"
-                              >
+                              <label className="form-check-label">
                                 {
                                   examQuestions[questionNumber - 1]
                                     .answer_option_5
@@ -218,9 +313,9 @@ const ExamineeExam = () => {
                             </div>
                           </div>
                         )}
-                      {examQuestions[questionNumber - 1].answer_option_6 !=
+                      {examQuestions[questionNumber - 1].answer_option_6 !==
                         "null" &&
-                        examQuestions[questionNumber - 1].answer_option_6 !=
+                        examQuestions[questionNumber - 1].answer_option_6 !==
                           null && (
                           <div className="container">
                             <div className="form-check">
@@ -230,12 +325,24 @@ const ExamineeExam = () => {
                                 type="radio"
                                 name="exampleRadios"
                                 id="exampleRadios1"
-                                value=""
+                                checked={
+                                  inputValue ===
+                                  examQuestions[questionNumber - 1]
+                                    .answer_option_6
+                                    ? true
+                                    : false
+                                }
+                                value={
+                                  examQuestions[questionNumber - 1]
+                                    .answer_option_6
+                                }
+                                onClick={(e) => {
+                                  // setIsChecked6(true);
+                                  setInputValue(e.target.value);
+                                  console.log(e.target.value);
+                                }}
                               />
-                              <label
-                                class="form-check-label"
-                                for="exampleRadios1"
-                              >
+                              <label className="form-check-label">
                                 {
                                   examQuestions[questionNumber - 1]
                                     .answer_option_6
@@ -244,9 +351,9 @@ const ExamineeExam = () => {
                             </div>
                           </div>
                         )}
-                      {examQuestions[questionNumber - 1].answer_option_7 !=
+                      {examQuestions[questionNumber - 1].answer_option_7 !==
                         "null" &&
-                        examQuestions[questionNumber - 1].answer_option_7 !=
+                        examQuestions[questionNumber - 1].answer_option_7 !==
                           null && (
                           <div className="container">
                             <div className="form-check">
@@ -256,12 +363,24 @@ const ExamineeExam = () => {
                                 type="radio"
                                 name="exampleRadios"
                                 id="exampleRadios1"
-                                value=""
+                                checked={
+                                  inputValue ===
+                                  examQuestions[questionNumber - 1]
+                                    .answer_option_7
+                                    ? true
+                                    : false
+                                }
+                                value={
+                                  examQuestions[questionNumber - 1]
+                                    .answer_option_7
+                                }
+                                onClick={(e) => {
+                                  // setIsChecked7(true);
+                                  setInputValue(e.target.value);
+                                  console.log(e.target.value);
+                                }}
                               />
-                              <label
-                                class="form-check-label"
-                                for="exampleRadios1"
-                              >
+                              <label className="form-check-label">
                                 {
                                   examQuestions[questionNumber - 1]
                                     .answer_option_7
@@ -270,9 +389,9 @@ const ExamineeExam = () => {
                             </div>
                           </div>
                         )}
-                      {examQuestions[questionNumber - 1].answer_option_8 !=
+                      {examQuestions[questionNumber - 1].answer_option_8 !==
                         "null" &&
-                        examQuestions[questionNumber - 1].answer_option_8 !=
+                        examQuestions[questionNumber - 1].answer_option_8 !==
                           null && (
                           <div className="container">
                             <div className="form-check">
@@ -282,12 +401,24 @@ const ExamineeExam = () => {
                                 type="radio"
                                 name="exampleRadios"
                                 id="exampleRadios1"
-                                value=""
+                                checked={
+                                  inputValue ===
+                                  examQuestions[questionNumber - 1]
+                                    .answer_option_8
+                                    ? true
+                                    : false
+                                }
+                                value={
+                                  examQuestions[questionNumber - 1]
+                                    .answer_option_8
+                                }
+                                onClick={(e) => {
+                                  // setIsChecked8(true);
+                                  setInputValue(e.target.value);
+                                  console.log(e.target.value);
+                                }}
                               />
-                              <label
-                                class="form-check-label"
-                                for="exampleRadios1"
-                              >
+                              <label className="form-check-label">
                                 {
                                   examQuestions[questionNumber - 1]
                                     .answer_option_8
@@ -322,13 +453,15 @@ const ExamineeExam = () => {
                 <ul class="pagination pagination-sm">
                   <li
                     className={`page-item m-1 ${
-                      i == questionNumber - 1 ? "active" : ""
+                      i === questionNumber - 1 ? "active" : ""
                     }`}
                     aria-current="page"
                   >
                     <button
                       onClick={() => {
-                        // resetInputValue();
+                        storeExamineeAnswer(
+                          examQuestions[questionNumber - 1].question_id
+                        );
                         questionNumber = i + 1;
                         getExamQuestions();
                       }}
@@ -348,7 +481,6 @@ const ExamineeExam = () => {
               <button
                 onClick={() => {
                   if (questionNumber > 1) {
-                    setInputValue("");
                     questionNumber--;
                     getExamQuestions();
                     console.log(questionNumber, "Question Number");
@@ -361,12 +493,14 @@ const ExamineeExam = () => {
             </div>
             <div className="col-2"></div>
             <div className="col-3">
-              {questionNumber != examQuestions.length ? (
+              {questionNumber !== examQuestions.length ? (
                 <button
                   onClick={() => {
                     console.log(examQuestions.length, "LENGTH");
                     if (questionNumber < examQuestions.length) {
-                      setInputValue("");
+                      storeExamineeAnswer(
+                        examQuestions[questionNumber - 1].question_id
+                      );
                       questionNumber++;
                       getExamQuestions();
                       console.log(questionNumber, "Question Number");
@@ -380,14 +514,12 @@ const ExamineeExam = () => {
               ) : (
                 <button
                   onClick={() => {
-                    console.log(examQuestions.length, "LENGTH");
-                    if (questionNumber > examQuestions.length) {
-                      setInputValue("");
-                      questionNumber++;
-                      getExamQuestions();
-                      console.log(questionNumber, "Question Number");
-                      console.log(examQuestions.length, "LENGTH");
+                    if (questionNumber <= examQuestions.length) {
+                      storeExamineeAnswer(
+                        examQuestions[questionNumber - 1].question_id
+                      );
                     }
+                    onFinishExam();
                   }}
                   className="btn btn-success w-100"
                 >

@@ -14,10 +14,8 @@ import {
 
 export default function SideBar() {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user"));
-  const decoded = jwt_decode(user.token);
   const logout = () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem("instructor-token");
     navigate("/");
   };
   return (
@@ -25,9 +23,7 @@ export default function SideBar() {
       <nav dir="rtl" className="wrapper g-0">
         <div className="sidebar bg-light">
           <div className="row d-flex justifty-content-center align-items-center">
-            {/* <img src={logo} alt="" />
-             */}
-            <h3 className="m-4">مرحبا {decoded.firstName}</h3>
+            {<img src={logo} alt="" />}
           </div>
           <li>
             <a className="w-100 h-100" href="#">
