@@ -64,7 +64,40 @@ const ExamineeExam = () => {
   const handleChange = (event) => {
     setInputValue(event.target.value);
   };
-  const onFinishExam = () => {
+
+  const evaluateQuestions = async () => {
+    await axios
+      .get("http://localhost:4000/evaluate/evaluateQuestions", {
+        params: {
+          examId,
+          examineeId: decodedToken.examineeId,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const evaluateExam = async () => {
+    await axios
+      .get("http://localhost:4000/evaluate/evaluateExam", {
+        params: {
+          examId,
+          examineeId: decodedToken.examineeId,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const onFinishExam = async () => {
     Swal.fire({
       title: "هل انت متأكد من الانتهاء و حفظ الاجابات؟",
       icon: "warning",
@@ -73,9 +106,11 @@ const ExamineeExam = () => {
       cancelButtonColor: "#d33",
       confirmButtonText: "نعم",
       cancelButtonText: "لا",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         Swal.fire("تم حفظ الاجابات", "", "success");
+        await evaluateQuestions();
+        await evaluateExam();
         localStorage.removeItem("examinee-token");
         navigate("/ExamineeHome");
       }

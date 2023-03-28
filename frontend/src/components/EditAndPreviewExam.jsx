@@ -9,6 +9,7 @@ const EditAndPreviewExam = () => {
   let { examId } = useParams();
   const [questionBanks, setQuestionBanks] = useState([]);
   const [examQuestions, setExamQuestions] = useState([]);
+  const [exam, setExam] = useState("");
   const [showCreateExamStep2, setShowCreateExamStep2] = useState(false);
   const [questionId, setQuestionId] = useState([]);
   const user = JSON.parse(localStorage.getItem("instructor-token"));
@@ -16,11 +17,31 @@ const EditAndPreviewExam = () => {
   useEffect(() => {
     // document.addEventListener("click", handleClickOutside, true);
     getExamQuestions();
+    getExam();
 
     return () => {
       //   document.removeEventListener("click", handleClickOutside, true);
     };
   }, []);
+
+  const getExam = () => {
+    axios
+      .get("http://localhost:4000/exam/getExam", {
+        // headers: {
+        //   "auth-token": user.token,
+        // },
+        params: {
+          examId,
+        },
+      })
+      .then((res) => {
+        console.log(res.data.exam[0], "EXAM");
+        setExam(res.data.exam[0]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const removeQuestionHandler = (question) => {
     console.log(examId, "??????????????????");
@@ -72,7 +93,7 @@ const EditAndPreviewExam = () => {
       <div className="container list-container m-5">
         <div className="row">
           <div className="col-9 mt-5">
-            <h1>Exam Number {examId}</h1>
+            <h1>{exam.exam_name}</h1>
           </div>
           <div className="col-3">
             <Link to={`/app/exams/${examId}/addQuestions`}>
@@ -82,7 +103,7 @@ const EditAndPreviewExam = () => {
                 }}
                 className="btn btn-outline-success mt-5"
               >
-                Add New Question
+                اضافة سؤال جديد
               </button>
             </Link>
           </div>
@@ -94,7 +115,7 @@ const EditAndPreviewExam = () => {
               return (
                 <div key={i} className="card m-5">
                   <p className="card-header bg-primary text-white">
-                    Question {i + 1}
+                    سؤال {i + 1}
                   </p>
                   <div className="card-body  m-2">
                     <p className="card-title mb-4">
@@ -102,7 +123,7 @@ const EditAndPreviewExam = () => {
                     </p>
                     <hr></hr>
                     <p className="card-text mb-4">
-                      Answer: {question[1].correct_answer}
+                      الاجابة: {question[1].correct_answer}
                     </p>
                     <div className="row justify-content-center m-3">
                       <div className="col-4">
@@ -112,7 +133,7 @@ const EditAndPreviewExam = () => {
                           }}
                           className="btn btn-outline-danger m-2 w-100"
                         >
-                          Remove
+                          حذم
                         </button>
                       </div>
                     </div>
@@ -123,7 +144,7 @@ const EditAndPreviewExam = () => {
               return (
                 <div key={i} className="card m-5">
                   <p className="card-header text-white bg-primary ">
-                    Question {i + 1}
+                    سؤال {i + 1}
                   </p>
                   <div className="card-body m-2">
                     <p className="card-title mb-4">
@@ -204,7 +225,7 @@ const EditAndPreviewExam = () => {
                     </div>
                     <hr></hr>
                     <p className="card-text m-3">
-                      Answer: {question[1].correct_answer}
+                      الاجابة: {question[1].correct_answer}
                     </p>
                     <div className="row justify-content-center m-3">
                       <div className="col-4">
@@ -214,7 +235,7 @@ const EditAndPreviewExam = () => {
                           }}
                           className="btn btn-outline-danger m-2 w-100"
                         >
-                          Remove
+                          حذف
                         </button>
                       </div>
                     </div>

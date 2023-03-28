@@ -50,6 +50,14 @@ export default function SideBar() {
             </a>
           </li>
           <li>
+            <a>
+              <i className="fas fa-user"></i>
+              <Link to={"/app/reports"}>
+                <FontAwesomeIcon icon={faPen} /> &nbsp; التقارير
+              </Link>
+            </a>
+          </li>
+          <li>
             <a href="/" onClick={logout}>
               <FontAwesomeIcon icon={faSignOut} /> &nbsp; تسجيل الخروج
             </a>

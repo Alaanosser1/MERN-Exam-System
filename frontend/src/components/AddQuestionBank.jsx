@@ -37,13 +37,13 @@ export default function AddQuestionBank(props) {
   return (
     <>
       <div className="container">
-        <h1>Add Question Bank</h1>
+        <h1>اضافة بنك اسئلة جديد</h1>
         <form onSubmit={handleSubmit(formSubmit)}>
           <input
             autoFocus
-            className="form-control form-control-lg mt-2"
+            className="form-control form-control-lg mt-4 "
             type="text"
-            placeholder="Name"
+            placeholder="الاسم"
             aria-label=".form-control-lg example"
             {...register("nameRequired", { required: true })}
             onChange={(e) => {
@@ -52,12 +52,12 @@ export default function AddQuestionBank(props) {
             }}
           />
           {errors.nameRequired && (
-            <span className="text-danger">This field is required</span>
+            <span className="text-danger">من فضلك ادخل الاسم</span>
           )}
           <input
-            className="form-control form-control-lg mt-2"
+            className="form-control form-control-lg mt-4"
             type="text"
-            placeholder="Description"
+            placeholder="الوصف"
             aria-label=".form-control-lg example"
             {...register("descriptionRequired", { required: true })}
             onChange={(e) => {
@@ -66,11 +66,11 @@ export default function AddQuestionBank(props) {
             }}
           />
           {errors.descriptionRequired && (
-            <span className="text-danger">This field is required</span>
+            <span className="text-danger">من فضلك ادخل الوصف*</span>
           )}
           <br></br>
           <button type="submit" className="btn btn-primary mt-3 w-25">
-            Add
+            اضافة
           </button>
         </form>
       </div>

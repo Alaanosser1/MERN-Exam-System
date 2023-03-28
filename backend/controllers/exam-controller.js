@@ -366,3 +366,29 @@ export const calculateExamTotalGrade = (req, res) => {
       });
     });
 };
+
+export const getExam = (req, res) => {
+  const examId = req.query.examId;
+
+  connection
+    .promise()
+    .query(
+      `
+  SELECT * FROM exam
+  WHERE exam_id = ${examId}
+  `
+    )
+    .then((data) => {
+      res.status(200).json({
+        status: "ok",
+        exam: data[0],
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        status: "error",
+        msg: "500 internal server error",
+      });
+    });
+};

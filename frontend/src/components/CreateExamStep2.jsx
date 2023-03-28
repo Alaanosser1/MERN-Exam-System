@@ -65,7 +65,7 @@ const CreateExamStep2 = (props) => {
   };
   return (
     <>
-      <div className="container list-container m-5">
+      <div dir="rtl" className="container list-container m-5">
         <Popup
           trigger={chooseQuestionsFromQuestionBankPopup}
           setTrigger={setChooseQuestionsFromQuestionBankPopup}
@@ -87,7 +87,7 @@ const CreateExamStep2 = (props) => {
               className="mt-5 w-75 btn btn-outline-success"
             >
               {" "}
-              Finish
+              انتهاء
             </button>
           </div>
         </div>
@@ -97,16 +97,16 @@ const CreateExamStep2 = (props) => {
             <tr>
               {/* <th scope="col">ID</th> */}
               <th className="text-center" scope="col">
-                Name
+                الاسم
               </th>
               <th className="text-center" scope="col">
-                description
+                الوصف
               </th>
               <th className="text-center" scope="col">
-                Number of Questions
+                عدد الاسئلة
               </th>
               <th className="text-center" scope="col">
-                Operations
+                العمليات
               </th>
             </tr>
           </thead>
@@ -128,7 +128,7 @@ const CreateExamStep2 = (props) => {
                       }}
                       className="btn btn-outline-primary m-2"
                     >
-                      Choose Questions
+                      اختر الاسئلة
                     </button>
                   </td>
                 </tr>

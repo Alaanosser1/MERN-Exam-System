@@ -14,6 +14,7 @@ export default function QuestionBanks() {
   const [questionBankId, setQuestionBankId] = useState("");
   const [questionBankDescription, setDescription] = useState("");
   const refOne = useRef(null);
+  const refTwo = useRef(null);
   const user = JSON.parse(localStorage.getItem("instructor-token"));
 
   const {
@@ -34,11 +35,12 @@ export default function QuestionBanks() {
 
   const handleClickOutside = (e) => {
     if (!refOne.current.contains(e.target)) {
-      console.log("outside");
       setEditQuestionBankPopup(false);
+    } else {
+    }
+    if (!refTwo.current.contains(e.target)) {
       setAddQuestionBankPopup(false);
     } else {
-      console.log("inside");
     }
   };
 
@@ -106,8 +108,8 @@ export default function QuestionBanks() {
   };
   return (
     <>
-      <div className="container list-container m-5">
-        <div ref={refOne}>
+      <div dir="rtl" className="container list-container m-5">
+        <div ref={refTwo}>
           <Popup
             trigger={addQuestionBankPopup}
             setTrigger={setAddQuestionBankPopup}
@@ -124,7 +126,7 @@ export default function QuestionBanks() {
             setTrigger={setEditQuestionBankPopup}
           >
             <div className="container">
-              <h1>Edit Question Bank</h1>
+              <h1>تعديل بنك الاسئلة</h1>
               <form onSubmit={handleSubmit(editQuestionBankHandler)}>
                 <input
                   autoFocus
@@ -139,7 +141,7 @@ export default function QuestionBanks() {
                   }}
                 />
                 {errors.nameRequired && (
-                  <span className="text-danger">This field is required</span>
+                  <span className="text-danger">من فضلك ادخل الامس*</span>
                 )}
                 <input
                   className="form-control form-control-lg mt-2"
@@ -153,11 +155,11 @@ export default function QuestionBanks() {
                   }}
                 />
                 {errors.descriptionRequired && (
-                  <span className="text-danger">This field is required</span>
+                  <span className="text-danger">من فضلك ادخل الوصف*</span>
                 )}
                 <br></br>
                 <button type="submit" className="btn btn-primary mt-3 w-25">
-                  Add
+                  اضافة
                 </button>
               </form>
             </div>
@@ -165,7 +167,7 @@ export default function QuestionBanks() {
         </div>
         <div className="row">
           <div className="col-9">
-            <h1 className="mt-5">Question Banks</h1>
+            <h1 className="mt-5">بنوك الاسئلة</h1>
           </div>
           <div className="col-3">
             <button
@@ -174,7 +176,7 @@ export default function QuestionBanks() {
               }}
               className="btn btn-success mt-5"
             >
-              Add New Question Bank
+              اضافة بنك اسئلة جديد
             </button>
           </div>
         </div>
@@ -184,16 +186,16 @@ export default function QuestionBanks() {
             <tr>
               {/* <th scope="col">ID</th> */}
               <th className="text-center" scope="col">
-                Name
+                الاسم
               </th>
               <th className="text-center" scope="col">
-                description
+                الوصف
               </th>
               <th className="text-center" scope="col">
-                Number of Questions
+                عدد الاسئلة
               </th>
               <th className="text-center" scope="col">
-                Operations
+                العمليات
               </th>
             </tr>
           </thead>
@@ -209,15 +211,18 @@ export default function QuestionBanks() {
                   <td className="text-center">{bank[1].NumberOfQuestions}</td>
                   <td className="text-center">
                     <Link to={`/app/questionBanks/${bank[1].question_bank_id}`}>
-                      <button className="btn btn-primary m-2"> View</button>
+                      <button className="btn btn-outline-primary m-2">
+                        {" "}
+                        عرض
+                      </button>
                     </Link>
                     <button
-                      className="btn btn-danger m-2"
+                      className="btn btn-outline-danger m-2"
                       onClick={() => {
                         deleteQuestionBank(bank[1]);
                       }}
                     >
-                      Delete
+                      حذف
                     </button>
                     <button
                       onClick={() => {
@@ -225,9 +230,9 @@ export default function QuestionBanks() {
                         setQuestionBankId(bank[1].question_bank_id);
                         console.log(questionBankId);
                       }}
-                      className="btn btn-info m-2"
+                      className="btn btn-outline-info m-2"
                     >
-                      Edit
+                      تعديل
                     </button>
                   </td>
                 </tr>

@@ -73,7 +73,7 @@ const Exams = () => {
   };
   return (
     <>
-      <div className="container list-container m-5">
+      <div dir="rtl" className="container list-container m-5">
         <div ref={refOne}>
           {showCreateExam ? (
             <CreateExamForm
@@ -86,7 +86,7 @@ const Exams = () => {
         </div>
         <div className="row">
           <div className="col-9">
-            <h1 className="mt-5">Exams</h1>
+            <h1 className="mt-5">الامتحانات</h1>
           </div>
           <div className="col-3">
             <Link to={"/app/exams/createExamForm"}>
@@ -96,12 +96,12 @@ const Exams = () => {
                 }}
                 className="btn btn-outline-success mt-5"
               >
-                Add New Exam
+                اضافة امتحان جديد
               </button>
             </Link>
           </div>
         </div>
-        <div className="row d-flex justify-content-end align-items-end m-3">
+        <div className="row m-3">
           <SearchBar content={exams} setSearchResults={setSearchResults} />
         </div>
 
@@ -110,19 +110,19 @@ const Exams = () => {
             <tr>
               {/* <th scope="col">ID</th> */}
               <th className="text-center" scope="col">
-                Name
+                الاسم
               </th>
               <th className="text-center" scope="col">
-                Description
+                الوصف
               </th>
               <th className="text-center" scope="col">
-                Grade
+                الدرجة
               </th>
               <th className="text-center" scope="col">
-                Number of Questions
+                عدد الاسئلة
               </th>
               <th className="text-center" scope="col">
-                Operations
+                العمليات
               </th>
             </tr>
           </thead>
@@ -146,7 +146,7 @@ const Exams = () => {
                         deleteExam(bank[1]);
                       }}
                     >
-                      Delete
+                      حذف
                     </button>
                     <Link to={`/app/exams/${bank[1].exam_id}`}>
                       <button
@@ -157,7 +157,7 @@ const Exams = () => {
                         }}
                         className="btn btn-outline-primary m-2"
                       >
-                        Edit and Preview
+                        تعديل
                       </button>
                     </Link>
                   </td>

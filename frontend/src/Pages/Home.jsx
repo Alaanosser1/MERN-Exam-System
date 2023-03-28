@@ -6,10 +6,12 @@ export default function Home() {
   const decoded = jwt_decode(user.token);
   console.log(decoded);
   return (
-    <div>
-      <h1 dir="rtl">
-        مرحبا {decoded.rank} {decoded.firstName}
-      </h1>
-    </div>
+    <>
+      <div className="container d-flex justify-content-center mt-5">
+        <h1 dir="rtl">
+          مرحبا {decoded.rank} {decoded.firstName}
+        </h1>
+      </div>
+    </>
   );
 }

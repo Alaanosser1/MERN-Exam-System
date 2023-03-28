@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import { Link, Route, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
@@ -22,42 +22,41 @@ import ExamineePreExam from "./Pages/ExamineePreExam";
 import InstructorSignUp from "./Pages/InstructorSignUp";
 import PrivateRoutesExaminee from "./ustils/PrivateRoutesExaminee";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/examineeHome" element={<ExamineeHome />} />
-        <Route path="/examineePreExam/:examId" element={<ExamineePreExam />} />
-        <Route element={<PrivateRoutesExaminee />}>
-          <Route path="/ExamineeExam/:examId" element={<ExamineeExam />} />
-        </Route>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<InstructorSignUp />} />
+const root = ReactDOM.createRoot(document.getElementById("root"));
 
-        <Route path="app/*" element={<App />}>
-          <Route path="app/exams" element={<Exams />} />
-          <Route path="app/home" element={<Home />} />
-          //
-          <Route path="app/exams/:examId" element={<EditAndPreviewExam />} />
-          <Route path="app/exams/createExamForm" element={<CreateExamForm />} />
-          <Route
-            path="app/exams/:examId/addQuestions"
-            element={<CreateExamStep2 />}
-          />
-          <Route path="app/questionBanks" element={<QuestionBanks />} />
-          <Route
-            path="app/questionBanks/:questionBankId"
-            element={<ViewQuestionBank />}
-          />
-          <Route
-            path="app/questionBanks/:questionBankId/addQuestion"
-            element={<AddQuestion />}
-          />
-          <Route path="app/addQuestionBank" element={<AddQuestionBank />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  </React.StrictMode>,
-  document.getElementById("root")
+root.render(
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/examineeHome" element={<ExamineeHome />} />
+      <Route path="/examineePreExam/:examId" element={<ExamineePreExam />} />
+      <Route element={<PrivateRoutesExaminee />}>
+        <Route path="/ExamineeExam/:examId" element={<ExamineeExam />} />
+      </Route>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<InstructorSignUp />} />
+
+      <Route path="app/*" element={<App />}>
+        <Route path="app/exams" element={<Exams />} />
+        <Route path="app/home" element={<Home />} />
+        //
+        <Route path="app/exams/:examId" element={<EditAndPreviewExam />} />
+        <Route path="app/exams/createExamForm" element={<CreateExamForm />} />
+        <Route
+          path="app/exams/:examId/addQuestions"
+          element={<CreateExamStep2 />}
+        />
+        <Route path="app/questionBanks" element={<QuestionBanks />} />
+        <Route
+          path="app/questionBanks/:questionBankId"
+          element={<ViewQuestionBank />}
+        />
+        <Route
+          path="app/questionBanks/:questionBankId/addQuestion"
+          element={<AddQuestion />}
+        />
+        <Route path="app/addQuestionBank" element={<AddQuestionBank />} />
+      </Route>
+    </Routes>
+  </BrowserRouter>
 );

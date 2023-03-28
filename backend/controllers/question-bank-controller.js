@@ -179,3 +179,29 @@ export const editQuestionBank = (req, res) => {
       });
     });
 };
+
+export const getQuestionBank = (req, res) => {
+  const questionBankId = req.query.questionBankId;
+
+  connection
+    .promise()
+    .query(
+      `
+  SELECT * FROM question_bank
+  WHERE question_bank_id = ${questionBankId}
+  `
+    )
+    .then((data) => {
+      res.status(200).json({
+        status: "ok",
+        questionBank: data[0],
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        status: "error",
+        msg: "500 internal server error",
+      });
+    });
+};

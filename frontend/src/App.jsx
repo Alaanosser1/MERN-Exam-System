@@ -15,6 +15,9 @@ import CreateExamStep2 from "./components/CreateExamStep2";
 import ExamineeHome from "./Pages/ExamineeHome";
 import ExamineeExam from "./Pages/ExamineeExam";
 import PrivateRoutesInstructor from "./ustils/PrivateRoutesInstructor";
+import Reports from "./Pages/Reports";
+import ExamReportDetails from "./Pages/ExamReportDetails";
+import QuestionsReportDetails from "./Pages/QuestionsReportDetails";
 
 function App() {
   console.log(window.location);
@@ -28,8 +31,6 @@ function App() {
           <Routes>
             <Route element={<PrivateRoutesInstructor />}>
               <Route path="/home" element={<Home />} />
-              <Route path="/examineeHome" element={<ExamineeHome />} />
-              <Route path="/ExamineeExam/:examId" element={<ExamineeExam />} />
               <Route path="/exams" element={<Exams />} />
               <Route path="/exams/:examId" element={<EditAndPreviewExam />} />
               <Route path="exams/createExamForm" element={<CreateExamForm />} />
@@ -47,6 +48,17 @@ function App() {
                 element={<AddQuestion />}
               />
               <Route path="/addQuestionBank" element={<AddQuestionBank />} />
+              <Route>
+                <Route path="/reports" element={<Reports />} />
+                <Route
+                  path="/reports/:examId"
+                  element={<ExamReportDetails />}
+                />
+                <Route
+                  path="/reports/:examId/:examineeId"
+                  element={<QuestionsReportDetails />}
+                />
+              </Route>
             </Route>
           </Routes>
         </div>

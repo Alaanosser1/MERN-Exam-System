@@ -12,6 +12,7 @@ const ChooseQuestionsFromQuestionBank = (props) => {
   const [buttonPopup, setButtonPopup] = useState(false);
   const [examQuestions, setExamQuestions] = useState([]);
   const [addToExamButton, setAddToExamButton] = useState(false);
+  const [questionBank, setQuestionBank] = useState("");
   const [grade, setGrade] = useState(1);
   const refOne = useRef(null);
   const user = JSON.parse(localStorage.getItem("instructor-token"));
@@ -22,6 +23,7 @@ const ChooseQuestionsFromQuestionBank = (props) => {
     document.addEventListener("click", handleClickOutside, true);
     getExamQuestions();
     getQuestionBankQuestions();
+    getQuestionBank();
     return () => {
       document.removeEventListener("click", handleClickOutside, true);
     };
@@ -34,6 +36,25 @@ const ChooseQuestionsFromQuestionBank = (props) => {
     } else {
       console.log("inside");
     }
+  };
+
+  const getQuestionBank = () => {
+    axios
+      .get("http://localhost:4000/questionBank/getQuestionBank", {
+        // headers: {
+        //   "auth-token": user.token,
+        // },
+        params: {
+          questionBankId,
+        },
+      })
+      .then((res) => {
+        console.log(res.data.questionBank[0], "QB");
+        setQuestionBank(res.data.questionBank[0]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const getQuestionBankQuestions = () => {
@@ -153,7 +174,7 @@ const ChooseQuestionsFromQuestionBank = (props) => {
 
         <div className="row m-5">
           <div className="col-9">
-            <h1 className="">Questions of Question Bank # {questionBankId}</h1>
+            <h1 className="">اسئلة بنك {questionBank.question_bank_name}</h1>
           </div>
         </div>
         {Object.entries(questionBankQuestions).map((question, i) => {
@@ -161,7 +182,7 @@ const ChooseQuestionsFromQuestionBank = (props) => {
             return (
               <div className="card m-5 w-75">
                 <p5 className="card-header bg-primary text-white">
-                  Question {i + 1}
+                  سؤال {i + 1}
                 </p5>
                 <div className="card-body  m-2">
                   <p4 className="card-title mb-4">
@@ -169,7 +190,7 @@ const ChooseQuestionsFromQuestionBank = (props) => {
                   </p4>
                   <hr></hr>
                   <p className="card-text mb-4">
-                    Answer: {question[1].correct_answer}
+                    الاجابة: {question[1].correct_answer}
                   </p>
                   <div className="row justify-content-center">
                     <div className="col-4">
@@ -189,7 +210,7 @@ const ChooseQuestionsFromQuestionBank = (props) => {
                           }}
                           className="btn btn-outline-danger w-100"
                         >
-                          إزالة
+                          حذف
                         </button>
                       )}
                     </div>
@@ -216,7 +237,7 @@ const ChooseQuestionsFromQuestionBank = (props) => {
             return (
               <div className="card m-5 w-75">
                 <p className="card-header text-white bg-primary ">
-                  Question {i + 1}
+                  سؤال {i + 1}
                 </p>
                 <div className="card-body m-2">
                   <p className="card-title mb-4">
@@ -297,7 +318,7 @@ const ChooseQuestionsFromQuestionBank = (props) => {
                   </div>
                   <hr></hr>
                   <p className="card-text m-3">
-                    Answer: {question[1].correct_answer}
+                    الاجابة: {question[1].correct_answer}
                   </p>
                   <div className="row justify-content-center">
                     <div className="col-4 ">
@@ -308,7 +329,7 @@ const ChooseQuestionsFromQuestionBank = (props) => {
                           }}
                           className="btn btn-outline-success w-100"
                         >
-                          Add
+                          اضافة
                         </button>
                       ) : (
                         <button
@@ -317,7 +338,7 @@ const ChooseQuestionsFromQuestionBank = (props) => {
                           }}
                           className="btn btn-outline-danger w-100"
                         >
-                          Remove
+                          حذف
                         </button>
                       )}
                     </div>

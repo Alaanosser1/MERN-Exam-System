@@ -18,6 +18,7 @@ export const addExaminee = (req, res) => {
   const listNumber = req.body.listNumber;
   const examId = 80;
 
+  console.log(req.body, "BODYYY");
   let insertId;
 
   const handleAuth = async () => {
