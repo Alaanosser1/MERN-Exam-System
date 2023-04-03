@@ -29,7 +29,7 @@ root.render(
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/examineeHome" element={<ExamineeHome />} />
-      <Route path="/examineePreExam/:examId" element={<ExamineePreExam />} />
+      <Route path="/examineePreExam/" element={<ExamineePreExam />} />
       <Route element={<PrivateRoutesExaminee />}>
         <Route path="/ExamineeExam/:examId" element={<ExamineeExam />} />
       </Route>

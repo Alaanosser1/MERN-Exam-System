@@ -37,17 +37,20 @@ const ChooseQuestionsFromQuestionBank = (props) => {
       console.log("inside");
     }
   };
-
   const getQuestionBank = () => {
     axios
-      .get("http://localhost:4000/questionBank/getQuestionBank", {
-        // headers: {
-        //   "auth-token": user.token,
-        // },
-        params: {
-          questionBankId,
-        },
-      })
+      .get(
+        "http://localhost:4000/questionBank/getQuestionBank" ||
+          "http://192.168.1.10:4000/questionBank/getQuestionBank",
+        {
+          // headers: {
+          //   "auth-token": user.token,
+          // },
+          params: {
+            questionBankId,
+          },
+        }
+      )
       .then((res) => {
         console.log(res.data.questionBank[0], "QB");
         setQuestionBank(res.data.questionBank[0]);
@@ -60,7 +63,8 @@ const ChooseQuestionsFromQuestionBank = (props) => {
   const getQuestionBankQuestions = () => {
     axios
       .get(
-        `http://localhost:4000/exam/getQuestionBankQuestionsToAddQuestionsToExam`,
+        `http://localhost:4000/exam/getQuestionBankQuestionsToAddQuestionsToExam` ||
+          `http://192.168.1.10:4000/exam/getQuestionBankQuestionsToAddQuestionsToExam`,
         {
           params: {
             examId: props.examId,
@@ -81,14 +85,18 @@ const ChooseQuestionsFromQuestionBank = (props) => {
   };
   const getExamQuestions = () => {
     axios
-      .get("http://localhost:4000/exam/getExamQuestions", {
-        params: {
-          examId: props.examId,
-        },
-        headers: {
-          "auth-token": user.token,
-        },
-      })
+      .get(
+        "http://localhost:4000/exam/getExamQuestions" ||
+          "http://192.168.1.10:4000/exam/getExamQuestions",
+        {
+          params: {
+            examId: props.examId,
+          },
+          headers: {
+            "auth-token": user.token,
+          },
+        }
+      )
       .then((res) => {
         console.log(res.data.questions, "Exam Questions");
         for (let i = 0; i < res.data.questions.length; i++) {
@@ -104,7 +112,8 @@ const ChooseQuestionsFromQuestionBank = (props) => {
   const assignQuestionToExam = (questionId) => {
     axios
       .post(
-        "http://localhost:4000/exam/assignQuestionToExam",
+        "http://localhost:4000/exam/assignQuestionToExam" ||
+          "http://192.168.1.10:4000/exam/assignQuestionToExam",
         {
           examId: props.examId,
           questionId,
@@ -126,15 +135,19 @@ const ChooseQuestionsFromQuestionBank = (props) => {
   };
   const removeQuestionFromExam = (questionId) => {
     axios
-      .delete("http://localhost:4000/exam/removeQuestionFromExam", {
-        params: {
-          examId: props.examId,
-          questionId,
-        },
-        headers: {
-          "auth-token": user.token,
-        },
-      })
+      .delete(
+        "http://localhost:4000/exam/removeQuestionFromExam" ||
+          "http://192.168.1.10:4000/exam/removeQuestionFromExam",
+        {
+          params: {
+            examId: props.examId,
+            questionId,
+          },
+          headers: {
+            "auth-token": user.token,
+          },
+        }
+      )
       .then((res) => {
         getQuestionBankQuestions();
         getExamQuestions();
@@ -146,14 +159,18 @@ const ChooseQuestionsFromQuestionBank = (props) => {
 
   const calculateExamTotalGrade = () => {
     axios
-      .get("http://localhost:4000/exam/calculateExamTotalGrade", {
-        params: {
-          examId: props.examId,
-        },
-        headers: {
-          "auth-token": user.token,
-        },
-      })
+      .get(
+        "http://localhost:4000/exam/calculateExamTotalGrade" ||
+          "http://192.168.1.10:4000/exam/calculateExamTotalGrade",
+        {
+          params: {
+            examId: props.examId,
+          },
+          headers: {
+            "auth-token": user.token,
+          },
+        }
+      )
       .then((res) => {
         console.log(res);
       })

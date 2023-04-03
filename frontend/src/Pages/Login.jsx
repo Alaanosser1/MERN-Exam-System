@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/Login.css";
 import axios from "axios";
+import Footer from "../components/Footer";
 const Login = () => {
   const [policeNumber, setPoliceNumber] = useState("");
   const [password, setPassword] = useState("");
@@ -14,10 +15,14 @@ const Login = () => {
     setLoadingSpinner(true);
     setTimeout(() => {}, 3000);
     axios
-      .post(`http://localhost:4000/instructor/instructorLogin`, {
-        policeNumber,
-        password,
-      })
+      .post(
+        `http://localhost:4000/instructor/instructorLogin` ||
+          `http://192.168.1.10:4000/instructor/instructorLogin`,
+        {
+          policeNumber,
+          password,
+        }
+      )
       .then((res) => {
         if (res.data.token) {
           localStorage.setItem("instructor-token", JSON.stringify(res.data));
@@ -75,6 +80,9 @@ const Login = () => {
               <button type="submit">تسجيل الدخول </button>
             </form>
           </div>
+        </div>
+        <div className="row">
+          <Footer />
         </div>
       </div>
     </>

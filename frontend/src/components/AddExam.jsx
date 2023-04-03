@@ -14,11 +14,14 @@ const AddExam = (props) => {
     watch,
     formState: { errors },
   } = useForm();
+  const apiUrl =
+    "http://localhost:4000/exam/createExam" ||
+    "http://192.168.1.10:4000/exam/createExam";
 
   const formSubmit = () => {
     axios
       .post(
-        "http://localhost:4000/exam/createExam",
+        apiUrl,
         {
           examName,
           examDescription,

@@ -65,3 +65,14 @@ html, body{
 	left: 50;
 	z-index: 9;
 }
+
+.footer {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	padding: 0.5rem;
+	background-color: #0037ae;
+	text-align: center;
+	font-size: larger;
+  }

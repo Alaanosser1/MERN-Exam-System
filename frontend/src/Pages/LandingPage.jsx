@@ -5,6 +5,7 @@ import ExamineeHome from "../Pages/ExamineeHome";
 import "../styles/LandingPage2.css";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
+import Footer from "../components/Footer";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -19,22 +20,30 @@ const LandingPage = () => {
               </div>
             </div>
             <div className="col-6 btn-col p-5">
-              <Link style={{ textDecoration: "none" }} to={"/examineeHome"}>
+              <Link style={{ textDecoration: "none" }} to={"/examineePreExam"}>
                 <div className="row w-75 ms-3">
                   <button className="btn landing-btn btn-outline-success">
-                    ابدأ الامتحان
+                    دارسين
                   </button>
                 </div>
               </Link>
               <Link style={{ textDecoration: "none" }} to={"/login"}>
                 <div className="row w-75 ms-3">
                   <button className="btn landing-btn btn-outline-success">
-                    تسجيل الدخول
+                    معلمين
                   </button>
                 </div>
               </Link>
+              <div className="row w-75 ms-3">
+                <button className="btn landing-btn btn-outline-success">
+                  ادخال بيانات الفرق
+                </button>
+              </div>
             </div>
           </div>
+        </div>
+        <div className="row">
+          <Footer />
         </div>
       </div>
     </>

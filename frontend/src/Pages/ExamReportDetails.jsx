@@ -11,14 +11,18 @@ const ExamReportDetails = () => {
   }, []);
   const getExamEvaluationStats = () => {
     axios
-      .get("http://localhost:4000/evaluate/getExamEvaluationStats", {
-        // headers: {
-        //   "auth-token": user.token,
-        // },
-        params: {
-          examId,
-        },
-      })
+      .get(
+        "http://localhost:4000/evaluate/getExamEvaluationStats" ||
+          "http://192.168.1.10:4000/evaluate/getExamEvaluationStats",
+        {
+          // headers: {
+          //   "auth-token": user.token,
+          // },
+          params: {
+            examId,
+          },
+        }
+      )
       .then((res) => {
         console.log(res.data.examEvaluationStats, "reportDetails");
         setExamEvaluationStats(res.data.examEvaluationStats);

@@ -25,12 +25,16 @@ const ExamineePreExam = () => {
     setPoliceNumberAlreadyRegistered(false);
     if (passwordMatch) {
       axios
-        .post(`http://localhost:4000/instructor/addInstructor`, {
-          instructorName,
-          instructorPoliceNumber,
-          instructorPassword,
-          instructorRank,
-        })
+        .post(
+          `http://localhost:4000/instructor/addInstructor` ||
+            `http://192.168.1.10:4000/instructor/addInstructor`,
+          {
+            instructorName,
+            instructorPoliceNumber,
+            instructorPassword,
+            instructorRank,
+          }
+        )
         .then((data) => {
           console.log(data);
           navigate("/login");

@@ -9,11 +9,15 @@ const Reports = () => {
   }, []);
   const getReports = () => {
     axios
-      .get("http://localhost:4000/evaluate/getExamsReport", {
-        // headers: {
-        //   "auth-token": user.token,
-        // },
-      })
+      .get(
+        "http://localhost:4000/evaluate/getExamsReport" ||
+          "http://192.168.1.10:4000/evaluate/getExamsReport",
+        {
+          // headers: {
+          //   "auth-token": user.token,
+          // },
+        }
+      )
       .then((res) => {
         console.log(res.data.reports, "reports");
         setReports(res.data.reports);

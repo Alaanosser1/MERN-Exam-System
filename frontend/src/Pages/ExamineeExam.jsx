@@ -20,12 +20,16 @@ const ExamineeExam = () => {
   const storeExamineeAnswer = (questionId) => {
     console.log(inputValue, "INPUTVALUE");
     axios
-      .post("http://localhost:4000/examinee/storeExamineeAnswer", {
-        examId,
-        questionId,
-        examineeId: decodedToken.examineeId,
-        examineeAnswer: inputValue,
-      })
+      .post(
+        "http://localhost:4000/examinee/storeExamineeAnswer" ||
+          "http://192.168.1.10:4000/examinee/storeExamineeAnswer",
+        {
+          examId,
+          questionId,
+          examineeId: decodedToken.examineeId,
+          examineeAnswer: inputValue,
+        }
+      )
       .then((res) => {
         // setExamQuestions(res.data.questions);
         console.log(res.data);
@@ -49,11 +53,15 @@ const ExamineeExam = () => {
 
   const getExamQuestions = () => {
     axios
-      .get("http://localhost:4000/exam/getExamQuestions", {
-        params: {
-          examId,
-        },
-      })
+      .get(
+        "http://localhost:4000/exam/getExamQuestions" ||
+          "http://192.168.1.10:4000/exam/getExamQuestions",
+        {
+          params: {
+            examId,
+          },
+        }
+      )
       .then((res) => {
         setExamQuestions(res.data.questions);
       })
@@ -67,12 +75,16 @@ const ExamineeExam = () => {
 
   const evaluateQuestions = async () => {
     await axios
-      .get("http://localhost:4000/evaluate/evaluateQuestions", {
-        params: {
-          examId,
-          examineeId: decodedToken.examineeId,
-        },
-      })
+      .get(
+        "http://localhost:4000/evaluate/evaluateQuestions",
+        "http://192.168.1.10:4000/evaluate/evaluateQuestions",
+        {
+          params: {
+            examId,
+            examineeId: decodedToken.examineeId,
+          },
+        }
+      )
       .then((res) => {
         console.log(res);
       })
@@ -83,12 +95,16 @@ const ExamineeExam = () => {
 
   const evaluateExam = async () => {
     await axios
-      .get("http://localhost:4000/evaluate/evaluateExam", {
-        params: {
-          examId,
-          examineeId: decodedToken.examineeId,
-        },
-      })
+      .get(
+        "http://localhost:4000/evaluate/evaluateExam",
+        "http://192.168.1.10:4000/evaluate/evaluateExam",
+        {
+          params: {
+            examId,
+            examineeId: decodedToken.examineeId,
+          },
+        }
+      )
       .then((res) => {
         console.log(res);
       })

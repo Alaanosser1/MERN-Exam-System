@@ -12,12 +12,11 @@ import AddQuestion from "./components/AddQuestion";
 import EditAndPreviewExam from "./components/EditAndPreviewExam";
 import CreateExamForm from "./components/CreateExamForm";
 import CreateExamStep2 from "./components/CreateExamStep2";
-import ExamineeHome from "./Pages/ExamineeHome";
-import ExamineeExam from "./Pages/ExamineeExam";
 import PrivateRoutesInstructor from "./ustils/PrivateRoutesInstructor";
 import Reports from "./Pages/Reports";
 import ExamReportDetails from "./Pages/ExamReportDetails";
 import QuestionsReportDetails from "./Pages/QuestionsReportDetails";
+import Footer from "./components/Footer";
 
 function App() {
   console.log(window.location);
@@ -62,6 +61,9 @@ function App() {
             </Route>
           </Routes>
         </div>
+      </div>
+      <div className="row">
+        <Footer />
       </div>
     </div>
   );

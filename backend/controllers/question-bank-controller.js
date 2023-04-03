@@ -13,7 +13,7 @@ export const createQuestionBank = (req, res) => {
 
   const schema = Joi.object().keys({
     questionBankName: Joi.string().required(),
-    questionBankDescription: Joi.string().min(3).required(),
+    questionBankDescription: Joi.string().required(),
   });
   const result = schema.validate(req.body);
   if (result.error) {

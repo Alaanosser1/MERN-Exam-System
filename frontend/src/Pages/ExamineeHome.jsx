@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from "react";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import axios from "axios";
-import ExamineeExam from "./ExamineeExam";
+import Footer from "../components/Footer";
 
 const ExamineeHome = () => {
   const [exams, setExams] = useState([]);
@@ -12,7 +12,10 @@ const ExamineeHome = () => {
 
   const getExams = () => {
     axios
-      .get("http://localhost:4000/exam/getExams")
+      .get(
+        "http://localhost:4000/exam/getExams" ||
+          "http://192.168.1.10:4000/exam/getExams"
+      )
       .then((res) => {
         console.log(res.data.exams, "EXAMS");
         setExams(res.data.exams);
@@ -21,13 +24,16 @@ const ExamineeHome = () => {
         console.log(error);
       });
   };
+
   const startExamHandler = (examId) => {
     if (localStorage.getItem("examinee-token")) {
-      navigate(`/examineeExam/${examId}`);
+      // navigate(`/examineeExam/${examId}`);
+      window.open(`/examineeExam/${examId}`, "_blank");
     } else {
-      navigate(`/examineePreExam/${examId}`);
+      navigate(`/examineePreExam`);
     }
   };
+
   return (
     <>
       <div className="container w-100 h-100 p-5">
@@ -56,22 +62,6 @@ const ExamineeHome = () => {
                       عدد الاسئلة {exam[1].NumberOfQuestions}
                     </p>
                     <div className="row">
-                      {/* <Link
-                        to={`/ExamineeExam/${exam[1].exam_id}`}
-                        className={`btn btn-outline-primary ${
-                          exam[1].NumberOfQuestions < 1 && "disabled"
-                        }`}
-                      >
-                        ابدأ الامتحان
-                      </Link> */}
-                      {/* <Link
-                        to={`/examineePreExam/${exam[1].exam_id}`}
-                        className={`btn btn-outline-primary ${
-                          exam[1].NumberOfQuestions < 1 && "disabled"
-                        }`}
-                      >
-                        ابدأ الامتحان
-                      </Link> */}
                       <button
                         onClick={(e) => {
                           e.preventDefault();
@@ -89,6 +79,9 @@ const ExamineeHome = () => {
               </div>
             );
           })}
+        </div>
+        <div className="row">
+          <Footer />
         </div>
       </div>
     </>

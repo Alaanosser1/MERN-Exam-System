@@ -2,16 +2,12 @@ import { React, useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
-import CreateExamStep2 from "./CreateExamStep2";
-import Popup from "./Popup";
 
 const EditAndPreviewExam = () => {
   let { examId } = useParams();
-  const [questionBanks, setQuestionBanks] = useState([]);
   const [examQuestions, setExamQuestions] = useState([]);
   const [exam, setExam] = useState("");
   const [showCreateExamStep2, setShowCreateExamStep2] = useState(false);
-  const [questionId, setQuestionId] = useState([]);
   const user = JSON.parse(localStorage.getItem("instructor-token"));
 
   useEffect(() => {
@@ -26,14 +22,18 @@ const EditAndPreviewExam = () => {
 
   const getExam = () => {
     axios
-      .get("http://localhost:4000/exam/getExam", {
-        // headers: {
-        //   "auth-token": user.token,
-        // },
-        params: {
-          examId,
-        },
-      })
+      .get(
+        "http://localhost:4000/exam/getExam" ||
+          "http://192.168.1.10:4000/exam/getExam",
+        {
+          // headers: {
+          //   "auth-token": user.token,
+          // },
+          params: {
+            examId,
+          },
+        }
+      )
       .then((res) => {
         console.log(res.data.exam[0], "EXAM");
         setExam(res.data.exam[0]);
@@ -51,15 +51,19 @@ const EditAndPreviewExam = () => {
     }).then((res) => {
       if (res.isConfirmed) {
         axios
-          .delete("http://localhost:4000/exam/removeQuestionFromExam", {
-            params: {
-              examId,
-              questionId: question.question_id,
-            },
-            headers: {
-              "auth-token": user.token,
-            },
-          })
+          .delete(
+            "http://localhost:4000/exam/removeQuestionFromExam" ||
+              "http://192.168.1.10:4000/exam/removeQuestionFromExam",
+            {
+              params: {
+                examId,
+                questionId: question.question_id,
+              },
+              headers: {
+                "auth-token": user.token,
+              },
+            }
+          )
           .then((res) => {
             console.log(res.data);
             getExamQuestions();
@@ -72,14 +76,18 @@ const EditAndPreviewExam = () => {
   };
   const getExamQuestions = () => {
     axios
-      .get("http://localhost:4000/exam/getExamQuestions", {
-        params: {
-          examId,
-        },
-        headers: {
-          "auth-token": user.token,
-        },
-      })
+      .get(
+        "http://localhost:4000/exam/getExamQuestions",
+        "http://192.168.1.10:4000/exam/getExamQuestions",
+        {
+          params: {
+            examId,
+          },
+          headers: {
+            "auth-token": user.token,
+          },
+        }
+      )
       .then((res) => {
         console.log(res.data, "Exams");
         setExamQuestions(res.data.questions);
@@ -90,7 +98,7 @@ const EditAndPreviewExam = () => {
   };
   return (
     <>
-      <div className="container list-container m-5">
+      <div dir="rtl" className="container list-container m-5">
         <div className="row">
           <div className="col-9 mt-5">
             <h1>{exam.exam_name}</h1>
@@ -133,7 +141,7 @@ const EditAndPreviewExam = () => {
                           }}
                           className="btn btn-outline-danger m-2 w-100"
                         >
-                          حذم
+                          حذف
                         </button>
                       </div>
                     </div>

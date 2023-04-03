@@ -50,11 +50,15 @@ const CreateExamStep2 = (props) => {
 
   const getQuestionBanks = () => {
     axios
-      .get("http://localhost:4000/questionBank/getQuestionBanks", {
-        headers: {
-          "auth-token": user.token,
-        },
-      })
+      .get(
+        "http://localhost:4000/questionBank/getQuestionBanks" ||
+          "http://192.168.1.10:4000/questionBank/getQuestionBanks",
+        {
+          headers: {
+            "auth-token": user.token,
+          },
+        }
+      )
       .then((res) => {
         console.log(res.data.questionBanks, "QUESTIONBANKS");
         setQuestionBanks(res.data.questionBanks);

@@ -33,11 +33,15 @@ const Exams = () => {
 
   const getExams = () => {
     axios
-      .get("http://localhost:4000/exam/getExams", {
-        headers: {
-          "auth-token": user.token,
-        },
-      })
+      .get(
+        "http://localhost:4000/exam/getExams" ||
+          "http://192.168.1.10:4000/exam/getExams",
+        {
+          headers: {
+            "auth-token": user.token,
+          },
+        }
+      )
       .then((res) => {
         console.log(res.data.exams, "EXAMS");
         setSearchResults(res.data.exams);
@@ -56,14 +60,18 @@ const Exams = () => {
     }).then((res) => {
       if (res.isConfirmed) {
         axios
-          .delete(`http://localhost:4000/exam/deleteExam`, {
-            params: {
-              examId: exam.exam_id,
-            },
-            headers: {
-              "auth-token": user.token,
-            },
-          })
+          .delete(
+            `http://192.168.1.10:4000/exam/deleteExam` ||
+              `http://localhost:4000/exam/deleteExam`,
+            {
+              params: {
+                examId: exam.exam_id,
+              },
+              headers: {
+                "auth-token": user.token,
+              },
+            }
+          )
           .then((res) => {
             console.log(res.data);
             getExams();

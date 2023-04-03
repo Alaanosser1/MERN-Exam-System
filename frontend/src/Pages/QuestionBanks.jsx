@@ -46,11 +46,16 @@ export default function QuestionBanks() {
 
   const getQuestionBanks = () => {
     axios
-      .get("http://localhost:4000/questionBank/getQuestionBanks", {
-        headers: {
-          "auth-token": user.token,
-        },
-      })
+      .get(
+        "http://localhost:4000/questionBank/getQuestionBanks" ||
+          "http://192.168.1.10:4000/questionBank/getQuestionBanks",
+
+        {
+          headers: {
+            "auth-token": user.token,
+          },
+        }
+      )
       .then((res) => {
         console.log(res.data.questionBanks, "QUESTIONBANKS");
         setQuestionBanks(res.data.questionBanks);
@@ -68,14 +73,18 @@ export default function QuestionBanks() {
     }).then((res) => {
       if (res.isConfirmed) {
         axios
-          .delete(`http://localhost:4000/questionBank/deleteQuestionBank`, {
-            params: {
-              questionBankId: questionBank.question_bank_id,
-            },
-            headers: {
-              "auth-token": user.token,
-            },
-          })
+          .delete(
+            `http://localhost:4000/questionBank/deleteQuestionBank` ||
+              `http://192.168.1.10:4000/questionBank/deleteQuestionBank`,
+            {
+              params: {
+                questionBankId: questionBank.question_bank_id,
+              },
+              headers: {
+                "auth-token": user.token,
+              },
+            }
+          )
           .then((res) => {
             console.log(res.data);
             getQuestionBanks();
@@ -88,7 +97,8 @@ export default function QuestionBanks() {
     console.log(questionBankId);
     axios
       .put(
-        `http://localhost:4000/questionBank/editQuestionBank`,
+        `http://localhost:4000/questionBank/editQuestionBank` ||
+          `http://192.168.1.10:4000/questionBank/editQuestionBank`,
         {
           questionBankId,
           questionBankName,
@@ -132,7 +142,7 @@ export default function QuestionBanks() {
                   autoFocus
                   className="form-control form-control-lg mt-2"
                   type="text"
-                  placeholder="Name"
+                  placeholder="الاسم"
                   aria-label=".form-control-lg example"
                   {...register("nameRequired", { required: true })}
                   onChange={(e) => {
@@ -140,13 +150,15 @@ export default function QuestionBanks() {
                     console.log(e.target.value);
                   }}
                 />
+
                 {errors.nameRequired && (
-                  <span className="text-danger">من فضلك ادخل الامس*</span>
+                  <span className="text-danger">من فضلك ادخل الاسم*</span>
                 )}
+
                 <input
                   className="form-control form-control-lg mt-2"
                   type="text"
-                  placeholder="Description"
+                  placeholder="الوصف"
                   aria-label=".form-control-lg example"
                   {...register("descriptionRequired", { required: true })}
                   onChange={(e) => {
@@ -154,9 +166,11 @@ export default function QuestionBanks() {
                     console.log(e.target.value);
                   }}
                 />
+
                 {errors.descriptionRequired && (
                   <span className="text-danger">من فضلك ادخل الوصف*</span>
                 )}
+
                 <br></br>
                 <button type="submit" className="btn btn-primary mt-3 w-25">
                   اضافة
@@ -212,7 +226,6 @@ export default function QuestionBanks() {
                   <td className="text-center">
                     <Link to={`/app/questionBanks/${bank[1].question_bank_id}`}>
                       <button className="btn btn-outline-primary m-2">
-                        {" "}
                         عرض
                       </button>
                     </Link>

@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import Footer from "../components/Footer";
 
 const ExamineePreExam = () => {
   const [type, setType] = useState("");
@@ -15,6 +16,7 @@ const ExamineePreExam = () => {
   const [entity, setEntity] = useState("");
   const navigate = useNavigate();
   const examId = useParams();
+
   const {
     register,
     handleSubmit,
@@ -24,23 +26,28 @@ const ExamineePreExam = () => {
   const formSubmit = () => {
     console.log("submitted");
     axios
-      .post(`http://localhost:4000/examinee/addExaminee`, {
-        name,
-        type,
-        seniorityNumber,
-        policeNumber,
-        codeNumber,
-        clubNumber,
-        clubName,
-        rank,
-        entity,
-      })
+      .post(
+        `
+      http://localhost:4000/examinee/addExaminee` ||
+          `http://192.168.1.10:4000/examinee/addExaminee`,
+        {
+          name,
+          type,
+          seniorityNumber,
+          policeNumber,
+          codeNumber,
+          clubNumber,
+          clubName,
+          rank,
+          entity,
+        }
+      )
       .then((res) => {
         console.log(res);
         if (res.data.token) {
           localStorage.setItem("examinee-token", JSON.stringify(res.data));
         }
-        window.open(`/examineeExam/${examId.examId}`, "_blank");
+        // window.open(`/examineeExam/${examId.examId}`, "_blank");
         navigate(`/ExamineeHome`);
       })
       .catch((err) => {
@@ -463,6 +470,9 @@ const ExamineePreExam = () => {
             )
           )}
         </form>
+      </div>
+      <div className="row">
+        <Footer />
       </div>
     </>
   );
