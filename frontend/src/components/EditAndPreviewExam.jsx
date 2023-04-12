@@ -77,8 +77,8 @@ const EditAndPreviewExam = () => {
   const getExamQuestions = () => {
     axios
       .get(
-        "http://localhost:4000/exam/getExamQuestions",
-        "http://192.168.1.10:4000/exam/getExamQuestions",
+        "http://localhost:4000/exam/getExamQuestions" ||
+          "http://192.168.1.10:4000/exam/getExamQuestions",
         {
           params: {
             examId,

@@ -5,12 +5,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import "../styles/Popup.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCoffee,
-  faLongArrowRight,
-  faMinus,
-  faPlus,
-} from "@fortawesome/free-solid-svg-icons";
+import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
@@ -105,7 +100,7 @@ function AddQuestion(props) {
         onChange={handleOnChangeCorrectAnswer}
       >
         <option disabled selected value="">
-          Choose Question Type
+          اختر الاجابة الصحيحة
         </option>
         {optionList.map((option, i) => {
           return (
@@ -128,7 +123,7 @@ function AddQuestion(props) {
     questionType === "Mcq" &&
       (result = (
         <div>
-          <h5 className="m-3">Question Header</h5>
+          <h5 className="m-3">رأس السؤال</h5>
           <textarea
             autoFocus
             className="form-control m-3"
@@ -140,7 +135,7 @@ function AddQuestion(props) {
             }}
           />
           {errors.headerRequired && (
-            <span className="text-danger m-3">This field is required</span>
+            <span className="text-danger m-3">من فضلك ادخل رأس السؤال</span>
           )}
           <div className="row p-3">
             <div className="col-11"></div>
@@ -163,7 +158,7 @@ function AddQuestion(props) {
           {optionList.map((singleOption, index) => (
             <div key={index} className="options">
               <div className="row">
-                <h5 className="ms-3">Option {index + 1}</h5>
+                <h5 className="me-3">الاختيار رقم {index + 1}</h5>
               </div>
               <div className="row p-3">
                 <div className="col-11">
@@ -191,10 +186,12 @@ function AddQuestion(props) {
               </div>
             </div>
           ))}
-          <h5 className="m-3 ">Correct Answer</h5>
+          <h5 className="m-3 ">الاجابة الصحيحة</h5>
           {renderAnswerOptions()}
           {errors.correctAnswerRequired && (
-            <span className="text-danger m-3">This field is required</span>
+            <span className="text-danger m-3">
+              من فضلك اختر الاجابة الصحيحة*
+            </span>
           )}
         </div>
       ));
@@ -234,10 +231,10 @@ function AddQuestion(props) {
     return result;
   };
   return (
-    <div className="container align-content-end">
-      <h1 className="m-3 w-75">Add Question</h1>
+    <div dir="rtl" className="container align-content-end">
+      <h1 className="m-3 w-75">اضافة سؤال جديد</h1>
       <form onSubmit={handleSubmit(formSubmit)}>
-        <h5 className="m-3 mt-5">Choose Question Type</h5>
+        <h5 className="m-3 mt-5">نوع السؤال</h5>
         <select
           className="form-select m-3"
           aria-label="Default select example"
@@ -245,18 +242,19 @@ function AddQuestion(props) {
           value={questionType}
           onChange={handleOnChangeQuestionType}
         >
-          <option value="">Choose Question Type</option>
-          <option value="Mcq">MCQ</option>
-          <option value="Essay">Essay</option>
+          <option value="" disabled selected>
+            اختر نوع السؤال
+          </option>
+          <option value="Mcq">الاختيارات المتعددة</option>
         </select>
 
         {errors.questionTypeRequired && (
-          <span className="text-danger m-3">This field is required!</span>
+          <span className="text-danger m-3">من فضلك اختر نوع السؤال*</span>
         )}
         <br></br>
         {renderBasedOnQuestionType()}
-        <button type="submit" className="btn btn-primary m-3 w-25">
-          Add
+        <button type="submit" className="btn btn-outline-primary m-3 w-25">
+          اضافة
         </button>
       </form>
     </div>

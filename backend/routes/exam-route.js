@@ -25,7 +25,7 @@ examRouter.get(
   auth,
   getQuestionBankQuestionsToAddQuestionsToExam
 );
-examRouter.delete("/deleteExam", auth, deleteExam);
+examRouter.delete("/deleteExam", deleteExam);
 examRouter.delete("/removeQuestionFromExam", auth, removeQuestionFromExam);
 examRouter.put("/editExam", auth, editExam);
 examRouter.post("/assignQuestionToExam", auth, assignQuestionToExam);

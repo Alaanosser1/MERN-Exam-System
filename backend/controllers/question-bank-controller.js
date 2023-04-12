@@ -39,24 +39,28 @@ export const createQuestionBank = (req, res) => {
       });
     });
 };
+
 export const getQuestionBanks = async (req, res) => {
-  let questionBanks;
+  let questionBanks = [];
   let isError = false;
   try {
     await connection
       .promise()
       .query(`SELECT * FROM question_bank`)
       .then((data) => {
-        console.log(data[0], "1ST");
-        questionBanks = data[0];
+        for (let i = 0; i < data[0].length; i++) {
+          if (data[0][i].is_deleted == 0) {
+            questionBanks.push(data[0][i]);
+          }
+        }
       })
       .catch((error) => {
+        console.log(error);
         res.status(500).json({
           status: "error",
           msg: "500 internal server error",
         });
       });
-    console.log(questionBanks, "2ND");
     for (let i = 0; i < questionBanks.length; i++) {
       await connection
         .promise()
@@ -87,6 +91,7 @@ export const getQuestionBanks = async (req, res) => {
 
 export const getQuestions = (req, res) => {
   const questionBankId = req.query.questionBank;
+  let questions = [];
 
   connection
     .promise()
@@ -94,7 +99,12 @@ export const getQuestions = (req, res) => {
       `SELECT * FROM question WHERE question_bank_id = '${questionBankId}'`
     )
     .then((data) => {
-      res.status(200).send(data[0]);
+      for (let i = 0; i < data[0].length; i++) {
+        if (data[0][i].is_deleted == 0) {
+          questions.push(data[0][i]);
+        }
+      }
+      res.status(200).send(questions);
     })
     .catch((error) => {
       console.log(error);
@@ -111,7 +121,8 @@ export const deleteQuestionBank = (req, res) => {
     .promise()
     .query(
       `
-        DELETE FROM question_bank
+        UPDATE question_bank
+        SET is_deleted = '1'
         WHERE question_bank_id = '${questionBankId}'
         `
     )
@@ -136,6 +147,7 @@ export const deleteQuestionBank = (req, res) => {
       });
     });
 };
+
 export const editQuestionBank = (req, res) => {
   const questionBankName = req.body.questionBankName;
   const questionBankDescription = req.body.questionBankDescription;

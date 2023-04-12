@@ -1,9 +1,5 @@
-import express from "express";
 import connection from "../database.js";
 
-const app = express();
-
-//Add new Instructor
 export const createExam = (req, res) => {
   const examName = req.body.examName;
   const examDescription = req.body.examDescription;
@@ -80,11 +76,13 @@ export const editExam = (req, res) => {
 
 export const deleteExam = (req, res) => {
   const examId = req.query.examId;
+  console.log(examId, "IDIDIDI");
   connection
     .promise()
     .query(
       `
-          DELETE FROM exam
+          UPDATE exam
+          SET is_deleted = '1'
           WHERE exam_id = '${examId}'
           `
     )
@@ -111,41 +109,47 @@ export const deleteExam = (req, res) => {
 };
 
 export const getExams = async (req, res) => {
-  let exams;
+  let exams = [];
   let isError = false;
-  try {
+  await connection
+    .promise()
+    .query(`SELECT * FROM exam`)
+    .then((data) => {
+      for (let i = 0; i < data[0].length; i++) {
+        if (data[0][i].is_deleted == 0) {
+          exams.push(data[0][i]);
+        }
+      }
+    })
+    .catch((error) => {
+      isError = true;
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 internal server error",
+      });
+    });
+  for (let i = 0; i < exams.length; i++) {
     await connection
       .promise()
-      .query(`SELECT * FROM exam`)
+      .query(
+        `SELECT COUNT(*) as count FROM exam_has_question WHERE exam_id = ${exams[i].exam_id} `
+      )
       .then((data) => {
-        exams = data[0];
+        Object.assign(exams[i], {
+          NumberOfQuestions: data[0][0].count,
+        });
       })
       .catch((error) => {
+        isError = true;
+        console.log(error);
         res.status(500).json({
           status: "error",
           msg: "500 internal server error",
         });
       });
-    for (let i = 0; i < exams.length; i++) {
-      await connection
-        .promise()
-        .query(
-          `SELECT COUNT(*) as count FROM exam_has_question WHERE exam_id = ${exams[i].exam_id} `
-        )
-        .then((data) => {
-          Object.assign(exams[i], {
-            NumberOfQuestions: data[0][0].count,
-          });
-        });
-    }
-  } catch (error) {
-    isError = true;
-    console.log(error);
-    res.status(500).json({
-      status: "error",
-      msg: "500 internal server error",
-    });
   }
+
   if (!isError) {
     res.status(200).json({
       exams: exams,
@@ -166,6 +170,7 @@ export const getExamQuestions = (req, res) => {
     `
     )
     .then((data) => {
+      console.log(data[0], "examQUESTIONS");
       res.status(200).json({
         questions: data[0],
       });
@@ -178,6 +183,7 @@ export const getExamQuestions = (req, res) => {
       });
     });
 };
+
 export const removeQuestionFromExam = (req, res) => {
   const examId = req.query.examId;
   const questionId = req.query.questionId;
@@ -239,6 +245,7 @@ export const assignQuestionToExam = (req, res) => {
       });
     });
 };
+
 export const getQuestionBankQuestionsToAddQuestionsToExam = (req, res) => {
   const questionBankId = req.query.questionBankId;
   const examId = req.query.examId;

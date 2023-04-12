@@ -61,8 +61,8 @@ const Exams = () => {
       if (res.isConfirmed) {
         axios
           .delete(
-            `http://192.168.1.10:4000/exam/deleteExam` ||
-              `http://localhost:4000/exam/deleteExam`,
+            `http://localhost:4000/exam/deleteExam` ||
+              `http://192.168.1.10:4000/exam/deleteExam`,
             {
               params: {
                 examId: exam.exam_id,
@@ -75,6 +75,7 @@ const Exams = () => {
           .then((res) => {
             console.log(res.data);
             getExams();
+            console.log("deleted");
           });
       }
     });

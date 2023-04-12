@@ -8,6 +8,8 @@ import questionBankRouter from "./routes/question-bank-route.js";
 import questionRouter from "./routes/question-route.js";
 import examRouter from "./routes/exam-route.js";
 import evaluateRouter from "./routes/evaluation-route.js";
+import mainClubRoute from "./routes/main-club-route.js";
+import subClubRoute from "./routes/sub-club-route.js";
 
 const app = express();
 
@@ -34,6 +36,8 @@ app.use("/questionBank", questionBankRouter);
 app.use("/question", questionRouter);
 app.use("/exam", examRouter);
 app.use("/evaluate", evaluateRouter);
+app.use("/mainClub", mainClubRoute);
+app.use("/subClub", subClubRoute);
 
 app.use((error, req, res, next) => {
   if (error.status == 404) {

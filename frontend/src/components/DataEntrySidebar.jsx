@@ -13,7 +13,7 @@ import {
   faNoteSticky,
 } from "@fortawesome/free-solid-svg-icons";
 
-export default function SideBar() {
+export default function DataEntrySidebar() {
   const navigate = useNavigate();
   const logout = () => {
     localStorage.removeItem("instructor-token");
@@ -37,8 +37,9 @@ export default function SideBar() {
           <li>
             <a href="#">
               <i className="fas fa-user"></i>
-              <Link to={"/app/questionBanks"}>
-                <FontAwesomeIcon icon={faBuildingColumns} /> &nbsp; بنوك الاسئلة
+              <Link to={"/clubs/mainClubs"}>
+                <FontAwesomeIcon icon={faBuildingColumns} /> &nbsp; الفرق
+                الرئيسية
               </Link>
             </a>
           </li>
@@ -46,11 +47,11 @@ export default function SideBar() {
             <a>
               <i className="fas fa-user"></i>
               <Link to={"/app/exams"}>
-                <FontAwesomeIcon icon={faPen} /> &nbsp; الامتحانات
+                <FontAwesomeIcon icon={faPen} /> &nbsp; الدارسين
               </Link>
             </a>
           </li>
-          <li>
+          {/* <li>
             <a>
               <i className="fas fa-user"></i>
               <Link to={"/app/reports"}>
@@ -62,7 +63,7 @@ export default function SideBar() {
             <a href="/" onClick={logout}>
               <FontAwesomeIcon icon={faSignOut} /> &nbsp; تسجيل الخروج
             </a>
-          </li>
+          </li> */}
         </div>
       </nav>
     </>

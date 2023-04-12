@@ -76,3 +76,11 @@ html, body{
 	text-align: center;
 	font-size: larger;
   }
+
+  .pagination-row{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 50px;
+	margin-top: 6% ;
+  }

@@ -21,6 +21,8 @@ import AddQuestionBank from "./components/AddQuestionBank";
 import ExamineePreExam from "./Pages/ExamineePreExam";
 import InstructorSignUp from "./Pages/InstructorSignUp";
 import PrivateRoutesExaminee from "./ustils/PrivateRoutesExaminee";
+import MainClubs from "./Pages/MainClubs";
+import Clubs from "./Clubs";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -34,12 +36,15 @@ root.render(
         <Route path="/ExamineeExam/:examId" element={<ExamineeExam />} />
       </Route>
       <Route path="/login" element={<Login />} />
+      {/* <Route path="/mainClubs" element={<MainClubs />} /> */}
       <Route path="/register" element={<InstructorSignUp />} />
 
+      <Route path="clubs/*" element={<Clubs />}>
+        <Route path="clubs/mainClubs" element={<MainClubs />} />
+      </Route>
       <Route path="app/*" element={<App />}>
         <Route path="app/exams" element={<Exams />} />
         <Route path="app/home" element={<Home />} />
-        //
         <Route path="app/exams/:examId" element={<EditAndPreviewExam />} />
         <Route path="app/exams/createExamForm" element={<CreateExamForm />} />
         <Route

@@ -92,7 +92,8 @@ export function deleteQuestion(req, res) {
     .promise()
     .query(
       `
-        DELETE FROM question
+        UPDATE question
+        SET is_deleted = '1'
         WHERE question_id = '${questionId}'
         `
     )

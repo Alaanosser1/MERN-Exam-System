@@ -60,10 +60,8 @@ function App() {
               </Route>
             </Route>
           </Routes>
+          <Footer />
         </div>
-      </div>
-      <div className="row">
-        <Footer />
       </div>
     </div>
   );
