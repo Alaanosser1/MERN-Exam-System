@@ -4,7 +4,8 @@ const Footer = () => {
   return (
     <>
       <div className="footer bg-primary">
-        اشراف: عميد/ حاتم الخطيب &nbsp;&nbsp; تنفيذ: مهندس/ علاء محمد محمد نصير
+        اشراف: عميد/ حاتم الخطيب &nbsp;&nbsp; تنفيذ: مهندس/ علاء محمد محمد
+        &nbsp;&nbsp; 01119037502
       </div>
     </>
   );

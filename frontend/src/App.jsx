@@ -17,6 +17,9 @@ import Reports from "./Pages/Reports";
 import ExamReportDetails from "./Pages/ExamReportDetails";
 import QuestionsReportDetails from "./Pages/QuestionsReportDetails";
 import Footer from "./components/Footer";
+import MainQuestionBanks from "./Pages/MainQuestionBanks";
+import ViewMainQuestionBank from "./components/ViewMainQuestionBank";
+import CreateExamStep1 from "./components/CreateExamStep1";
 
 function App() {
   console.log(window.location);
@@ -34,10 +37,22 @@ function App() {
               <Route path="/exams/:examId" element={<EditAndPreviewExam />} />
               <Route path="exams/createExamForm" element={<CreateExamForm />} />
               <Route
-                path="exams/:examId/addQuestions"
+                path="exams/:examId/mainQuestionBanks"
+                element={<CreateExamStep1 />}
+              />
+              <Route
+                path="exams/:examId/mainQuestionBank/:mainQuestionBankId/addQuestions"
                 element={<CreateExamStep2 />}
               />
               <Route path="/questionBanks" element={<QuestionBanks />} />
+              <Route
+                path="/mainQuestionBanks"
+                element={<MainQuestionBanks />}
+              />
+              <Route
+                path="/mainQuestionBanks/:mainQuestionBankId"
+                element={<ViewMainQuestionBank />}
+              />
               <Route
                 path="/questionBanks/:questionBankId"
                 element={<ViewQuestionBank />}

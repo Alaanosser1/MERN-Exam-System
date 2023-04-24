@@ -1,13 +1,21 @@
-const SearchBar = ({ content, setSearchResults }) => {
+const StudentSearch = ({ content, setSearchResults }) => {
   const handleSubmit = (e) => e.preventDefault();
 
   const handleSearchChange = (e) => {
     if (!e.target.value) return setSearchResults(content);
-
+    console.log(content, "CONTET");
     const resultsArray = content.filter(
       (value) =>
-        value.exam_name.toUpperCase().includes(e.target.value.toUpperCase()) ||
-        value.exam_description
+        value.examinee_name
+          .toUpperCase()
+          .includes(e.target.value.toUpperCase()) ||
+        value.examinee_police_number
+          .toUpperCase()
+          .includes(e.target.value.toUpperCase()) ||
+        value.examinee_civilian_number
+          .toUpperCase()
+          .includes(e.target.value.toUpperCase()) ||
+        value.examinee_seniority_number
           .toUpperCase()
           .includes(e.target.value.toUpperCase())
     );
@@ -21,7 +29,6 @@ const SearchBar = ({ content, setSearchResults }) => {
     <input
       type="text"
       class="form-control w-25"
-      placeholder="بحث"
       dir="rtl"
       aria-label="Username"
       aria-describedby="basic-addon1"
@@ -29,4 +36,4 @@ const SearchBar = ({ content, setSearchResults }) => {
     />
   );
 };
-export default SearchBar;
+export default StudentSearch;

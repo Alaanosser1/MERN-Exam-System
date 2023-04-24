@@ -29,7 +29,7 @@ export default function DataEntrySidebar() {
           <li>
             <a className="w-100 h-100" href="#">
               <i className="fas fa-home"></i>
-              <Link to={"/app/home"}>
+              <Link to={"/clubs"}>
                 <FontAwesomeIcon icon={faHome} /> &nbsp; الرئيسية
               </Link>
             </a>
@@ -39,14 +39,13 @@ export default function DataEntrySidebar() {
               <i className="fas fa-user"></i>
               <Link to={"/clubs/mainClubs"}>
                 <FontAwesomeIcon icon={faBuildingColumns} /> &nbsp; الفرق
-                الرئيسية
               </Link>
             </a>
           </li>
           <li>
             <a>
               <i className="fas fa-user"></i>
-              <Link to={"/app/exams"}>
+              <Link to={"/clubs/students"}>
                 <FontAwesomeIcon icon={faPen} /> &nbsp; الدارسين
               </Link>
             </a>

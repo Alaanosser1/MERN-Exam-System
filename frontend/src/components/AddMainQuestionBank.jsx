@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-export default function AddQuestionBank(props) {
+export default function AddMainQuestionBank(props) {
   const [questionBankName, setName] = useState("");
   const [questionBankDescription, setDescription] = useState("");
   const {
@@ -17,12 +17,11 @@ export default function AddQuestionBank(props) {
   const formSubmit = () => {
     axios
       .post(
-        "http://localhost:4000/questionBank/createQuestionBank" ||
-          "http://192.168.1.10:4000/questionBank/createQuestionBank",
+        "http://localhost:4000/mainQuestionBank/createMainQuestionBank" ||
+          "http://192.168.1.10:4000/mainQuestionBank/createMainQuestionBank",
         {
           questionBankName,
           questionBankDescription,
-          mainQuestionBankId: props.mainQuestionBankId,
         },
         {
           headers: {

@@ -5,17 +5,15 @@ import Joi from "joi";
 const app = express();
 
 //Add new Instructor
-export const createQuestionBank = (req, res) => {
+export const createMainQuestionBank = (req, res) => {
   const questionBankName = req.body.questionBankName;
   const questionBankDescription = req.body.questionBankDescription;
-  const mainQuestionBankId = req.body.mainQuestionBankId;
 
   console.log(questionBankName, "QuestionBank");
 
   const schema = Joi.object().keys({
     questionBankName: Joi.string().required(),
     questionBankDescription: Joi.string().required(),
-    mainQuestionBankId: Joi.allow(),
   });
   const result = schema.validate(req.body);
   if (result.error) {
@@ -24,8 +22,8 @@ export const createQuestionBank = (req, res) => {
   connection
     .promise()
     .query(
-      `INSERT INTO question_bank(question_bank_name, question_bank_description, main_question_bank_id)
-        VALUES('${questionBankName}','${questionBankDescription}', '${mainQuestionBankId}')`
+      `INSERT INTO main_question_bank(main_question_bank_name, main_question_bank_description)
+        VALUES('${questionBankName}','${questionBankDescription}')`
     )
     .then((data) => {
       res.status(201).json({
@@ -42,16 +40,13 @@ export const createQuestionBank = (req, res) => {
     });
 };
 
-export const getQuestionBanks = async (req, res) => {
-  const mainQuestionBankId = req.query.mainQuestionBankId;
+export const getMainQuestionBanks = async (req, res) => {
   let questionBanks = [];
   let isError = false;
   try {
     await connection
       .promise()
-      .query(
-        `SELECT * FROM question_bank WHERE main_question_bank_id = '${mainQuestionBankId}'`
-      )
+      .query(`SELECT * FROM main_question_bank`)
       .then((data) => {
         for (let i = 0; i < data[0].length; i++) {
           if (data[0][i].is_deleted == 0) {
@@ -70,11 +65,12 @@ export const getQuestionBanks = async (req, res) => {
       await connection
         .promise()
         .query(
-          `SELECT COUNT(*) as count FROM question WHERE question_bank_id = ${questionBanks[i].question_bank_id} `
+          `SELECT COUNT(*) as count FROM question_bank WHERE main_question_bank_id 
+          = '${questionBanks[i].question_bank_id}' `
         )
         .then((data) => {
           Object.assign(questionBanks[i], {
-            NumberOfQuestions: data[0][0].count,
+            NumberOfQuestionBanks: data[0][0].count,
           });
         });
     }
@@ -94,41 +90,15 @@ export const getQuestionBanks = async (req, res) => {
   }
 };
 
-export const getQuestions = (req, res) => {
-  const questionBankId = req.query.questionBank;
-  let questions = [];
-
-  connection
-    .promise()
-    .query(
-      `SELECT * FROM question WHERE question_bank_id = '${questionBankId}'`
-    )
-    .then((data) => {
-      for (let i = 0; i < data[0].length; i++) {
-        if (data[0][i].is_deleted == 0) {
-          questions.push(data[0][i]);
-        }
-      }
-      res.status(200).send(questions);
-    })
-    .catch((error) => {
-      console.log(error);
-      res.status(500).json({
-        status: "error",
-        msg: "500 internal server error",
-      });
-    });
-};
-
-export const deleteQuestionBank = (req, res) => {
+export const deleteMainQuestionBank = (req, res) => {
   const questionBankId = req.query.questionBankId;
   connection
     .promise()
     .query(
       `
-        UPDATE question_bank
+        UPDATE main_question_bank
         SET is_deleted = '1'
-        WHERE question_bank_id = '${questionBankId}'
+        WHERE main_question_bank_id = '${questionBankId}'
         `
     )
     .then((data) => {
@@ -153,13 +123,13 @@ export const deleteQuestionBank = (req, res) => {
     });
 };
 
-export const editQuestionBank = (req, res) => {
+export const editMainQuestionBank = (req, res) => {
   const questionBankName = req.body.questionBankName;
   const questionBankDescription = req.body.questionBankDescription;
   const questionBankId = req.body.questionBankId;
   const schema = Joi.object().keys({
-    questionBankName: Joi.string().min(3).required(),
-    questionBankDescription: Joi.string().min(3).required(),
+    questionBankName: Joi.string().required(),
+    questionBankDescription: Joi.string().required(),
     questionBankId: Joi.allow(),
   });
   const result = schema.validate(req.body);
@@ -170,10 +140,10 @@ export const editQuestionBank = (req, res) => {
     .promise()
     .query(
       `
-        UPDATE question_bank
-        SET question_bank_name = '${questionBankName}',
-        question_bank_description = '${questionBankDescription}'
-        WHERE question_bank_id = '${questionBankId}'
+        UPDATE main_question_bank
+        SET main_question_bank_name = '${questionBankName}',
+        main_question_bank_description = '${questionBankDescription}'
+        WHERE main_question_bank_id = '${questionBankId}'
         `
     )
     .then((data) => {
@@ -197,15 +167,15 @@ export const editQuestionBank = (req, res) => {
     });
 };
 
-export const getQuestionBank = (req, res) => {
+export const getMainQuestionBank = (req, res) => {
   const questionBankId = req.query.questionBankId;
 
   connection
     .promise()
     .query(
       `
-  SELECT * FROM question_bank
-  WHERE question_bank_id = ${questionBankId}
+  SELECT * FROM main_question_bank
+  WHERE main_question_bank_id = ${questionBankId}
   `
     )
     .then((data) => {

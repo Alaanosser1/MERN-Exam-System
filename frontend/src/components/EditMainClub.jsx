@@ -31,7 +31,6 @@ const EditMainClub = (props) => {
       .then((data) => {
         setClubName(data.data.club[0].club_name);
         setClubDescription(data.data.club[0].club_description);
-        setClubNumber(data.data.club[0].club_number);
       });
   };
   const formSubmit = () => {
@@ -42,7 +41,6 @@ const EditMainClub = (props) => {
         {
           clubName,
           clubDescription,
-          clubNumber,
           clubId: props.clubId,
         },
         {
@@ -61,12 +59,13 @@ const EditMainClub = (props) => {
     <>
       <div dir="rtl" className="container">
         <div className="row">
-          <h1 className="m-3">اضافة فرقة رئيسية جديدة</h1>
+          <h1 className="m-3">تعديل </h1>
         </div>
         <form onSubmit={handleSubmit(formSubmit)}>
+          <h5 className="mt-4">اسم الفرقة</h5>
           <input
             autoFocus
-            className="form-control form-control-lg mt-4 "
+            className="form-control form-control-lg "
             type="text"
             placeholder="الاسم"
             aria-label=".form-control-lg example"
@@ -80,8 +79,9 @@ const EditMainClub = (props) => {
           {errors.nameRequired && (
             <span className="text-danger">من فضلك ادخل اسم الفرقة</span>
           )}
+          <h5 className="mt-4">الوصف </h5>
           <input
-            className="form-control form-control-lg mt-4"
+            className="form-control form-control-lg "
             type="text"
             placeholder="الوصف"
             aria-label=".form-control-lg example"
@@ -95,25 +95,12 @@ const EditMainClub = (props) => {
           {errors.descriptionRequired && (
             <span className="text-danger">من فضلك ادخل الوصف*</span>
           )}
-          <input
-            className="form-control form-control-lg mt-4"
-            type="text"
-            placeholder="رقم الفرقة"
-            aria-label=".form-control-lg example"
-            defaultValue={clubNumber}
-            // {...register("clubNumberRequired", { required: true })}
-            onChange={(e) => {
-              setClubNumber(e.target.value);
-              console.log(e.target.value);
-            }}
-          />
-          {errors.clubNumberRequired && (
-            <span className="text-danger">من فضلك ادخل رقم الفرقة*</span>
-          )}
           <br></br>
-          <button type="submit" className="btn btn-outline-primary mt-3 w-25">
-            اضافة
-          </button>
+          <div className="row justify-content-center">
+            <button type="submit" className="btn btn-outline-primary mt-3 w-25">
+              حفظ
+            </button>
+          </div>
         </form>
       </div>
     </>

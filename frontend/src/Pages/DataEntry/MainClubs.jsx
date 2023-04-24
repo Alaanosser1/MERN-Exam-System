@@ -1,10 +1,9 @@
 import { React, useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import AddQuestionBank from "../components/AddQuestionBank";
-import Popup from "../components/Popup";
-import AddMainClub from "../components/AddMainClub";
-import EditMainClub from "../components/EditMainClub";
+import Popup from "../../components/Popup";
+import AddMainClub from "../../components/AddMainClub";
+import EditMainClub from "../../components/EditMainClub";
 
 const MainClubs = () => {
   useEffect(() => {
@@ -57,7 +56,7 @@ const MainClubs = () => {
       <div className="container mt-5">
         <div className="row" dir="rtl">
           <div className="col-9">
-            <h1 className="mt-5">الفرق الرئيسية</h1>
+            <h1 className="mt-5">الفرق التخصصية</h1>
           </div>
           <div className="col-3">
             <button
@@ -66,7 +65,7 @@ const MainClubs = () => {
               }}
               className="btn btn-outline-success mt-5"
             >
-              اضافة فرقة رئيسية جديدة
+              اضافة فرقة تخصصية
             </button>
           </div>
         </div>
@@ -104,9 +103,7 @@ const MainClubs = () => {
                   <td className="text-center">{club[1].number_of_sub_clubs}</td>
                   <td className="text-center">
                     <Link to={`/clubs/subClubs/${club[1].club_id}`}>
-                      <button className="btn btn-outline-primary">
-                        الفرق الفرعية
-                      </button>
+                      <button className="btn btn-outline-primary">عرض</button>
                     </Link>
                     <button
                       onClick={() => {

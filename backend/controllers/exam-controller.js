@@ -8,8 +8,8 @@ export const createExam = (req, res) => {
   connection
     .promise()
     .query(
-      `INSERT INTO exam(exam_name,exam_description, exam_grade)
-        VALUES('${examName}','${examDescription}','${examGrade}')`
+      `INSERT INTO exam(exam_name,exam_description)
+        VALUES('${examName}','${examDescription}')`
     )
     .then((data) => {
       res.status(201).json({

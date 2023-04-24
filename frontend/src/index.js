@@ -21,8 +21,9 @@ import AddQuestionBank from "./components/AddQuestionBank";
 import ExamineePreExam from "./Pages/ExamineePreExam";
 import InstructorSignUp from "./Pages/InstructorSignUp";
 import PrivateRoutesExaminee from "./ustils/PrivateRoutesExaminee";
-import MainClubs from "./Pages/MainClubs";
+import MainClubs from "./Pages/DataEntry/MainClubs";
 import Clubs from "./Clubs";
+import MainQuestionBanks from "./Pages/MainQuestionBanks";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -52,6 +53,7 @@ root.render(
           element={<CreateExamStep2 />}
         />
         <Route path="app/questionBanks" element={<QuestionBanks />} />
+        <Route path="app/mainQuestionBanks" element={<MainQuestionBanks />} />
         <Route
           path="app/questionBanks/:questionBankId"
           element={<ViewQuestionBank />}

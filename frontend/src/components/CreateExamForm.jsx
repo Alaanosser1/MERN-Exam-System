@@ -1,5 +1,6 @@
 import { React, useEffect, useState, useRef } from "react";
 import AddExam from "./AddExam";
+import CreateExamStep1 from "./CreateExamStep1";
 import CreateExamStep2 from "./CreateExamStep2";
 import Popup from "./Popup";
 
@@ -23,7 +24,7 @@ const CreateExamForm = () => {
         console.log(examId, "FROM EXAM FORM");
       }
       return (
-        <CreateExamStep2 setPage={setPage} examId={examId}></CreateExamStep2>
+        <CreateExamStep1 setPage={setPage} examId={examId}></CreateExamStep1>
       );
     }
   };

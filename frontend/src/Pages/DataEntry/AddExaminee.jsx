@@ -1,19 +1,24 @@
-import { React, useState } from "react";
+import { React, useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import Footer from "../components/Footer";
+import SubClubChoose from "../SubClubChoose";
 
-const ExamineePreExam = () => {
+const AddExaminee = (props) => {
+  const [mainClubs, setMainClubs] = useState("");
+  const [mainClubId, setMainClubId] = useState("");
+  const [subClubId, setSubClubId] = useState("");
+  const [subClubs, setSubClubs] = useState([]);
   const [type, setType] = useState("");
   const [name, setName] = useState("");
   const [seniorityNumber, setSeniorityNmuber] = useState("");
   const [policeNumber, setPoliceNumber] = useState("");
   const [codeNumber, setCodeNumber] = useState("");
   const [clubName, setClubName] = useState("");
-  const [clubNumber, setClubNumber] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
   const [rank, setRank] = useState("");
   const [entity, setEntity] = useState("");
+  const [profilePicture, setProfilePicture] = useState("");
   const navigate = useNavigate();
   const examId = useParams();
 
@@ -23,35 +28,90 @@ const ExamineePreExam = () => {
     formState: { errors },
   } = useForm();
 
+  useEffect(() => {
+    getMainClubs();
+  }, []);
+
   const formSubmit = () => {
-    console.log("submitted");
+    console.log(profilePicture, "////");
+    const formData = new FormData();
+    formData.append("img", profilePicture);
+    formData.append("name", name);
+    formData.append("type", type);
+    formData.append("seniorityNumber", seniorityNumber);
+    formData.append("policeNumber", policeNumber);
+    formData.append("codeNumber", codeNumber);
+    formData.append("mainClubId", mainClubId);
+    formData.append("subClubId", subClubId);
+    formData.append("rank", rank);
+    formData.append("entity", entity);
+    formData.append("mobileNumber", mobileNumber);
+
     axios
       .post(
         `
-      http://localhost:4000/examinee/addExaminee` ||
-          `http://192.168.1.10:4000/examinee/addExaminee`,
-        {
-          name,
-          type,
-          seniorityNumber,
-          policeNumber,
-          codeNumber,
-          clubNumber,
-          clubName,
-          rank,
-          entity,
-        }
+        http://localhost:4000/examinee/addExaminee` ||
+          `http://192.168.1.10:4000/examinee/addExaminee
+            `,
+        formData
       )
       .then((res) => {
         console.log(res);
-        if (res.data.token) {
-          localStorage.setItem("examinee-token", JSON.stringify(res.data));
-        }
-        // window.open(`/examineeExam/${examId.examId}`, "_blank");
-        navigate(`/ExamineeHome`);
+        console.log("submitted");
+        // if (res.data.token) {
+        //   localStorage.setItem("examinee-token", JSON.stringify(res.data));
+        // }
+        // // window.open(`/examineeExam/${examId.examId}`, "_blank");
+        // navigate(`/ExamineeHome`);
+        props.hidePopup(false);
+        props.rerender();
       })
       .catch((err) => {
         console.log(err);
+      });
+  };
+
+  const getMainClubs = () => {
+    axios
+      .get(
+        "http://localhost:4000/mainClub/getMainClubs" ||
+          "http://192.168.1.10:4000/mainClub/getMainClubs",
+        {
+          //   headers: {
+          //     "auth-token": user.token,
+          //   },
+        }
+      )
+      .then((res) => {
+        console.log(res.data.clubs, "CLUBS");
+        setMainClubs(res.data.clubs);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getSubClubs = (mainClubId) => {
+    axios
+      .get(
+        "http://localhost:4000/subClub/getSubClubs" ||
+          "http://192.168.1.10:4000/subClub/getSubClubs",
+        {
+          params: {
+            mainClubId,
+          },
+          //   headers: {
+          //     "auth-token": user.token,
+          //   },
+        }
+      )
+      .then((res) => {
+        console.log(res.data.clubs, "SUBCLUBS");
+        setSubClubs(res.data.clubs);
+        console.log(subClubs, "TYPEs");
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -65,16 +125,25 @@ const ExamineePreExam = () => {
     setName(e.target.value);
     console.log(e.target.value);
   };
+  const imageHandler = (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    setProfilePicture(file);
+  };
+
+  const handleChangeMainCLub = (e) => {
+    e.preventDefault();
+    setMainClubId(e.target.value);
+    getSubClubs(e.target.value);
+    console.log(e.target.value);
+  };
 
   return (
     <>
-      <div
-        style={{ marginTop: 100 }}
-        dir={"rtl"}
-        className="container w-75 landing-container p-2"
-      >
-        <form onSubmit={handleSubmit(formSubmit)} className="m-4 p-3">
-          <div className="form-row p-2">
+      <div style={{ marginTop: 40 }} dir={"rtl"} className="container ">
+        <h2>اضافة دارس جديد</h2>
+        <form onSubmit={handleSubmit(formSubmit)} className="">
+          <div className="form-row">
             <div className="form-group col-md-4">
               <h5 className="mb-3">النوع</h5>
               <select
@@ -94,7 +163,7 @@ const ExamineePreExam = () => {
           {type == "ضابط" ? (
             <>
               <div className="row p-2">
-                <div className="form-group col-md-6 p-2">
+                <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">الاسم</h5>
                   <input
                     {...register("nameRequired", { required: true })}
@@ -107,7 +176,8 @@ const ExamineePreExam = () => {
                     <span className="text-danger">من فضلك ادخل الاسم*</span>
                   )}
                 </div>
-                <div className="form-group col-md-6 p-2">
+
+                <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">رقم الاقدامية</h5>
                   <input
                     {...register("seniorityNumberRequired", {
@@ -127,44 +197,70 @@ const ExamineePreExam = () => {
                     </span>
                   )}
                 </div>
-              </div>
-              <div className="row p-2">
-                <div className="form-group col-md-6 p-2">
-                  <h5 className="mb-3">اسم الفرقة</h5>
+                <div className="form-group col-md-4 p-2">
+                  <h5 className="mb-3">الصورة الشخصية</h5>
                   <input
-                    {...register("clubNameRequired", { required: true })}
-                    onChange={(e) => {
-                      e.preventDefault();
-                      setClubName(e.target.value);
-                    }}
-                    type="text"
+                    // {...register("imageRequired", { required: true })}
+                    onChange={imageHandler}
+                    type="file"
                     className="form-control"
                     id="inputEmail4"
                   />
-                  {errors.clubNameRequired && (
+                  {/* {errors.nameRequired && (
                     <span className="text-danger">
-                      من فضلك ادخل اسم الفرقة *
+                      من فضلك ادخل الصورة الشخصية*
                     </span>
-                  )}
+                  )} */}
                 </div>
-                <div className="form-group col-md-6 p-2">
-                  <h5 className="mb-3">رقم الفرقة</h5>
+              </div>
+              <div className="row p-2">
+                <div className="form-group col-md-4 p-2">
+                  <h5 className="mb-3">رقم المحمول</h5>
                   <input
-                    {...register("clubNumberRequired", { required: true })}
+                    {...register("mobileNumberRequired", {
+                      required: true,
+                    })}
                     onChange={(e) => {
                       e.preventDefault();
-                      setClubNumber(e.target.value);
+                      setMobileNumber(e.target.value);
                     }}
-                    type="text"
+                    type="tel"
+                    pattern="^01[0-2]\d{1,8}$"
                     className="form-control"
                     id="inputPassword4"
                   />
-                  {errors.clubNumberRequired && (
+                  {errors.mobileNumberRequired && (
                     <span className="text-danger">
-                      {" "}
-                      من فضلك ادخل رقم الفرقة*
+                      من فضلك ادخل رقم المحمول*
                     </span>
                   )}
+                </div>
+                <div className="form-group col-md-4 p-2">
+                  <h5 className="mb-3"> الفرقة التخصصية</h5>
+                  <select
+                    {...register("mainClubRequired", { required: true })}
+                    onChange={handleChangeMainCLub}
+                    id="inputState"
+                    className="form-control"
+                  >
+                    <option selected disabled value={""}>
+                      اختر نوع الفرقة
+                    </option>
+                    {mainClubs.map((club) => (
+                      <option key={club.club_id} value={club.club_id}>
+                        {club.club_name}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.mainClubRequired && (
+                    <span className="text-danger">من فضلك اختر الفرقة *</span>
+                  )}
+                </div>
+                <div className="form-group col-md-4 p-2">
+                  <SubClubChoose
+                    subClubs={subClubs}
+                    setSubClubId={setSubClubId}
+                  />
                 </div>
               </div>
               <div className="row p-2">
@@ -196,7 +292,7 @@ const ExamineePreExam = () => {
                   )}
                 </div>
                 <div className="form-group col-md-6 p-2">
-                  <h5 className="mb-3">الجهة المسؤولة</h5>
+                  <h5 className="mb-3">جهة العمل الحالية</h5>
                   <input
                     {...register("entityRequired", { required: true })}
                     onChange={(e) => {
@@ -209,21 +305,24 @@ const ExamineePreExam = () => {
                   />
                   {errors.entityRequired && (
                     <span className="text-danger">
-                      من فضلك ادخل الجهة المسؤولة*
+                      من فضلك ادخل جهة العمل الحالية*
                     </span>
                   )}
                 </div>
               </div>
-              <div className="row w-50 mt-4">
-                <button type="submit" className="btn btn-primary mt-3 w-25">
-                  ابدأ
+              <div className="row w-100 mt-4 d-flex justify-content-center">
+                <button
+                  type="submit"
+                  className="btn btn-outline-primary mt-3 w-25"
+                >
+                  تسجيل
                 </button>
               </div>
             </>
           ) : type == "فرد" ? (
             <>
               <div className="row p-2">
-                <div className="form-group col-md-6 p-2">
+                <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">الاسم</h5>
                   <input
                     {...register("officerNameRequired", { required: true })}
@@ -239,7 +338,7 @@ const ExamineePreExam = () => {
                     <span className="text-danger">من فضلك ادخل الاسم*</span>
                   )}
                 </div>
-                <div className="form-group col-md-6 p-2">
+                <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">رقم الشرطة</h5>
                   <input
                     {...register("policeNumberRequired", { required: true })}
@@ -257,45 +356,70 @@ const ExamineePreExam = () => {
                     </span>
                   )}
                 </div>
-              </div>
-              <div className="row p-2">
-                <div className="form-group col-md-6 p-2">
-                  <h5 className="mb-3">اسم الفرقة</h5>
+                <div className="form-group col-md-4 p-2">
+                  <h5 className="mb-3">الصورة الشخصية</h5>
                   <input
-                    {...register("officerClubNameRequired", { required: true })}
-                    onChange={(e) => {
-                      e.preventDefault();
-                      setClubName(e.target.value);
-                    }}
-                    type="text"
+                    // {...register("imageRequired", { required: true })}
+                    onChange={imageHandler}
+                    type="file"
                     className="form-control"
                     id="inputEmail4"
                   />
-                  {errors.officerClubNameRequired && (
+                  {/* {errors.nameRequired && (
                     <span className="text-danger">
-                      من فضلك ادخل اسم الفرقة*
+                      من فضلك ادخل الصورة الشخصية*
                     </span>
-                  )}
+                  )} */}
                 </div>
-                <div className="form-group col-md-6 p-2">
-                  <h5 className="mb-3">رقم الفرقة</h5>
+              </div>
+              <div className="row p-2">
+                <div className="form-group col-md-4 p-2">
+                  <h5 className="mb-3">رقم المحمول</h5>
                   <input
-                    {...register("officerClubNumberRequired", {
+                    {...register("mobileNumberRequired", {
                       required: true,
                     })}
                     onChange={(e) => {
                       e.preventDefault();
-                      setClubNumber(e.target.value);
+                      setMobileNumber(e.target.value);
                     }}
-                    type="text"
+                    type="tel"
+                    pattern="^01[0-2]\d{1,8}$"
                     className="form-control"
                     id="inputPassword4"
                   />
-                  {errors.officerClubNumberRequired && (
+                  {errors.mobileNumberRequired && (
                     <span className="text-danger">
-                      من فضلك ادخل رقم الفرقة*
+                      من فضلك ادخل رقم المحمول*
                     </span>
                   )}
+                </div>
+                <div className="form-group col-md-4 p-2">
+                  <h5 className="mb-3"> الفرقة التخصصية</h5>
+                  <select
+                    {...register("mainClubRequired", { required: true })}
+                    onChange={handleChangeMainCLub}
+                    id="inputState"
+                    className="form-control"
+                  >
+                    <option selected disabled value={""}>
+                      اختر نوع الفرقة
+                    </option>
+                    {mainClubs.map((club) => (
+                      <option key={club.club_id} value={club.club_id}>
+                        {club.club_name}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.mainClubRequired && (
+                    <span className="text-danger">من فضلك اختر الفرقة *</span>
+                  )}
+                </div>
+                <div className="form-group col-md-4 p-2">
+                  <SubClubChoose
+                    subClubs={subClubs}
+                    setSubClubId={setSubClubId}
+                  />
                 </div>
               </div>
               <div className="row p-2">
@@ -329,7 +453,7 @@ const ExamineePreExam = () => {
                 </div>
 
                 <div className="form-group col-md-6 p-2">
-                  <h5 className="mb-3">الجهة المسؤولة</h5>
+                  <h5 className="mb-3">جهة العمل الحالية</h5>
                   <input
                     {...register("officerEntityRequired", { required: true })}
                     onChange={(e) => {
@@ -342,14 +466,17 @@ const ExamineePreExam = () => {
                   />
                   {errors.officerEntityRequired && (
                     <span className="text-danger">
-                      من فضلك ادخل الجهة المسؤولة*
+                      من فضلك ادخل جهة العمل الحالية*
                     </span>
                   )}
                 </div>
               </div>
-              <div className="row w-50 mt-4">
-                <button type="submit" className="btn btn-primary mt-3 w-25">
-                  ابدأ
+              <div className="row w-75 mt-4 d-flex justify-content-center">
+                <button
+                  type="submit"
+                  className="btn btn-outline-primary mt-3 w-25"
+                >
+                  تسجيل
                 </button>
               </div>
             </>
@@ -357,7 +484,7 @@ const ExamineePreExam = () => {
             type == "مدني" && (
               <>
                 <div className="row p-2">
-                  <div className="form-group col-md-6 p-2">
+                  <div className="form-group col-md-4 p-2">
                     <h5 className="mb-3">الاسم</h5>
                     <input
                       {...register("civilianNameRequired", { required: true })}
@@ -368,14 +495,13 @@ const ExamineePreExam = () => {
                       type="text"
                       className="form-control"
                       id="inputEmail4"
-                      placeholder="الاسم"
                     />
                     {errors.civilianNameRequired && (
                       <span className="text-danger">من فضلك ادخل الاسم*</span>
                     )}
                   </div>
-                  <div className="form-group col-md-6 p-2">
-                    <h5 className="mb-3">رقم الكود</h5>
+                  <div className="form-group col-md-4 p-2">
+                    <h5 className="mb-3"> الرقم القومي</h5>
                     <input
                       {...register("codeNumberRequired", { required: true })}
                       onChange={(e) => {
@@ -385,62 +511,82 @@ const ExamineePreExam = () => {
                       type="text"
                       className="form-control"
                       id="inputPassword4"
-                      placeholder="رقم الكود"
                     />
                     {errors.codeNumberRequired && (
                       <span className="text-danger">
-                        من فضلك ادخل رقم الكود*
+                        من فضلك ادخل الرقم القومي *
                       </span>
                     )}
                   </div>
-                </div>
-                <div className="row p-2">
-                  <div className="form-group col-md-6 p-2">
-                    <h5 className="mb-3">اسم الفرقة</h5>
+                  <div className="form-group col-md-4 p-2">
+                    <h5 className="mb-3">الصورة الشخصية</h5>
                     <input
-                      {...register("civilianClubNameRequired", {
-                        required: true,
-                      })}
-                      onChange={(e) => {
-                        e.preventDefault();
-                        setClubName(e.target.value);
-                      }}
-                      type="text"
+                      // {...register("imageRequired", { required: true })}
+                      onChange={imageHandler}
+                      type="file"
                       className="form-control"
                       id="inputEmail4"
-                      placeholder="اسم الفرقة"
                     />
-                    {errors.civilianClubNameRequired && (
-                      <span className="text-danger">
-                        من فضلك ادخل الجهة المسؤولة*
-                      </span>
-                    )}
+                    {/* {errors.nameRequired && (
+                    <span className="text-danger">
+                      من فضلك ادخل الصورة الشخصية*
+                    </span>
+                  )} */}
                   </div>
-                  <div className="form-group col-md-6 p-2">
-                    <h5 className="mb-3">رقم الفرقة</h5>
+                </div>
+                <div className="row p-2">
+                  <div className="form-group col-md-4 p-2">
+                    <h5 className="mb-3">رقم المحمول</h5>
                     <input
-                      {...register("civilianClubNumberRequired", {
+                      {...register("mobileNumberRequired", {
                         required: true,
                       })}
                       onChange={(e) => {
                         e.preventDefault();
-                        setClubNumber(e.target.value);
+                        setMobileNumber(e.target.value);
                       }}
-                      type="text"
+                      type="tel"
+                      pattern="^01[0-2]\d{1,8}$"
                       className="form-control"
                       id="inputPassword4"
-                      placeholder="رقم الفرقة"
                     />
-                    {errors.civilianClubNumberRequired && (
+                    {errors.mobileNumberRequired && (
                       <span className="text-danger">
-                        من فضلك ادخل رقم الفرقة*
+                        من فضلك ادخل رقم المحمول*
                       </span>
                     )}
+                  </div>
+                  <div className="form-group col-md-4 p-2">
+                    <h5 className="mb-3"> الفرقة التخصصية</h5>
+                    <select
+                      {...register("mainClubRequired", { required: true })}
+                      onChange={handleChangeMainCLub}
+                      id="inputState"
+                      className="form-control"
+                    >
+                      <option selected disabled value={""}>
+                        اختر نوع الفرقة
+                      </option>
+                      {mainClubs.map((club) => (
+                        <option key={club.club_id} value={club.club_id}>
+                          {club.club_name}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.mainClubRequired && (
+                      <span className="text-danger">من فضلك اختر الفرقة *</span>
+                    )}
+                  </div>
+                  <div className="form-group col-md-4 p-2">
+                    <SubClubChoose
+                      subClubs={subClubs}
+                      setSubClubId={setSubClubId}
+                    />
                   </div>
                 </div>
                 <div className="row p-2">
                   <div className="form-group col-md-6 p-2">
-                    <h5 className="mb-3">الجهة المسؤولة</h5>
+                    <h5 className="mb-3">جهة العمل الحالية</h5>
                     <input
                       {...register("civilianEntityRequired", {
                         required: true,
@@ -452,18 +598,20 @@ const ExamineePreExam = () => {
                       type="text"
                       className="form-control"
                       id="inputPassword4"
-                      placeholder="الجهة المسؤولة"
                     />
                     {errors.civilianEntityRequired && (
                       <span className="text-danger">
-                        من فضلك ادخل الجهة المسؤولة*
+                        من فضلك ادخل جهة العمل الحالية*
                       </span>
                     )}
                   </div>
                 </div>
-                <div className="row w-50 mt-4">
-                  <button type="submit" className="btn btn-primary mt-3 w-25">
-                    ابدأ
+                <div className="row w-75 mt-4 d-flex justify-content-center">
+                  <button
+                    type="submit"
+                    className="btn btn-outline-primary mt-3 w-25"
+                  >
+                    تسجيل
                   </button>
                 </div>
               </>
@@ -475,4 +623,4 @@ const ExamineePreExam = () => {
   );
 };
 
-export default ExamineePreExam;
+export default AddExaminee;

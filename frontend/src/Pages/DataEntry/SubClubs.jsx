@@ -2,8 +2,8 @@ import { React, useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "react-datepicker/dist/react-datepicker.css";
-import Popup from "../components/Popup";
-import AddSubClub from "../components/AddSubClub";
+import Popup from "../../components/Popup";
+import AddSubClub from "../../components/AddSubClub";
 import { useParams } from "react-router-dom";
 
 const SubClubs = () => {
@@ -70,7 +70,7 @@ const SubClubs = () => {
       <div className="container mt-5">
         <div className="row" dir="rtl">
           <div className="col-9">
-            <h1 className="mt-5">الفرق لفرقة {`(${mainClub.club_name})`}</h1>
+            <h1 className="mt-5">فرق {`(${mainClub.club_name})`}</h1>
           </div>
           <div className="col-3">
             <button

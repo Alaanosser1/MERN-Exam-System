@@ -37,7 +37,7 @@ export default function SideBar() {
           <li>
             <a href="#">
               <i className="fas fa-user"></i>
-              <Link to={"/app/questionBanks"}>
+              <Link to={"/app/mainQuestionBanks"}>
                 <FontAwesomeIcon icon={faBuildingColumns} /> &nbsp; بنوك الاسئلة
               </Link>
             </a>

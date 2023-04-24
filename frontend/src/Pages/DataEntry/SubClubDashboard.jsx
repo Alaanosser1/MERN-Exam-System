@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 import { useParams } from "react-router-dom";
-import Students from "../components/Students";
-import Subjects from "../components/Subjects";
+import Students from "./Students";
+import Subjects from "./Subjects";
 
 const SubClubDashboard = () => {
   const [page, setPage] = useState();

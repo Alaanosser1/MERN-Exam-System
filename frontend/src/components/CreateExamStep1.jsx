@@ -7,7 +7,7 @@ import ChooseQuestionsFromQuestionBank from "./ChooseQuestionsFromQuestionBank";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 
-const CreateExamStep2 = (props) => {
+const CreateExamStep1 = (props) => {
   const [questionBanks, setQuestionBanks] = useState([]);
   const [addQuestionBankPopup, setAddQuestionBankPopup] = useState(false);
   const [
@@ -30,12 +30,7 @@ const CreateExamStep2 = (props) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.addEventListener("click", handleClickOutside, true);
     getQuestionBanks();
-
-    return () => {
-      document.removeEventListener("click", handleClickOutside, true);
-    };
   }, []);
 
   const handleClickOutside = (e) => {
@@ -51,12 +46,10 @@ const CreateExamStep2 = (props) => {
   const getQuestionBanks = () => {
     axios
       .get(
-        "http://localhost:4000/questionBank/getQuestionBanks" ||
-          "http://192.168.1.10:4000/questionBank/getQuestionBanks",
+        "http://localhost:4000/mainQuestionBank/getMainQuestionBanks" ||
+          "http://192.168.1.10:4000/mainQuestionBank/getMainQuestionBanks",
+
         {
-          params: {
-            mainQuestionBankId,
-          },
           headers: {
             "auth-token": user.token,
           },
@@ -73,15 +66,6 @@ const CreateExamStep2 = (props) => {
   return (
     <>
       <div dir="rtl" className="container list-container m-5">
-        <Popup
-          trigger={chooseQuestionsFromQuestionBankPopup}
-          setTrigger={setChooseQuestionsFromQuestionBankPopup}
-        >
-          <ChooseQuestionsFromQuestionBank
-            questionBankId={questionBankId}
-            examId={props.examId || examId}
-          ></ChooseQuestionsFromQuestionBank>
-        </Popup>
         <div className="row">
           <div className="col-9">
             <h1 className="mt-5">Add Questions to exam {props.examId}</h1>
@@ -120,23 +104,28 @@ const CreateExamStep2 = (props) => {
           <tbody>
             {Object.entries(questionBanks).map((bank) => {
               return (
-                <tr scope="row" key={bank[1].question_bank_id}>
+                <tr scope="row" key={bank[1].main_question_bank_id}>
                   {/* <th scope="row">{bank[1].question_bank_id}</th> */}
-                  <td className="text-center">{bank[1].question_bank_name}</td>
                   <td className="text-center">
-                    {bank[1].question_bank_description}
+                    {bank[1].main_question_bank_name}
                   </td>
-                  <td className="text-center">{bank[1].NumberOfQuestions}</td>
                   <td className="text-center">
-                    <button
-                      onClick={() => {
-                        setChooseQuestionsFromQuestionBankPopup(true);
-                        setQuestionBankId(bank[1].question_bank_id);
-                      }}
-                      className="btn btn-outline-primary m-2"
+                    {bank[1].main_question_bank_description}
+                  </td>
+                  <td className="text-center">
+                    {bank[1].NumberOfQuestionBanks}
+                  </td>
+                  <td className="text-center">
+                    <Link
+                      to={`/App/exams/${examId}/mainQuestionBank/${bank[1].main_question_bank_id}/addQuestions`}
                     >
-                      اختر الاسئلة
-                    </button>
+                      <button
+                        onClick={() => {}}
+                        className="btn btn-outline-primary m-2"
+                      >
+                        اختر الاسئلة
+                      </button>
+                    </Link>
                   </td>
                 </tr>
               );
@@ -147,4 +136,4 @@ const CreateExamStep2 = (props) => {
     </>
   );
 };
-export default CreateExamStep2;
+export default CreateExamStep1;

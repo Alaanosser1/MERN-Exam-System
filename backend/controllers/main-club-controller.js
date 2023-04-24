@@ -31,13 +31,11 @@ export const createMainClub = (req, res) => {
 export const editMainClub = (req, res) => {
   const clubName = req.body.clubName;
   const clubDescription = req.body.clubDescription;
-  const clubNumber = req.body.clubNumber;
   const clubId = req.body.clubId;
 
   const schema = Joi.object().keys({
     clubName: Joi.string().required(),
     clubDescription: Joi.string().required(),
-    clubNumber: Joi.allow(),
     clubId: Joi.allow(),
   });
 
@@ -52,7 +50,6 @@ export const editMainClub = (req, res) => {
           UPDATE main_club
           SET club_name = '${clubName}',
           club_description = '${clubDescription}',
-          club_number = '${clubNumber}'
           WHERE club_id = '${clubId}'
           `
     )
