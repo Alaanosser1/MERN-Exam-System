@@ -104,9 +104,6 @@ const Students = () => {
               <th className="text-center" scope="col">
                 الجهة التابع لها
               </th>
-              <th className="text-center" scope="col">
-                الفرقة
-              </th>
             </tr>
           </thead>
           <tbody>
@@ -129,7 +126,6 @@ const Students = () => {
                       student[1].examinee_civilian_number}
                   </td>
                   <td className="text-center">{student[1].examinee_entity}</td>
-                  <td className="text-center">{`${student[1].club_name}/ ${student[1].sub_club_name}`}</td>
                   <td className="text-center">
                     <Link to={`/clubs/students/${student[1].examinee_id}`}>
                       <button className="btn btn-outline-primary">

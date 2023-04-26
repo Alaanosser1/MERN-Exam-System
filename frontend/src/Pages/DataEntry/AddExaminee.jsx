@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import SubClubChoose from "../SubClubChoose";
+import Swal from "sweetalert2";
 
 const AddExaminee = (props) => {
   const [mainClubs, setMainClubs] = useState("");
@@ -33,7 +34,6 @@ const AddExaminee = (props) => {
   }, []);
 
   const formSubmit = () => {
-    console.log(profilePicture, "////");
     const formData = new FormData();
     formData.append("img", profilePicture);
     formData.append("name", name);
@@ -56,17 +56,36 @@ const AddExaminee = (props) => {
         formData
       )
       .then((res) => {
-        console.log(res);
-        console.log("submitted");
+        console.log(res, "?????");
+        props.hidePopup(false);
+        props.rerender();
+
         // if (res.data.token) {
         //   localStorage.setItem("examinee-token", JSON.stringify(res.data));
         // }
         // // window.open(`/examineeExam/${examId.examId}`, "_blank");
         // navigate(`/ExamineeHome`);
-        props.hidePopup(false);
-        props.rerender();
       })
       .catch((err) => {
+        if (err.response.status == 400 && type == "فرد") {
+          Swal.fire({
+            title: "!رقم الشرطة مسجل من قبل",
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "حسناً",
+          });
+        } else if (err.response.status == 400 && type == "ضابط") {
+          Swal.fire({
+            title: "!رقم الاقدامية مسجل من قبل",
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "حسناً",
+          });
+        } else if (err.response.status == 400 && type == "مدني") {
+          Swal.fire({
+            title: "!الرقم القومي مسجل من قبل",
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "حسناً",
+          });
+        }
         console.log(err);
       });
   };
@@ -118,6 +137,13 @@ const AddExaminee = (props) => {
   const handleChangeType = (e) => {
     e.preventDefault();
     setType(e.target.value);
+    setName("");
+    setPoliceNumber("");
+    setSeniorityNmuber("");
+    setCodeNumber("");
+    setRank("");
+    setEntity("");
+    setMobileNumber("");
   };
 
   const nameHandler = (e) => {
@@ -168,6 +194,7 @@ const AddExaminee = (props) => {
                   <input
                     {...register("nameRequired", { required: true })}
                     onChange={nameHandler}
+                    value={name}
                     type="text"
                     className="form-control"
                     id="inputEmail4"
@@ -188,6 +215,7 @@ const AddExaminee = (props) => {
                       setSeniorityNmuber(e.target.value);
                     }}
                     type="text"
+                    value={seniorityNumber}
                     className="form-control"
                     id="inputPassword4"
                   />
@@ -225,6 +253,7 @@ const AddExaminee = (props) => {
                       setMobileNumber(e.target.value);
                     }}
                     type="tel"
+                    value={mobileNumber}
                     pattern="^01[0-2]\d{1,8}$"
                     className="form-control"
                     id="inputPassword4"
@@ -299,9 +328,9 @@ const AddExaminee = (props) => {
                       e.preventDefault();
                       setEntity(e.target.value);
                     }}
+                    value={entity}
                     type="text"
                     className="form-control"
-                    id="inputPassword4"
                   />
                   {errors.entityRequired && (
                     <span className="text-danger">
@@ -331,6 +360,7 @@ const AddExaminee = (props) => {
                       setName(e.target.value);
                     }}
                     type="text"
+                    value={name}
                     className="form-control"
                     id="inputEmail4"
                   />
@@ -347,6 +377,7 @@ const AddExaminee = (props) => {
                       setPoliceNumber(e.target.value);
                     }}
                     type="text"
+                    value={policeNumber}
                     className="form-control"
                     id="inputPassword4"
                   />
@@ -384,6 +415,7 @@ const AddExaminee = (props) => {
                       setMobileNumber(e.target.value);
                     }}
                     type="tel"
+                    value={mobileNumber}
                     pattern="^01[0-2]\d{1,8}$"
                     className="form-control"
                     id="inputPassword4"
@@ -461,8 +493,8 @@ const AddExaminee = (props) => {
                       setEntity(e.target.value);
                     }}
                     type="text"
+                    value={entity}
                     className="form-control"
-                    id="inputPassword4"
                   />
                   {errors.officerEntityRequired && (
                     <span className="text-danger">
@@ -493,6 +525,7 @@ const AddExaminee = (props) => {
                         setName(e.target.value);
                       }}
                       type="text"
+                      value={name}
                       className="form-control"
                       id="inputEmail4"
                     />
@@ -509,6 +542,7 @@ const AddExaminee = (props) => {
                         setCodeNumber(e.target.value);
                       }}
                       type="text"
+                      value={codeNumber}
                       className="form-control"
                       id="inputPassword4"
                     />
@@ -546,6 +580,7 @@ const AddExaminee = (props) => {
                         setMobileNumber(e.target.value);
                       }}
                       type="tel"
+                      value={mobileNumber}
                       pattern="^01[0-2]\d{1,8}$"
                       className="form-control"
                       id="inputPassword4"
@@ -596,8 +631,8 @@ const AddExaminee = (props) => {
                         setEntity(e.target.value);
                       }}
                       type="text"
+                      value={entity}
                       className="form-control"
-                      id="inputPassword4"
                     />
                     {errors.civilianEntityRequired && (
                       <span className="text-danger">

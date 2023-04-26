@@ -7,7 +7,7 @@ import { pipeline } from "stream";
 const app = express();
 
 //Add new Instructor
-export const addExaminee = (req, res, next) => {
+export const addExaminee = async (req, res, next) => {
   const examineeName = req.body.name;
   const examineeType = req.body.type;
   const examineePoliceNumber = req.body.policeNumber;
@@ -20,6 +20,7 @@ export const addExaminee = (req, res, next) => {
   const listNumber = req.body.listNumber;
   const mobileNumber = req.body.mobileNumber;
   const { file, fileName } = req;
+  let user;
   // const profilePicture = req.body.profilePicture;
   const examId = 80;
 
@@ -69,36 +70,110 @@ export const addExaminee = (req, res, next) => {
   //       });
   //     });
   // };
-
-  connection
-    .promise()
-    .query(
-      `INSERT INTO examinee(examinee_name, examinee_type,
+  if (examineeType == "ضابط") {
+    await connection
+      .promise()
+      .query(
+        `SELECT * FROM examinee WHERE
+       examinee_seniority_number ='${examineeSeniorityNumber}'`
+      )
+      .then((data) => {
+        user = data[0];
+        console.log(user, "USERRRR officer");
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(500).json({
+          status: "error",
+          msg: "500 Internal Server Error",
+        });
+      });
+  } else if (examineeType == "فرد") {
+    await connection
+      .promise()
+      .query(
+        `SELECT * FROM examinee WHERE
+       examinee_police_number ='${examineePoliceNumber}'`
+      )
+      .then((data) => {
+        user = data[0];
+        console.log(user, "USERRRR farrd", examineePoliceNumber);
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(500).json({
+          status: "error",
+          msg: "500 Internal Server Error",
+        });
+      });
+  } else if (examineeType == "مدني") {
+    await connection
+      .promise()
+      .query(
+        `SELECT * FROM examinee WHERE
+      examinee_civilian_number = '${examineeCivilianNumber}'`
+      )
+      .then((data) => {
+        user = data[0];
+        console.log(user, "USERRRR madany");
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(500).json({
+          status: "error",
+          msg: "500 Internal Server Error",
+        });
+      });
+  }
+  if (user.length > 0) {
+    res.status(400).json({
+      status: "error",
+      msg: "police number is already registered",
+    });
+  } else {
+    connection
+      .promise()
+      .query(
+        `INSERT INTO examinee(examinee_name, examinee_type,
         examinee_rank, examinee_police_number, examinee_civilian_number,
-         examinee_entity, examinee_list_number, examinee_seniority_number,
-          main_club_id, sub_club_id, examinee_mobile_number)
+         examinee_entity, examinee_list_number, examinee_seniority_number, examinee_mobile_number, examinee_password)
             VALUES('${examineeName}','${examineeType}',
             '${examineeRank}','${examineePoliceNumber}',
             '${examineeCivilianNumber}','${examineeEntity}','${listNumber}',
-             '${examineeSeniorityNumber}', '${mainClubId}', '${subClubId}', '${mobileNumber}')`
-    )
-    .then((data) => {
-      insertId = data[0].insertId;
-      // handleAuth();
-      handleProfilePictureUpload(insertId);
-      res.status(200).json({
-        status: "ok",
-        msg: "created",
+             '${examineeSeniorityNumber}', '${mobileNumber}', 'hemaya@2023')`
+      )
+      .then((data) => {
+        insertId = data[0].insertId;
+        // handleAuth();
+        connection
+          .promise()
+          .query(
+            `INSERT INTO examinee_has_sub_club(examinee_id, sub_club_id)
+              VALUES('${insertId}','${subClubId}')`
+          )
+          .then((data) => {})
+          .catch((error) => {
+            console.log(error);
+            res.status(500).json({
+              status: "error",
+              msg: "500 Internal Server Error",
+            });
+          });
+        handleProfilePictureUpload(insertId);
+        res.status(200).json({
+          status: "ok",
+          msg: "created",
+        });
+        next();
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(500).json({
+          status: "error",
+          msg: "500 Internal Server Error",
+        });
       });
-      next();
-    })
-    .catch((error) => {
-      console.log(error);
-      res.status(500).json({
-        status: "error",
-        msg: "500 Internal Server Error",
-      });
-    });
+  }
 };
 
 //SELECT fields FROM table ORDER BY id DESC
@@ -108,10 +183,7 @@ export const getStudents = async (req, res) => {
 
   await connection
     .promise()
-    .query(
-      `SELECT * FROM examinee JOIN main_club ON examinee.main_club_id = main_club.club_id
-       JOIN sub_club ON examinee.sub_club_id = sub_club.sub_club_id`
-    )
+    .query(`SELECT * FROM examinee`)
     .then((data) => {
       for (let i = 0; i < data[0].length; i++) {
         if (data[0][i].is_deleted == 0) {
@@ -236,6 +308,33 @@ export const storeExamineeAnswer = async (req, res) => {
   }
 };
 
+export const getExamineeClubs = (req, res) => {
+  const examineeId = req.query.examineeId;
+
+  connection
+    .promise()
+    .query(
+      `
+  SELECT * FROM examinee_has_sub_club 
+  JOIN sub_club ON examinee_has_sub_club.sub_club_id = sub_club.sub_club_id
+  JOIN main_club ON main_club.club_id = sub_club.main_club_id
+  WHERE examinee_has_sub_club.examinee_id =' ${examineeId}'
+  `
+    )
+    .then((data) => {
+      res.status(200).json({
+        status: "ok",
+        clubs: data[0],
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        status: "error",
+        msg: "500 internal server error",
+      });
+    });
+};
 export const getStudent = (req, res) => {
   const examineeId = req.query.examineeId;
 

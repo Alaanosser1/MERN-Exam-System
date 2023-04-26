@@ -5,6 +5,7 @@ import {
   storeExamineeAnswer,
   getStudents,
   getStudent,
+  getExamineeClubs,
 } from "../controllers/examinee-controller.js";
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -28,5 +29,6 @@ examineeRouter.post("/addExaminee", upload, addExaminee);
 examineeRouter.post("/storeExamineeAnswer", storeExamineeAnswer);
 examineeRouter.get("/getStudents", getStudents);
 examineeRouter.get("/getStudent", getStudent);
+examineeRouter.get("/getExamineeClubs", getExamineeClubs);
 
 export default examineeRouter;
