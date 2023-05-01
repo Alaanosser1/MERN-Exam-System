@@ -3,13 +3,46 @@ import connection from "../database.js";
 export const createExam = (req, res) => {
   const examName = req.body.examName;
   const examDescription = req.body.examDescription;
-  const examGrade = req.body.examGrade;
+  const mainClubId = req.body.mainClubId;
+  const subClubId = req.body.subClubId;
+  const startDate = new Date(req.body.startDate);
+  // const startDate = req.body.startDate.replace("Z", " ").replace("T", " ");
+  const endDate = new Date(req.body.endDate);
+  const examTime = Math.floor(req.body.examTime / 60000);
+
+  let startDateFormatted =
+    startDate.getFullYear() +
+    "-" +
+    (startDate.getMonth() + 1) +
+    "-" +
+    startDate.getDate() +
+    " " +
+    startDate.getHours() +
+    ":" +
+    startDate.getMinutes() +
+    ":" +
+    startDate.getSeconds();
+
+  let endDateFormatted =
+    endDate.getFullYear() +
+    "-" +
+    (endDate.getMonth() + 1) +
+    "-" +
+    endDate.getDate() +
+    " " +
+    endDate.getHours() +
+    ":" +
+    endDate.getMinutes() +
+    ":" +
+    endDate.getSeconds();
+
+  console.log(startDateFormatted, endDateFormatted);
 
   connection
     .promise()
     .query(
-      `INSERT INTO exam(exam_name,exam_description)
-        VALUES('${examName}','${examDescription}')`
+      `INSERT INTO exam(exam_name,exam_description, main_club_id, sub_club_id, start_date_time, end_date_time, exam_time)
+        VALUES('${examName}','${examDescription}','${mainClubId}', '${subClubId}', '${startDateFormatted}', '${endDateFormatted}', '${examTime}')`
     )
     .then((data) => {
       res.status(201).json({
@@ -109,17 +142,72 @@ export const deleteExam = (req, res) => {
 };
 
 export const getExams = async (req, res) => {
+  // const subClubId = req.query.subClubId;
   let exams = [];
   let isError = false;
   await connection
     .promise()
-    .query(`SELECT * FROM exam`)
+    .query(
+      `SELECT * FROM exam JOIN sub_club ON exam.sub_club_id = sub_club.sub_club_id`
+    )
     .then((data) => {
       for (let i = 0; i < data[0].length; i++) {
         if (data[0][i].is_deleted == 0) {
           exams.push(data[0][i]);
         }
       }
+      console.log(exams, "EXAMS");
+    })
+    .catch((error) => {
+      isError = true;
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 internal server error",
+      });
+    });
+  for (let i = 0; i < exams.length; i++) {
+    await connection
+      .promise()
+      .query(
+        `SELECT COUNT(*) as count FROM exam_has_question WHERE exam_id = ${exams[i].exam_id} `
+      )
+      .then((data) => {
+        Object.assign(exams[i], {
+          NumberOfQuestions: data[0][0].count,
+        });
+      })
+      .catch((error) => {
+        isError = true;
+        console.log(error);
+        res.status(500).json({
+          status: "error",
+          msg: "500 internal server error",
+        });
+      });
+  }
+
+  if (!isError) {
+    res.status(200).json({
+      exams: exams,
+    });
+  }
+};
+
+export const getExamsOfClub = async (req, res) => {
+  const subClubId = req.query.subClubId;
+  let exams = [];
+  let isError = false;
+  await connection
+    .promise()
+    .query(`SELECT * FROM exam WHERE sub_club_id = '${subClubId}'`)
+    .then((data) => {
+      for (let i = 0; i < data[0].length; i++) {
+        if (data[0][i].is_deleted == 0) {
+          exams.push(data[0][i]);
+        }
+      }
+      console.log(exams, "EXAMS");
     })
     .catch((error) => {
       isError = true;

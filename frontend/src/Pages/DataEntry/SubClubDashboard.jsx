@@ -10,6 +10,9 @@ const SubClubDashboard = () => {
 
   const pageDisplay = () => {
     if (page === 1) {
+      return <Subjects setPage={setPage} examId={examId}></Subjects>;
+    }
+    if (page === 2) {
       return (
         <Students
           hidePopup={setAddExamPopup}
@@ -17,9 +20,6 @@ const SubClubDashboard = () => {
           setExamId={setExamId}
         ></Students>
       );
-    }
-    if (page === 2) {
-      return <Subjects setPage={setPage} examId={examId}></Subjects>;
     }
   };
   return (

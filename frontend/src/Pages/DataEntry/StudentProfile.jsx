@@ -1,15 +1,31 @@
-import { React, useState, useEffect } from "react";
+import { React, useEffect, useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import axios from "axios";
+import Swal from "sweetalert2";
+import Popup from "../../components/Popup";
+import SubClubChoose from "../SubClubChoose";
 
 const StudentProfile = () => {
   useEffect(() => {
     getStudent();
     getStudentClubs();
+    getMainClubs();
   }, []);
   let { studentId } = useParams();
   const [student, setStudent] = useState("");
   const [studentClubs, setStudentClubs] = useState("");
+  const [addStudentToClubs, setAddStudentToClub] = useState(false);
+  const [mainClubs, setMainClubs] = useState("");
+  const [mainClubId, setMainClubId] = useState("");
+  const [subClubId, setSubClubId] = useState("");
+  const [subClubs, setSubClubs] = useState([]);
+  const refOne = useRef(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const getStudent = () => {
     axios
@@ -55,8 +71,135 @@ const StudentProfile = () => {
         console.log(error);
       });
   };
+
+  const getMainClubs = () => {
+    axios
+      .get(
+        "http://localhost:4000/mainClub/getMainClubs" ||
+          "http://192.168.1.10:4000/mainClub/getMainClubs",
+        {
+          //   headers: {
+          //     "auth-token": user.token,
+          //   },
+        }
+      )
+      .then((res) => {
+        console.log(res.data.clubs, "CLUBS");
+        setMainClubs(res.data.clubs);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getSubClubs = (mainClubId) => {
+    axios
+      .get(
+        "http://localhost:4000/subClub/getSubClubs" ||
+          "http://192.168.1.10:4000/subClub/getSubClubs",
+        {
+          params: {
+            mainClubId,
+          },
+          //   headers: {
+          //     "auth-token": user.token,
+          //   },
+        }
+      )
+      .then((res) => {
+        console.log(res.data.clubs, "SUBCLUBS");
+        setSubClubs(res.data.clubs);
+        console.log(subClubs, "TYPEs");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleChangeMainCLub = (e) => {
+    e.preventDefault();
+    setMainClubId(e.target.value);
+    getSubClubs(e.target.value);
+    console.log(e.target.value);
+  };
+
+  const addStudentToClubSubmit = () => {
+    axios
+      .post(
+        `
+      http://localhost:4000/examinee/addExamineeToClub` ||
+          `http://192.168.1.10:4000/examinee/addExamineeToClub
+          `,
+        {
+          subClubId,
+          examineeId: studentId,
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        setAddStudentToClub(false);
+        getStudentClubs();
+        // if (res.data.token) {
+        //   localStorage.setItem("examinee-token", JSON.stringify(res.data));
+        // }
+        // // window.open(`/examineeExam/${examId.examId}`, "_blank");
+        // navigate(`/ExamineeHome`);
+      })
+      .catch((err) => {
+        if (err.response.status == 409) {
+          Swal.fire({
+            title: "!هذا الدارس مسجل بالفرقة من قبل",
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "حسناً",
+          });
+        }
+        console.log(err);
+      });
+  };
+
   return (
     <>
+      <div ref={refOne}>
+        <Popup trigger={addStudentToClubs} setTrigger={setAddStudentToClub}>
+          <form onSubmit={handleSubmit(addStudentToClubSubmit)} className="">
+            <div dir="rtl" className="row mt-5">
+              <div className="form-group col-md-6 p-2">
+                <h5 className="mb-3"> الفرقة التخصصية</h5>
+                <select
+                  {...register("mainClubRequired", { required: true })}
+                  onChange={handleChangeMainCLub}
+                  id="inputState"
+                  className="form-control"
+                >
+                  <option selected disabled value={""}>
+                    اختر نوع الفرقة
+                  </option>
+                  {mainClubs.length > 0 &&
+                    mainClubs.map((club) => (
+                      <option key={club.club_id} value={club.club_id}>
+                        {club.club_name}
+                      </option>
+                    ))}
+                </select>
+                {errors.mainClubRequired && (
+                  <span className="text-danger">من فضلك اختر الفرقة *</span>
+                )}
+              </div>
+              <div className="form-group col-md-6 p-2">
+                <SubClubChoose
+                  subClubs={subClubs}
+                  setSubClubId={setSubClubId}
+                />
+              </div>
+            </div>
+            <div className="row d-flex justify-content-center mt-4">
+              <button type="submit" className="btn btn-outline-primary w-25">
+                اضافة
+              </button>
+            </div>
+          </form>
+        </Popup>
+      </div>
       <div
         style={{ marginTop: 50 }}
         className="container student-card-container"
@@ -147,7 +290,7 @@ const StudentProfile = () => {
             <div className="col-3">
               <button
                 onClick={() => {
-                  //   setAddStudent(true);
+                  setAddStudentToClub(true);
                 }}
                 className="btn btn-outline-success"
               >

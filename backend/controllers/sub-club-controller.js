@@ -201,3 +201,28 @@ export const getSingleSubClub = async (req, res) => {
       });
     });
 };
+
+export const getSubClubStudents = async (req, res) => {
+  const subClubId = req.query.subClubId;
+  let isError = false;
+  await connection
+    .promise()
+    .query(
+      `SELECT * FROM examinee_has_sub_club 
+       JOIN examinee ON examinee_has_sub_club.examinee_id = examinee.examinee_id
+       WHERE examinee_has_sub_club.sub_club_id = ${subClubId}`
+    )
+    .then((data) => {
+      res.status(200).json({
+        students: data[0],
+      });
+    })
+    .catch((error) => {
+      isError = true;
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 internal server error",
+      });
+    });
+};

@@ -228,17 +228,17 @@ const AddExaminee = (props) => {
                 <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">الصورة الشخصية</h5>
                   <input
-                    // {...register("imageRequired", { required: true })}
+                    {...register("imageRequired", { required: true })}
                     onChange={imageHandler}
                     type="file"
                     className="form-control"
                     id="inputEmail4"
                   />
-                  {/* {errors.nameRequired && (
+                  {errors.imageRequired && (
                     <span className="text-danger">
                       من فضلك ادخل الصورة الشخصية*
                     </span>
-                  )} */}
+                  )}
                 </div>
               </div>
               <div className="row p-2">

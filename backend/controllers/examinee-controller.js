@@ -176,6 +176,44 @@ export const addExaminee = async (req, res, next) => {
   }
 };
 
+export const examineeLogin = async (req, res) => {
+  const examineeId = req.body.examineeId;
+  const password = req.body.password;
+
+  let user = await connection.promise().query(`
+            SELECT * FROM examinee
+             WHERE examinee_id ='${examineeId}' 
+             `);
+  if (user[0].length == 0) {
+    console.log("NO ID FOUND");
+    res.status(401).json({
+      status: "401",
+      msg: "wrong credentials id",
+    });
+  } else {
+    if (user[0][0].examinee_password != password) {
+      console.log("NO PASS FOUND");
+      res.status(401).send("wrong credentials pass");
+    } else {
+      const token = jwt.sign(
+        {
+          id: user[0][0].examinee_id,
+          firstName: user[0][0].examinee_name,
+          policeNumber: user[0][0].examinee_police_number,
+          civilianNumber: user[0][0].examinee_civilian_number,
+          seniorityNumber: user[0][0].examinee_seniority_number,
+          rank: user[0][0].examinee_rank,
+          type: user[0][0].examinee_type,
+        },
+        `${process.env.TOKEN_SECRET}`
+      );
+      res.header("auth-token", token).json({
+        token: token,
+      });
+    }
+  }
+};
+
 //SELECT fields FROM table ORDER BY id DESC
 export const getStudents = async (req, res) => {
   let students = [];
@@ -308,6 +346,40 @@ export const storeExamineeAnswer = async (req, res) => {
   }
 };
 
+export const addExamineeToClub = (req, res) => {
+  const examineeId = req.body.examineeId;
+  const subClubId = req.body.subClubId;
+
+  connection
+    .promise()
+    .query(
+      `
+  INSERT INTO examinee_has_sub_club(examinee_id, sub_club_id)
+  VALUES('${examineeId}','${subClubId}')
+  `
+    )
+    .then((data) => {
+      res.status(200).json({
+        status: "ok",
+        msg: "added to club",
+      });
+    })
+    .catch((err) => {
+      if (err.errno == "1062") {
+        res.status(409).json({
+          status: "error",
+          msg: "already registerd to club",
+        });
+      } else {
+        res.status(500).json({
+          status: "error",
+          msg: "500 internal server error",
+        });
+      }
+      console.log(err.errno == "1062");
+    });
+};
+
 export const getExamineeClubs = (req, res) => {
   const examineeId = req.query.examineeId;
 
@@ -334,6 +406,61 @@ export const getExamineeClubs = (req, res) => {
         msg: "500 internal server error",
       });
     });
+};
+
+export const getExamineeExams = async (req, res) => {
+  const examineeId = req.query.examineeId;
+  let exams;
+  let isError = false;
+
+  await connection
+    .promise()
+    .query(
+      `
+  SELECT * FROM examinee JOIN examinee_has_sub_club ON examinee.examinee_id = examinee_has_sub_club.examinee_id
+  JOIN exam ON examinee_has_sub_club.sub_club_id = exam.sub_club_id
+  JOIN sub_club ON sub_club.sub_club_id = exam.sub_club_id
+  WHERE examinee.examinee_id = ${examineeId}
+  `
+    )
+    .then((data) => {
+      exams = data[0];
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        status: "error",
+        msg: "500 internal server error",
+      });
+    });
+
+  for (let i = 0; i < exams.length; i++) {
+    await connection
+      .promise()
+      .query(
+        `SELECT COUNT(*) as count FROM exam_has_question WHERE exam_id = ${exams[i].exam_id} `
+      )
+      .then((data) => {
+        Object.assign(exams[i], {
+          NumberOfQuestions: data[0][0].count,
+        });
+      })
+      .catch((error) => {
+        isError = true;
+        console.log(error);
+        res.status(500).json({
+          status: "error",
+          msg: "500 internal server error",
+        });
+      });
+  }
+
+  if (!isError) {
+    console.log(exams);
+    res.status(200).json({
+      exams: exams,
+    });
+  }
 };
 export const getStudent = (req, res) => {
   const examineeId = req.query.examineeId;

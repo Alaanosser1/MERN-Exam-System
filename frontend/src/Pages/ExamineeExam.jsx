@@ -12,11 +12,11 @@ const ExamineeExam = () => {
   const [examQuestions, setExamQuestions] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [onLeavePopUp, setOnLeavePopUp] = useState(true);
-  const user = JSON.parse(localStorage.getItem("examinee-token"));
-  const decodedToken = jwt_decode(user.token);
+  const token = JSON.parse(localStorage.getItem("examinee-token"));
+  const user = jwt_decode(token.token);
   const navigate = useNavigate();
 
-  console.log(decodedToken.examineeId);
+  console.log(user, "USER");
   const storeExamineeAnswer = (questionId) => {
     console.log(inputValue, "INPUTVALUE");
     axios
@@ -26,7 +26,7 @@ const ExamineeExam = () => {
         {
           examId,
           questionId,
-          examineeId: decodedToken.examineeId,
+          examineeId: user.id,
           examineeAnswer: inputValue,
         }
       )
@@ -76,12 +76,12 @@ const ExamineeExam = () => {
   const evaluateQuestions = async () => {
     await axios
       .get(
-        "http://localhost:4000/evaluate/evaluateQuestions",
-        "http://192.168.1.10:4000/evaluate/evaluateQuestions",
+        "http://localhost:4000/evaluate/evaluateQuestions" ||
+          "http://192.168.1.10:4000/evaluate/evaluateQuestions",
         {
           params: {
             examId,
-            examineeId: decodedToken.examineeId,
+            examineeId: user.id,
           },
         }
       )
@@ -94,14 +94,15 @@ const ExamineeExam = () => {
   };
 
   const evaluateExam = async () => {
+    console.log(examId, user.id, "Evaluate Exam");
     await axios
       .get(
-        "http://localhost:4000/evaluate/evaluateExam",
-        "http://192.168.1.10:4000/evaluate/evaluateExam",
+        "http://localhost:4000/evaluate/evaluateExam" ||
+          "http://192.168.1.10:4000/evaluate/evaluateExam",
         {
           params: {
             examId,
-            examineeId: decodedToken.examineeId,
+            examineeId: user.id,
           },
         }
       )
@@ -124,10 +125,9 @@ const ExamineeExam = () => {
       cancelButtonText: "لا",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire("تم حفظ الاجابات", "", "success");
         await evaluateQuestions();
         await evaluateExam();
-        localStorage.removeItem("examinee-token");
+        Swal.fire("تم حفظ الاجابات", "", "success");
         navigate("/ExamineeHome");
       }
     });

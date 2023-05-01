@@ -2,10 +2,16 @@ import { React, useState, useEffect } from "react";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Footer from "../components/Footer";
+import jwt_decode from "jwt-decode";
 
 const ExamineeHome = () => {
   const [exams, setExams] = useState([]);
   const navigate = useNavigate();
+  const token = JSON.parse(localStorage.getItem("examinee-token"));
+  const user = jwt_decode(token.token);
+
+  console.log(user, "USER");
+
   useEffect(() => {
     getExams();
   }, []);
@@ -13,8 +19,13 @@ const ExamineeHome = () => {
   const getExams = () => {
     axios
       .get(
-        "http://localhost:4000/exam/getExams" ||
-          "http://192.168.1.10:4000/exam/getExams"
+        "http://localhost:4000/examinee/getExamineeExams" ||
+          "http://192.168.1.10:4000/examinee/getExamineeExams",
+        {
+          params: {
+            examineeId: user.id,
+          },
+        }
       )
       .then((res) => {
         console.log(res.data.exams, "EXAMS");
@@ -30,7 +41,7 @@ const ExamineeHome = () => {
       // navigate(`/examineeExam/${examId}`);
       window.open(`/examineeExam/${examId}`, "_blank");
     } else {
-      navigate(`/examineePreExam`);
+      navigate(`/studentLogin`);
     }
   };
 

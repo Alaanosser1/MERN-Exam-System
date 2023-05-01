@@ -97,14 +97,15 @@ export default function Home() {
                       <p className="card-text">
                         عدد المواد {bank[1].NumberOfQuestionBanks}
                       </p>
-                      <div className="row m-5 w-100">
-                        <Link
-                          to={`/app/mainQuestionBanks/${bank[1].main_question_bank_id}`}
+                      <div className="row m-5">
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                          }}
+                          className={`btn btn-primary `}
                         >
-                          <button className="btn btn-outline-primary m-2">
-                            تفاصيل
-                          </button>
-                        </Link>
+                          تفاصيل
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -136,21 +137,21 @@ export default function Home() {
                       <h4 className="card-title">
                         {exam[1].exam_name.substring(0, 30)}
                       </h4>
-                      <h5 className="card-title">
-                        الفرقة: {exam[1].sub_club_name}
-                      </h5>
                       <p className="card-text">
                         {exam[1].exam_description.substring(0, 30)}...
                       </p>
                       <p className="card-text">
                         عدد الاسئلة {exam[1].NumberOfQuestions}
                       </p>
-                      <div className="row me-5">
-                        <Link to={`/app/exams/${exam[1].exam_id}`}>
-                          <button className="btn btn-outline-primary m-2">
-                            تفاصيل
-                          </button>
-                        </Link>
+                      <div className="row m-5">
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                          }}
+                          className={`btn btn-primary`}
+                        >
+                          تفاصيل
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -159,7 +160,7 @@ export default function Home() {
             );
           })}
         </div>
-        {/* <div className="row mt-5">
+        <div className="row mt-5">
           <div className="col-9">
             <h2>التقارير</h2>
           </div>
@@ -182,21 +183,21 @@ export default function Home() {
                       <h4 className="card-title">
                         {exam[1].exam_name.substring(0, 30)}
                       </h4>
-                      <h5 className="card-title">
-                        الفرقة: {exam[1].sub_club_name}
-                      </h5>
                       <p className="card-text">
                         {exam[1].exam_description.substring(0, 30)}...
                       </p>
                       <p className="card-text">
                         عدد الاسئلة {exam[1].NumberOfQuestions}
                       </p>
-                      <div className="row me-5">
-                        <Link to={`/app/exams/${exam[1].exam_id}`}>
-                          <button className="btn btn-outline-primary m-2">
-                            تفاصيل
-                          </button>
-                        </Link>
+                      <div className="row m-5">
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                          }}
+                          className={`btn btn-primary `}
+                        >
+                          تفاصيل
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -204,7 +205,7 @@ export default function Home() {
               )
             );
           })}
-        </div> */}
+        </div>
       </div>
     </>
   );

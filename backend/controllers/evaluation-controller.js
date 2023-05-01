@@ -10,6 +10,8 @@ export const evaluateQuestions = async (req, res) => {
   let isError = false;
   let result = null;
 
+  console.log(examId, examineeId, "LOLOLOLO");
+
   const getExamineeAnswers = async () => {
     await connection
       .promise()
@@ -95,6 +97,9 @@ export const evaluateQuestions = async (req, res) => {
 export const evaluateExam = async (req, res) => {
   const examId = req.query.examId;
   const examineeId = req.query.examineeId;
+
+  console.log(examId, examineeId, "ASDHJOASDNKAJSDBNKAJSBNDKASJDBNKA");
+
   let examineeName;
   let examineeType;
   let seniorityNumber;
@@ -117,7 +122,7 @@ export const evaluateExam = async (req, res) => {
         `
     SELECT * FROM 
     answer_evaluation
-    WHERE exam_id = ${examId} AND examinee_id = ${examineeId} 
+    WHERE exam_id = '${examId}' AND examinee_id = '${examineeId} '
     `
       )
       .then((data) => {
@@ -130,7 +135,7 @@ export const evaluateExam = async (req, res) => {
         `
     SELECT * FROM
     exam_has_question
-    WHERE exam_id = ${examId}
+    WHERE exam_id = '${examId}'
     `
       )
       .then((data) => {
@@ -142,7 +147,7 @@ export const evaluateExam = async (req, res) => {
       .query(
         `
       SELECT * FROM exam
-      WHERE exam_id = ${examId}
+      WHERE exam_id = '${examId}'
       `
       )
       .then((data) => {
@@ -155,8 +160,8 @@ export const evaluateExam = async (req, res) => {
       .promise()
       .query(
         `
-          SELECT * FROM examinee_attempt
-          WHERE examinee_id = ${examineeId}
+          SELECT * FROM examinee
+          WHERE examinee_id = '${examineeId}'
           `
       )
       .then((data) => {

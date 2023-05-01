@@ -84,7 +84,7 @@ const CreateExamStep2 = (props) => {
         </Popup>
         <div className="row">
           <div className="col-9">
-            <h1 className="mt-5">Add Questions to exam {props.examId}</h1>
+            <h1 className="mt-5">اختر المادة</h1>
           </div>
           <div className="col-3">
             <button
@@ -112,9 +112,7 @@ const CreateExamStep2 = (props) => {
               <th className="text-center" scope="col">
                 عدد الاسئلة
               </th>
-              <th className="text-center" scope="col">
-                العمليات
-              </th>
+              <th className="text-center" scope="col"></th>
             </tr>
           </thead>
           <tbody>
@@ -135,7 +133,7 @@ const CreateExamStep2 = (props) => {
                       }}
                       className="btn btn-outline-primary m-2"
                     >
-                      اختر الاسئلة
+                      الاسئلة
                     </button>
                   </td>
                 </tr>

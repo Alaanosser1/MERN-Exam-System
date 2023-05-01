@@ -8,6 +8,7 @@ import LandingPage from "./Pages/LandingPage";
 import App from "./App";
 import ExamineeHome from "./Pages/ExamineeHome";
 import Login from "./Pages/Login";
+import LoginStudent from "./Pages/LoginStudent";
 import Exams from "./Pages/Exams";
 import Home from "./Pages/Home";
 import ExamineeExam from "./Pages/ExamineeExam";
@@ -37,6 +38,7 @@ root.render(
         <Route path="/ExamineeExam/:examId" element={<ExamineeExam />} />
       </Route>
       <Route path="/login" element={<Login />} />
+      <Route path="/studentLogin" element={<LoginStudent />} />
       {/* <Route path="/mainClubs" element={<MainClubs />} /> */}
       <Route path="/register" element={<InstructorSignUp />} />
 

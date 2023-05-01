@@ -42,7 +42,7 @@ const LandingPage = () => {
                   />
                 </h2>
               </div>
-              <Link style={{ textDecoration: "none" }} to={"/examineePreExam"}>
+              <Link style={{ textDecoration: "none" }} to={"/studentLogin"}>
                 <div className="row w-75 ms-3">
                   <button className="btn landing-btn btn-outline-success">
                     دارسين

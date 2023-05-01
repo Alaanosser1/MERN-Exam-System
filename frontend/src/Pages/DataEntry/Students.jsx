@@ -1,5 +1,5 @@
 import { React, useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import Popup from "../../components/Popup";
 import AddExaminee from "./AddExaminee";
@@ -14,15 +14,18 @@ const Students = () => {
   const [students, setStudents] = useState("");
   const [addStudent, setAddStudent] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
-
   const refOne = useRef(null);
+  const { subClubId } = useParams();
 
   const getStudents = () => {
     axios
       .get(
-        "http://localhost:4000/examinee/getStudents" ||
-          "http://192.168.1.10:4000/examinee/getStudents",
+        "http://localhost:4000/subClub/getSubClubStudents" ||
+          "http://192.168.1.10:4000/subClub/getSubClubStudents",
         {
+          params: {
+            subClubId,
+          },
           //   headers: {
           //     "auth-token": user.token,
           //   },

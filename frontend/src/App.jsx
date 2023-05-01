@@ -18,8 +18,10 @@ import ExamReportDetails from "./Pages/ExamReportDetails";
 import QuestionsReportDetails from "./Pages/QuestionsReportDetails";
 import Footer from "./components/Footer";
 import MainQuestionBanks from "./Pages/MainQuestionBanks";
+import MainClubExams from "./Pages/MainClubExams";
 import ViewMainQuestionBank from "./components/ViewMainQuestionBank";
 import CreateExamStep1 from "./components/CreateExamStep1";
+import SubClubsExams from "./Pages/SubClubsExams";
 
 function App() {
   console.log(window.location);
@@ -33,7 +35,15 @@ function App() {
           <Routes>
             <Route element={<PrivateRoutesInstructor />}>
               <Route path="/home" element={<Home />} />
-              <Route path="/exams" element={<Exams />} />
+              <Route path="/mainClubExams" element={<MainClubExams />} />
+              <Route
+                path="/mainClubExams/:mainClubId"
+                element={<SubClubsExams />}
+              />
+              <Route
+                path="/mainClubExams/:mainClubId/:subClubId"
+                element={<Exams />}
+              />
               <Route path="/exams/:examId" element={<EditAndPreviewExam />} />
               <Route path="exams/createExamForm" element={<CreateExamForm />} />
               <Route

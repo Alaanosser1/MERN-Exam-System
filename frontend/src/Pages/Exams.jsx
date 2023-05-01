@@ -1,5 +1,5 @@
 import { React, useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import CreateExamForm from "../components/CreateExamForm";
 import Swal from "sweetalert2";
@@ -13,6 +13,7 @@ const Exams = () => {
   const [searchResults, setSearchResults] = useState([]);
   const refOne = useRef(null);
   const user = JSON.parse(localStorage.getItem("instructor-token"));
+  const { subClubId } = useParams();
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
@@ -34,9 +35,12 @@ const Exams = () => {
   const getExams = () => {
     axios
       .get(
-        "http://localhost:4000/exam/getExams" ||
-          "http://192.168.1.10:4000/exam/getExams",
+        "http://localhost:4000/exam/getExamsOfClub" ||
+          "http://192.168.1.10:4000/exam/getExamsOfClub",
         {
+          params: {
+            subClubId,
+          },
           headers: {
             "auth-token": user.token,
           },
@@ -131,12 +135,20 @@ const Exams = () => {
                 عدد الاسئلة
               </th>
               <th className="text-center" scope="col">
-                العمليات
+                تاريخ البدء
               </th>
+              <th className="text-center" scope="col">
+                ساعة البدء
+              </th>
+              <th className="text-center" scope="col">
+                وقت الامتحان
+              </th>
+              <th className="text-center" scope="col"></th>
             </tr>
           </thead>
           <tbody>
             {Object.entries(searchResults).map((bank) => {
+              console.log(typeof bank[1].start_date_time);
               return (
                 <tr scope="row" key={bank[1].exam_id}>
                   {/* <th scope="row">{bank[1].question_bank_id}</th> */}
@@ -148,6 +160,26 @@ const Exams = () => {
                   </td>
                   <td className="text-center">{bank[1].exam_grade}</td>
                   <td className="text-center">{bank[1].NumberOfQuestions}</td>
+                  <td className="text-center">
+                    {bank[1].start_date_time.substring(
+                      0,
+                      bank[1].start_date_time.indexOf("T")
+                    )}
+                  </td>
+                  <td className="text-center">
+                    {new Date(bank[1].start_date_time).getHours() > 12
+                      ? `${
+                          new Date(bank[1].start_date_time).getHours() - 12
+                        }:${new Date(
+                          bank[1].start_date_time
+                        ).getUTCMinutes()} م`
+                      : `${new Date(
+                          bank[1].start_date_time
+                        ).getHours()}:${new Date(
+                          bank[1].start_date_time
+                        ).getUTCMinutes()} ص`}
+                  </td>
+                  <td className="text-center"> {bank[1].exam_time} دقيقة</td>
                   <td className="text-center">
                     <button
                       className="btn btn-outline-danger m-2"

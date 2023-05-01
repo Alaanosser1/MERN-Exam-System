@@ -45,7 +45,7 @@ export default function SideBar() {
           <li>
             <a>
               <i className="fas fa-user"></i>
-              <Link to={"/app/exams"}>
+              <Link to={"/app/mainClubExams"}>
                 <FontAwesomeIcon icon={faPen} /> &nbsp; الامتحانات
               </Link>
             </a>
