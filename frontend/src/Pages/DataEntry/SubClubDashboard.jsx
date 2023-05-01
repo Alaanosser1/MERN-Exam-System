@@ -4,7 +4,7 @@ import Students from "./Students";
 import Subjects from "./Subjects";
 
 const SubClubDashboard = () => {
-  const [page, setPage] = useState();
+  const [page, setPage] = useState(2);
   const [examId, setExamId] = useState("");
   const [addExamPopup, setAddExamPopup] = useState(true);
 

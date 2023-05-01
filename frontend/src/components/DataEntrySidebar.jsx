@@ -45,7 +45,7 @@ export default function DataEntrySidebar() {
           <li>
             <a>
               <i className="fas fa-user"></i>
-              <Link to={"/clubs/students"}>
+              <Link to={"/clubs/Allstudents"}>
                 <FontAwesomeIcon icon={faPen} /> &nbsp; الدارسين
               </Link>
             </a>
@@ -53,7 +53,7 @@ export default function DataEntrySidebar() {
           <li>
             <a>
               <i className="fas fa-user"></i>
-              <Link to={"/clubs/questionBanks"}>
+              <Link to={"/clubs/mainQuestionBanks"}>
                 <FontAwesomeIcon icon={faPen} /> &nbsp; بنوك الاسئلة
               </Link>
             </a>

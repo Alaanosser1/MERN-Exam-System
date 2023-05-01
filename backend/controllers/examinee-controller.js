@@ -462,6 +462,7 @@ export const getExamineeExams = async (req, res) => {
     });
   }
 };
+
 export const getStudent = (req, res) => {
   const examineeId = req.query.examineeId;
 

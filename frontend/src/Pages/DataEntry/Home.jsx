@@ -160,7 +160,7 @@ export default function Home() {
             );
           })}
         </div>
-        <div className="row mt-5">
+        {/* <div className="row mt-5">
           <div className="col-9">
             <h2>التقارير</h2>
           </div>
@@ -205,7 +205,7 @@ export default function Home() {
               )
             );
           })}
-        </div>
+        </div> */}
       </div>
     </>
   );

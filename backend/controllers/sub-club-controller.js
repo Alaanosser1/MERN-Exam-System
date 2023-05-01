@@ -226,3 +226,153 @@ export const getSubClubStudents = async (req, res) => {
       });
     });
 };
+
+export const createSubject = (req, res) => {
+  const subjectName = req.body.subjectName;
+  const subjectDescription = req.body.subjectDescription;
+  const subClubId = req.body.subClubId;
+  const subjectGrade = req.body.subjectGrade;
+
+  connection
+    .promise()
+    .query(
+      `INSERT INTO subject(subject_name, subject_description,subject_grade, sub_club_id)
+          VALUES(
+           '${subjectName}','${subjectDescription}','${subjectGrade}',
+           '${subClubId}')`
+    )
+    .then((data) => {
+      res.status(201).json({
+        status: "ok",
+        msg: "Created",
+        data: data,
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 Internal Server Error",
+      });
+    });
+};
+
+export const editSubject = (req, res) => {
+  const subjectId = req.body.subjectId;
+  const subjectName = req.body.subjectName;
+  const subjectDescription = req.body.subjectDescription;
+  const subjectGrade = req.body.subjectGrade;
+
+  connection
+    .promise()
+    .query(
+      `
+            UPDATE subject
+            SET subject_name = '${subjectName}',
+            subject_description = '${subjectDescription}',
+            subject_grade = '${subjectGrade}'
+            WHERE subject_id = '${subjectId}'
+            `
+    )
+    .then((data) => {
+      if (data[0].affectedRows != 0) {
+        res.status(200).json({
+          status: "ok",
+          msg: "Updated",
+        });
+      } else {
+        res.status(404).json({
+          msg: "No subject with that ID",
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 Internal Server Error",
+      });
+    });
+};
+
+export const deleteSubject = (req, res) => {
+  const subjectId = req.query.subjectId;
+
+  connection
+    .promise()
+    .query(
+      `
+              UPDATE subject 
+              SET is_deleted = '1'
+              WHERE subject_id = '${subjectId}'
+              `
+    )
+    .then((data) => {
+      if (data[0].affectedRows != 0) {
+        res.status(200).json({
+          status: "Ok",
+          msg: "Deleted",
+        });
+      } else {
+        res.status(404).json({
+          status: "error",
+          msg: "No exam with this ID",
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 internal server error",
+      });
+    });
+};
+
+export const getClubSubjects = async (req, res) => {
+  const subClubId = req.query.subClubId;
+  let clubs = [];
+  let isError = false;
+
+  await connection
+    .promise()
+    .query(
+      `SELECT * FROM subject WHERE sub_club_id = ${subClubId} AND is_deleted = '0'`
+    )
+    .then((data) => {
+      res.status(200).json({
+        subjects: data[0],
+      });
+    })
+    .catch((error) => {
+      isError = true;
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 internal server error",
+      });
+    });
+};
+
+export const getSubject = async (req, res) => {
+  const subjectId = req.query.subjectId;
+  let clubs = [];
+  let isError = false;
+
+  await connection
+    .promise()
+    .query(`SELECT * FROM subject WHERE subject_id = ${subjectId} `)
+    .then((data) => {
+      res.status(200).json({
+        subject: data[0],
+      });
+    })
+    .catch((error) => {
+      isError = true;
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 internal server error",
+      });
+    });
+};

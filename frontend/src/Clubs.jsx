@@ -5,6 +5,7 @@ import SubClubs from "./Pages/DataEntry/SubClubs";
 import SubClubDashboard from "./Pages/DataEntry/SubClubDashboard";
 import DataEntrySidebar from "./components/DataEntrySidebar";
 import Students from "./Pages/DataEntry/Students";
+import AllStudents from "./Pages/DataEntry/AllStudents";
 import StudentProfile from "./Pages/DataEntry/StudentProfile";
 
 import Exams from "./Pages/Exams";
@@ -65,6 +66,11 @@ function Clubs() {
             />
             <Route path="/students" element={<Students />} />
             <Route path="/students/:studentId" element={<StudentProfile />} />
+            <Route path="/Allstudents" element={<AllStudents />} />
+            <Route
+              path="/Allstudents/:studentId"
+              element={<StudentProfile />}
+            />
           </Routes>
           <Footer />
         </div>
