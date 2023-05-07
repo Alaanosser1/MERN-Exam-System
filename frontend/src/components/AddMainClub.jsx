@@ -5,8 +5,9 @@ import { useForm } from "react-hook-form";
 const AddMainClub = (props) => {
   const [clubName, setClubName] = useState("");
   const [clubDescription, setClubDescription] = useState("");
-  const [clubNumber, setClubNumber] = useState("");
-  const user = JSON.parse(localStorage.getItem("instructor-token"));
+  const user =
+    JSON.parse(localStorage.getItem("instructor-token")) ||
+    JSON.parse(localStorage.getItem("data-entry-token"));
   const {
     register,
     handleSubmit,
@@ -21,7 +22,6 @@ const AddMainClub = (props) => {
         {
           clubName,
           clubDescription,
-          clubNumber,
         },
         {
           headers: {
@@ -70,20 +70,6 @@ const AddMainClub = (props) => {
           />
           {errors.descriptionRequired && (
             <span className="text-danger">من فضلك ادخل الوصف*</span>
-          )}
-          <h5 className="mt-4">رقم الفرقة</h5>
-          <input
-            className="form-control form-control-lg "
-            type="text"
-            aria-label=".form-control-lg example"
-            {...register("clubNumberRequired", { required: true })}
-            onChange={(e) => {
-              setClubNumber(e.target.value);
-              console.log(e.target.value);
-            }}
-          />
-          {errors.clubNumberRequired && (
-            <span className="text-danger">من فضلك ادخل رقم الفرقة*</span>
           )}
           <br></br>
           <div className="row d-flex justify-content-center mt-3">

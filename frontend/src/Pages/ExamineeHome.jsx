@@ -3,6 +3,8 @@ import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Footer from "../components/Footer";
 import jwt_decode from "jwt-decode";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignOut } from "@fortawesome/free-solid-svg-icons";
 
 const ExamineeHome = () => {
   const [exams, setExams] = useState([]);
@@ -45,32 +47,57 @@ const ExamineeHome = () => {
     }
   };
 
+  const logout = () => {
+    localStorage.removeItem("examinee-token");
+    navigate("/");
+  };
+
   return (
     <>
-      <div className="container w-100 h-100 p-5">
-        <div className="row me-3 text-end">
-          <h1 className="">الامتحانات</h1>
+      <div dir="rtl" className="container w-100 h-100 p-5">
+        <div className="row mb-2 bg-light p-5">
+          <div className="col-9">
+            <h2>
+              {user.rank} {user.firstName}
+            </h2>
+          </div>
+          <div className="col-3">
+            <button className="btn btn-outline-primary" onClick={logout}>
+              <FontAwesomeIcon icon={faSignOut} /> &nbsp; تسجيل الخروج
+            </button>
+          </div>
         </div>
-        <br />
-        <br />
+        <div className="row me-3">
+          <div className="col-9">
+            <h1 className="">الامتحانات</h1>
+          </div>
+        </div>
+
         <div className="row">
+          <hr />
           {Object.entries(exams).map((exam) => {
             console.log(exam[1].NumberOfQuestions);
             return (
               <div
-                className="col-4 d-flex justify-content-center mb-5"
+                className="col-4 d-flex justify-content-center mb-2 mt-2"
                 key={exam[1].exam_id}
               >
                 <div className="card exam-card text-end">
                   <div className="card-body">
                     <h4 className="card-title">
-                      {exam[1].exam_name.substring(0, 30)}
+                      الفرقة: {exam[1].sub_club_name.substring(0, 30)}
+                    </h4>
+                    <h4 className="card-title">
+                      امتحان: {exam[1].exam_name.substring(0, 30)}
                     </h4>
                     <p className="card-text">
                       {exam[1].exam_description.substring(0, 30)}...
                     </p>
                     <p className="card-text">
                       عدد الاسئلة {exam[1].NumberOfQuestions}
+                    </p>
+                    <p className="card-text">
+                      الوقت: {exam[1].exam_time} دقيقة
                     </p>
                     <div className="row">
                       <button
@@ -90,6 +117,7 @@ const ExamineeHome = () => {
               </div>
             );
           })}
+          <hr />
         </div>
         <div className="row">
           <Footer />

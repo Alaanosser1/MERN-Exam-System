@@ -11,6 +11,15 @@ import {
   deleteSubject,
   getClubSubjects,
   getSubject,
+  getSubClubPlacements,
+  createPlacement,
+  getPlacementOptions,
+  addPlacementOption,
+  removePlacementOption,
+  fillExamineePlacementData,
+  getPlacementOptionsValues,
+  getPlacement,
+  deletePlacement,
 } from "../controllers/sub-club-controller.js";
 
 const clubRouter = express.Router();
@@ -25,5 +34,14 @@ clubRouter.post("/editSubject", editSubject);
 clubRouter.delete("/deleteSubject", deleteSubject);
 clubRouter.get("/getClubSubjects", getClubSubjects);
 clubRouter.get("/getSubject", getSubject);
+clubRouter.get("/getSubClubPlacements", getSubClubPlacements);
+clubRouter.post("/createPlacement", createPlacement);
+clubRouter.get("/getPlacementOptions", getPlacementOptions);
+clubRouter.post("/addPlacementOption", addPlacementOption);
+clubRouter.delete("/removePlacementOption", removePlacementOption);
+clubRouter.post("/fillExamineePlacementData", fillExamineePlacementData);
+clubRouter.get("/getPlacementOptionsValues", getPlacementOptionsValues);
+clubRouter.get("/getPlacement", getPlacement);
+clubRouter.delete("/deletePlacement", deletePlacement);
 
 export default clubRouter;

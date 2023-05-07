@@ -9,7 +9,9 @@ const EditAndPreviewExam = () => {
   const [examQuestions, setExamQuestions] = useState([]);
   const [exam, setExam] = useState("");
   const [showCreateExamStep2, setShowCreateExamStep2] = useState(false);
-  const user = JSON.parse(localStorage.getItem("instructor-token"));
+  const user =
+    JSON.parse(localStorage.getItem("instructor-token")) ||
+    JSON.parse(localStorage.getItem("data-entry-token"));
   const navigate = useNavigate();
   useEffect(() => {
     // document.addEventListener("click", handleClickOutside, true);
@@ -105,16 +107,30 @@ const EditAndPreviewExam = () => {
             <h1>{`مراجعة و تعديل امتحان ${exam.exam_name}`}</h1>
           </div>
           <div className="col-3">
-            <Link to={`/app/exams/${examId}/mainQuestionBanks`}>
-              <button
-                onClick={() => {
-                  setShowCreateExamStep2(true);
-                }}
-                className="btn btn-outline-success mt-5"
-              >
-                اضافة الأسئلة
-              </button>
-            </Link>
+            {JSON.parse(localStorage.getItem("instructor-token")) && (
+              <Link to={`/app/exams/${examId}/mainQuestionBanks`}>
+                <button
+                  onClick={() => {
+                    setShowCreateExamStep2(true);
+                  }}
+                  className="btn btn-outline-success mt-5"
+                >
+                  اضافة الأسئلة
+                </button>
+              </Link>
+            )}
+            {JSON.parse(localStorage.getItem("data-entry-token")) && (
+              <Link to={`/clubs/exams/${examId}/mainQuestionBanks`}>
+                <button
+                  onClick={() => {
+                    setShowCreateExamStep2(true);
+                  }}
+                  className="btn btn-outline-success mt-5"
+                >
+                  اضافة الأسئلة
+                </button>
+              </Link>
+            )}
           </div>
         </div>
         {examQuestions.length < 1 ? (

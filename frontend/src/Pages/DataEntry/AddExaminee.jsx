@@ -4,6 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import SubClubChoose from "../SubClubChoose";
 import Swal from "sweetalert2";
+import DatePicker from "react-datepicker";
+import ar from "date-fns/locale/ar";
 
 const AddExaminee = (props) => {
   const [mainClubs, setMainClubs] = useState("");
@@ -20,9 +22,17 @@ const AddExaminee = (props) => {
   const [rank, setRank] = useState("");
   const [entity, setEntity] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
+  const [carType, setCarType] = useState("");
+  const [carNumber, setCarNumber] = useState("");
+  const [datePickerGraduationDate, setDatePickerGraduationDate] = useState(
+    new Date()
+  );
+
+  const [graduationDate, setGraduationDate] = useState(
+    new Date().toISOString().slice(0, 19).split("T")[0]
+  );
   const navigate = useNavigate();
   const examId = useParams();
-
   const {
     register,
     handleSubmit,
@@ -46,6 +56,9 @@ const AddExaminee = (props) => {
     formData.append("rank", rank);
     formData.append("entity", entity);
     formData.append("mobileNumber", mobileNumber);
+    formData.append("graduationDate", graduationDate);
+    formData.append("carType", carType);
+    formData.append("carNumber", carNumber);
 
     axios
       .post(
@@ -164,6 +177,12 @@ const AddExaminee = (props) => {
     console.log(e.target.value);
   };
 
+  const handleGraduationDate = (graduationDate, date) => {
+    setGraduationDate(graduationDate);
+    setDatePickerGraduationDate(date);
+    console.log(graduationDate);
+  };
+
   return (
     <>
       <div style={{ marginTop: 40 }} dir={"rtl"} className="container ">
@@ -228,17 +247,17 @@ const AddExaminee = (props) => {
                 <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">الصورة الشخصية</h5>
                   <input
-                    {...register("imageRequired", { required: true })}
+                    // {...register("imageRequired", { required: true })}
                     onChange={imageHandler}
                     type="file"
                     className="form-control"
                     id="inputEmail4"
                   />
-                  {errors.imageRequired && (
+                  {/* {errors.imageRequired && (
                     <span className="text-danger">
                       من فضلك ادخل الصورة الشخصية*
                     </span>
-                  )}
+                  )} */}
                 </div>
               </div>
               <div className="row p-2">
@@ -293,7 +312,7 @@ const AddExaminee = (props) => {
                 </div>
               </div>
               <div className="row p-2">
-                <div className="form-group col-md-6 p-2">
+                <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">الرتبة</h5>
                   <select
                     {...register("rankRequired", { required: true })}
@@ -320,7 +339,27 @@ const AddExaminee = (props) => {
                     <span className="text-danger">من فضلك اختر الرتبة*</span>
                   )}
                 </div>
-                <div className="form-group col-md-6 p-2">
+                <div className="form-group col-md-4 p-2">
+                  <h5 className="mb-3">تاريخ التخرج</h5>
+                  <DatePicker
+                    // {...register("graduationDateRequired", { required: true })}
+                    className="form-control"
+                    locale={ar}
+                    selected={datePickerGraduationDate}
+                    onChange={(date) =>
+                      handleGraduationDate(
+                        new Date(date).toISOString().split("T")[0],
+                        date
+                      )
+                    }
+                  />
+                  {/* {errors.graduationDateRequired && (
+                    <span className="text-danger">
+                      من فضلك ادخل تاريخ التخرج*
+                    </span>
+                  )} */}
+                </div>
+                <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">جهة العمل الحالية</h5>
                   <input
                     {...register("entityRequired", { required: true })}
@@ -335,6 +374,49 @@ const AddExaminee = (props) => {
                   {errors.entityRequired && (
                     <span className="text-danger">
                       من فضلك ادخل جهة العمل الحالية*
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div className="row p-2">
+                <div className="form-group col-md-6 p-2">
+                  <h5 className="mb-3">نوع السيارة</h5>
+                  <select
+                    {...register("carTypeRequired", { required: true })}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      setCarType(e.target.value);
+                    }}
+                    id="inputState"
+                    className="form-control"
+                  >
+                    <option selected disabled value={""}>
+                      نوع السيارة
+                    </option>
+                    <option value={"خاصة"}>سيارة خاصة</option>
+                    <option value={" شرطة"}>سيارة شرطة</option>
+                  </select>
+                  {errors.carTypeRequired && (
+                    <span className="text-danger">
+                      من فضلك اختر نوع السيارة*
+                    </span>
+                  )}
+                </div>
+                <div className="form-group col-md-6 p-2">
+                  <h5 className="mb-3">رقم السيارة</h5>
+                  <input
+                    {...register("carNumberRequired", { required: true })}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      setCarNumber(e.target.value);
+                    }}
+                    value={carNumber}
+                    type="text"
+                    className="form-control"
+                  />
+                  {errors.carNumberRequired && (
+                    <span className="text-danger">
+                      من فضلك ادخل رقم السيارة *
                     </span>
                   )}
                 </div>
@@ -455,8 +537,8 @@ const AddExaminee = (props) => {
                 </div>
               </div>
               <div className="row p-2">
-                <div className="form-group col-md-6 p-2">
-                  <h5 className="mb-3">الرتبة</h5>
+                <div className="form-group col-md-4 p-2">
+                  <h5 className="mb-3">الدرجة</h5>
                   <select
                     {...register("officerRankRequired", { required: true })}
                     onChange={(e) => {
@@ -467,7 +549,7 @@ const AddExaminee = (props) => {
                     className="form-control"
                   >
                     <option selected disabled value="">
-                      اختر الرتبة
+                      اختر الدرجة
                     </option>
                     <option value={"رقيب"}>رقيب</option>
                     <option value={"رقيب اول"}>رقيب اول</option>
@@ -480,25 +562,88 @@ const AddExaminee = (props) => {
                     <option value={"امين شرطة ممتاز"}>امين شرطة ممتاز</option>
                   </select>
                   {errors.officerRankRequired && (
-                    <span className="text-danger">من فضلك اختر الرتبة*</span>
+                    <span className="text-danger">من فضلك اختر الدرجة*</span>
                   )}
                 </div>
 
-                <div className="form-group col-md-6 p-2">
+                <div className="form-group col-md-4 p-2">
+                  <h5 className="mb-3">تاريخ التخرج</h5>
+                  <DatePicker
+                    // {...register("graduationDateRequired", { required: true })}
+                    className="form-control"
+                    locale={ar}
+                    selected={datePickerGraduationDate}
+                    onChange={(date) =>
+                      handleGraduationDate(
+                        new Date(date).toISOString().split("T")[0],
+                        date
+                      )
+                    }
+                  />
+                  {/* {errors.graduationDateRequired && (
+                    <span className="text-danger">
+                      من فضلك ادخل تاريخ التخرج*
+                    </span>
+                  )} */}
+                </div>
+                <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">جهة العمل الحالية</h5>
                   <input
-                    {...register("officerEntityRequired", { required: true })}
+                    {...register("entityRequired", { required: true })}
                     onChange={(e) => {
                       e.preventDefault();
                       setEntity(e.target.value);
                     }}
-                    type="text"
                     value={entity}
+                    type="text"
                     className="form-control"
                   />
-                  {errors.officerEntityRequired && (
+                  {errors.entityRequired && (
                     <span className="text-danger">
                       من فضلك ادخل جهة العمل الحالية*
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div className="row p-2">
+                <div className="form-group col-md-6 p-2">
+                  <h5 className="mb-3">نوع السيارة</h5>
+                  <select
+                    {...register("carTypeRequired", { required: true })}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      setCarType(e.target.value);
+                    }}
+                    id="inputState"
+                    className="form-control"
+                  >
+                    <option selected disabled value={""}>
+                      نوع السيارة
+                    </option>
+                    <option value={"خاصة"}>سيارة خاصة</option>
+                    <option value={" شرطة"}>سيارة شرطة</option>
+                  </select>
+                  {errors.carTypeRequired && (
+                    <span className="text-danger">
+                      من فضلك اختر نوع السيارة*
+                    </span>
+                  )}
+                </div>
+                <div className="form-group col-md-6 p-2">
+                  <h5 className="mb-3">رقم السيارة</h5>
+                  <input
+                    {...register("carNumberRequired", { required: true })}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      setCarNumber(e.target.value);
+                    }}
+                    value={carNumber}
+                    type="text"
+                    className="form-control"
+                  />
+                  {errors.carNumberRequired && (
+                    <span className="text-danger">
+                      من فضلك ادخل رقم السيارة *
                     </span>
                   )}
                 </div>
@@ -617,6 +762,50 @@ const AddExaminee = (props) => {
                       subClubs={subClubs}
                       setSubClubId={setSubClubId}
                     />
+                  </div>
+                </div>
+
+                <div className="row p-2">
+                  <div className="form-group col-md-6 p-2">
+                    <h5 className="mb-3">نوع السيارة</h5>
+                    <select
+                      {...register("carTypeRequired", { required: true })}
+                      onChange={(e) => {
+                        e.preventDefault();
+                        setCarType(e.target.value);
+                      }}
+                      id="inputState"
+                      className="form-control"
+                    >
+                      <option selected disabled value={""}>
+                        نوع السيارة
+                      </option>
+                      <option value={"خاصة"}>سيارة خاصة</option>
+                      <option value={" شرطة"}>سيارة شرطة</option>
+                    </select>
+                    {errors.carTypeRequired && (
+                      <span className="text-danger">
+                        من فضلك اختر نوع السيارة*
+                      </span>
+                    )}
+                  </div>
+                  <div className="form-group col-md-6 p-2">
+                    <h5 className="mb-3">رقم السيارة</h5>
+                    <input
+                      {...register("carNumberRequired", { required: true })}
+                      onChange={(e) => {
+                        e.preventDefault();
+                        setCarNumber(e.target.value);
+                      }}
+                      value={carNumber}
+                      type="text"
+                      className="form-control"
+                    />
+                    {errors.carNumberRequired && (
+                      <span className="text-danger">
+                        من فضلك ادخل رقم السيارة *
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="row p-2">

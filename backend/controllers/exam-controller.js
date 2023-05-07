@@ -5,7 +5,9 @@ export const createExam = (req, res) => {
   const examDescription = req.body.examDescription;
   const mainClubId = req.body.mainClubId;
   const subClubId = req.body.subClubId;
+  const subjectId = req.body.subjectId;
   const startDate = new Date(req.body.startDate);
+  const showTimeOption = req.body.showTimeOption;
   // const startDate = req.body.startDate.replace("Z", " ").replace("T", " ");
   const endDate = new Date(req.body.endDate);
   const examTime = Math.floor(req.body.examTime / 60000);
@@ -41,8 +43,11 @@ export const createExam = (req, res) => {
   connection
     .promise()
     .query(
-      `INSERT INTO exam(exam_name,exam_description, main_club_id, sub_club_id, start_date_time, end_date_time, exam_time)
-        VALUES('${examName}','${examDescription}','${mainClubId}', '${subClubId}', '${startDateFormatted}', '${endDateFormatted}', '${examTime}')`
+      `INSERT INTO exam(exam_name,exam_description,
+         main_club_id, sub_club_id, start_date_time, end_date_time, exam_time, subject_id, show_time)
+        VALUES('${examName}','${examDescription}','${mainClubId}', '${subClubId}',
+         '${startDateFormatted}', '${endDateFormatted}', '${examTime}', '${subjectId}',
+          '${showTimeOption}')`
     )
     .then((data) => {
       res.status(201).json({
@@ -148,7 +153,7 @@ export const getExams = async (req, res) => {
   await connection
     .promise()
     .query(
-      `SELECT * FROM exam JOIN sub_club ON exam.sub_club_id = sub_club.sub_club_id`
+      `SELECT * FROM exam JOIN sub_club ON exam.sub_club_id = sub_club.sub_club_id `
     )
     .then((data) => {
       for (let i = 0; i < data[0].length; i++) {
@@ -200,7 +205,11 @@ export const getExamsOfClub = async (req, res) => {
   let isError = false;
   await connection
     .promise()
-    .query(`SELECT * FROM exam WHERE sub_club_id = '${subClubId}'`)
+    .query(
+      `SELECT * FROM exam 
+      JOIN subject ON  exam.subject_id = subject.subject_id 
+      WHERE exam.sub_club_id = '${subClubId}'`
+    )
     .then((data) => {
       for (let i = 0; i < data[0].length; i++) {
         if (data[0][i].is_deleted == 0) {

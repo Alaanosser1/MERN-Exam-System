@@ -1,16 +1,43 @@
 import { React, useState } from "react";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 const SubClubChoose = (props) => {
+  const [subClubId, setSubClubId] = useState("");
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
+  const getSubjects = (subClubId) => {
+    axios
+      .get(
+        "http://localhost:4000/subClub/getClubSubjects" ||
+          "http://192.168.1.10:4000/subClub/getClubSubjects",
+        {
+          params: {
+            subClubId,
+          },
+          //   headers: {
+          //     "auth-token": user.token,
+          //   },
+        }
+      )
+      .then((res) => {
+        props.setSubjects(res.data.subjects);
+        console.log(subClubId, "SUBCLUBIDIDIDIDID");
+        console.log(res.data, "######subjects######");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const handleChangeSubCLub = (e) => {
     e.preventDefault();
     props.setSubClubId(e.target.value);
+    getSubjects(e.target.value);
     console.log(e.target.value, "TEST");
   };
 

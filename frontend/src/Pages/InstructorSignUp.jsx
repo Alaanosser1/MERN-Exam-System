@@ -32,7 +32,7 @@ const ExamineePreExam = () => {
             instructorName,
             instructorPoliceNumber,
             instructorPassword,
-            instructorRank,
+            // instructorRank,
           }
         )
         .then((data) => {
@@ -148,7 +148,7 @@ const ExamineePreExam = () => {
             </div>
           </div>
           <div class="row p-2">
-            <div class="form-group col-md-6 p-2">
+            {/* <div class="form-group col-md-6 p-2">
               <h5 className="mb-3" for="inputState">
                 الرتبة
               </h5>
@@ -169,7 +169,7 @@ const ExamineePreExam = () => {
               {errors.rankRequired && (
                 <h6 className="m-2 text-danger">من فضلك اختر الرتبة*</h6>
               )}
-            </div>
+            </div> */}
           </div>
           <div className="row m-4  d-flex justify-content-center align-items-center">
             <button type="submit" class="btn btn-primary mt-3 w-25">

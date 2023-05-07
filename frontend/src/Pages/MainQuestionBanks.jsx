@@ -16,7 +16,9 @@ export default function MainQuestionBanks() {
   const [questionBankDescription, setDescription] = useState("");
   const refOne = useRef(null);
   const refTwo = useRef(null);
-  const user = JSON.parse(localStorage.getItem("instructor-token"));
+  const user =
+    JSON.parse(localStorage.getItem("instructor-token")) ||
+    JSON.parse(localStorage.getItem("data-entry-token"));
 
   const {
     register,
@@ -181,10 +183,10 @@ export default function MainQuestionBanks() {
           </Popup>
         </div>
         <div className="row">
-          <div className="col-9">
-            <h1 className="mt-5">بنوك الاسئلة</h1>
-          </div>
-          <div className="col-3">
+          <h1 className="text-center text-primary">بنوك الاسئلة</h1>
+        </div>
+        <div className="row">
+          <div dir="" className="col-3">
             <button
               onClick={() => {
                 setAddQuestionBankPopup(true);
@@ -228,33 +230,64 @@ export default function MainQuestionBanks() {
                   <td className="text-center">
                     {bank[1].NumberOfQuestionBanks}
                   </td>
-                  <td className="text-center">
-                    <Link
-                      to={`/app/mainQuestionBanks/${bank[1].main_question_bank_id}`}
-                    >
-                      <button className="btn btn-outline-primary m-2">
-                        عرض
+                  {JSON.parse(localStorage.getItem("instructor-token")) && (
+                    <td className="text-center">
+                      <Link
+                        to={`/app/mainQuestionBanks/${bank[1].main_question_bank_id}`}
+                      >
+                        <button className="btn btn-outline-primary m-2">
+                          عرض
+                        </button>
+                      </Link>
+                      <button
+                        className="btn btn-outline-danger m-2"
+                        onClick={() => {
+                          deleteQuestionBank(bank[1]);
+                        }}
+                      >
+                        حذف
                       </button>
-                    </Link>
-                    <button
-                      className="btn btn-outline-danger m-2"
-                      onClick={() => {
-                        deleteQuestionBank(bank[1]);
-                      }}
-                    >
-                      حذف
-                    </button>
-                    <button
-                      onClick={() => {
-                        setEditQuestionBankPopup(true);
-                        setQuestionBankId(bank[1].main_question_bank_id);
-                        console.log(questionBankId);
-                      }}
-                      className="btn btn-outline-info m-2"
-                    >
-                      تعديل
-                    </button>
-                  </td>
+                      <button
+                        onClick={() => {
+                          setEditQuestionBankPopup(true);
+                          setQuestionBankId(bank[1].main_question_bank_id);
+                          console.log(questionBankId);
+                        }}
+                        className="btn btn-outline-info m-2"
+                      >
+                        تعديل
+                      </button>
+                    </td>
+                  )}
+                  {JSON.parse(localStorage.getItem("data-entry-token")) && (
+                    <td className="text-center">
+                      <Link
+                        to={`/clubs/mainQuestionBanks/${bank[1].main_question_bank_id}`}
+                      >
+                        <button className="btn btn-outline-primary m-2">
+                          عرض
+                        </button>
+                      </Link>
+                      <button
+                        className="btn btn-outline-danger m-2"
+                        onClick={() => {
+                          deleteQuestionBank(bank[1]);
+                        }}
+                      >
+                        حذف
+                      </button>
+                      <button
+                        onClick={() => {
+                          setEditQuestionBankPopup(true);
+                          setQuestionBankId(bank[1].main_question_bank_id);
+                          console.log(questionBankId);
+                        }}
+                        className="btn btn-outline-info m-2"
+                      >
+                        تعديل
+                      </button>
+                    </td>
+                  )}
                 </tr>
               );
             })}

@@ -11,6 +11,7 @@ import examRouter from "./routes/exam-route.js";
 import evaluateRouter from "./routes/evaluation-route.js";
 import mainClubRoute from "./routes/main-club-route.js";
 import subClubRoute from "./routes/sub-club-route.js";
+import dataEnrtyRouter from "./routes/data-entry-route.js";
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.use("/exam", examRouter);
 app.use("/evaluate", evaluateRouter);
 app.use("/mainClub", mainClubRoute);
 app.use("/subClub", subClubRoute);
+app.use("/dataEntry", dataEnrtyRouter);
 
 app.use((error, req, res, next) => {
   if (error.status == 404) {

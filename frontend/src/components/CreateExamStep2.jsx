@@ -19,7 +19,9 @@ const CreateExamStep2 = (props) => {
   const [questionBankId, setQuestionBankId] = useState("");
   const [questionBankDescription, setDescription] = useState("");
   const refOne = useRef(null);
-  const user = JSON.parse(localStorage.getItem("instructor-token"));
+  const user =
+    JSON.parse(localStorage.getItem("instructor-token")) ||
+    JSON.parse(localStorage.getItem("data-entry-token"));
 
   const {
     register,
@@ -89,7 +91,7 @@ const CreateExamStep2 = (props) => {
           <div className="col-3">
             <button
               onClick={() => {
-                navigate("/app/exams");
+                navigate("/clubs/mainClubExams");
               }}
               className="mt-5 w-75 btn btn-outline-success"
             >

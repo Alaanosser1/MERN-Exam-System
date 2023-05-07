@@ -29,7 +29,9 @@ function AddQuestion(props) {
   } = useForm();
   const [arr, setArr] = useState([1, 2, 3, 4]);
   const MySwal = withReactContent(Swal);
-  const user = JSON.parse(localStorage.getItem("instructor-token"));
+  const user =
+    JSON.parse(localStorage.getItem("instructor-token")) ||
+    JSON.parse(localStorage.getItem("data-entry-token"));
 
   useEffect(() => {
     renderBasedOnQuestionType();

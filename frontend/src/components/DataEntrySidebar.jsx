@@ -15,10 +15,10 @@ import {
 
 export default function DataEntrySidebar() {
   const navigate = useNavigate();
-  // const logout = () => {
-  //   localStorage.removeItem("data-entry-token");
-  //   navigate("/");
-  // };
+  const logout = () => {
+    localStorage.removeItem("data-entry-token");
+    navigate("/");
+  };
   return (
     <>
       <nav dir="rtl" className="wrapper g-0">
@@ -26,14 +26,14 @@ export default function DataEntrySidebar() {
           <div className="row d-flex justifty-content-center align-items-center">
             {<img src={logo} alt="" />}
           </div>
-          <li>
+          {/* <li>
             <a className="w-100 h-100" href="#">
               <i className="fas fa-home"></i>
               <Link to={"/clubs/home"}>
                 <FontAwesomeIcon icon={faHome} /> &nbsp; الرئيسية
               </Link>
             </a>
-          </li>
+          </li> */}
           <li>
             <a href="#">
               <i className="fas fa-user"></i>
@@ -50,7 +50,7 @@ export default function DataEntrySidebar() {
               </Link>
             </a>
           </li>
-          <li>
+          {/* <li>
             <a>
               <i className="fas fa-user"></i>
               <Link to={"/clubs/mainQuestionBanks"}>
@@ -61,16 +61,13 @@ export default function DataEntrySidebar() {
           <li>
             <a>
               <i className="fas fa-user"></i>
-              <Link to={"/clubs/exams"}>
+              <Link to={"/clubs/mainClubExams"}>
                 <FontAwesomeIcon icon={faPen} /> &nbsp; الامتحانات
               </Link>
             </a>
-          </li>
+          </li> */}
           <li>
-            <a
-              href="/"
-              //  onClick={logout}
-            >
+            <a href="/" onClick={logout}>
               <FontAwesomeIcon icon={faSignOut} /> &nbsp; تسجيل الخروج
             </a>
           </li>

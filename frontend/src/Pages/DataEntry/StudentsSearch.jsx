@@ -9,6 +9,10 @@ const StudentSearch = ({ content, setSearchResults }) => {
         value.examinee_name
           .toUpperCase()
           .includes(e.target.value.toUpperCase()) ||
+        value.examinee_id
+          .toString()
+          .toUpperCase()
+          .includes(e.target.value.toUpperCase()) ||
         value.examinee_police_number
           .toUpperCase()
           .includes(e.target.value.toUpperCase()) ||

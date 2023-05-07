@@ -10,7 +10,9 @@ function ViewQuestionBank() {
   const [questions, setQuestions] = useState([]);
   const [buttonPopup, setButtonPopup] = useState(false);
   const refOne = useRef(null);
-  const user = JSON.parse(localStorage.getItem("instructor-token"));
+  const user =
+    JSON.parse(localStorage.getItem("instructor-token")) ||
+    JSON.parse(localStorage.getItem("data-entry-token"));
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);

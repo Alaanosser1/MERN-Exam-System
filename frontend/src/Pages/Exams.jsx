@@ -12,7 +12,9 @@ const Exams = () => {
   const [showCreateExam, setShowCreateExam] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const refOne = useRef(null);
-  const user = JSON.parse(localStorage.getItem("instructor-token"));
+  const user =
+    JSON.parse(localStorage.getItem("instructor-token")) ||
+    JSON.parse(localStorage.getItem("data-entry-token"));
   const { subClubId } = useParams();
 
   useEffect(() => {
@@ -102,16 +104,30 @@ const Exams = () => {
             <h1 className="mt-5">الامتحانات</h1>
           </div>
           <div className="col-3">
-            <Link to={"/app/exams/createExamForm"}>
-              <button
-                onClick={() => {
-                  setShowCreateExam(true);
-                }}
-                className="btn btn-outline-success mt-5"
-              >
-                اضافة امتحان جديد
-              </button>
-            </Link>
+            {JSON.parse(localStorage.getItem("instructor-token")) && (
+              <Link to={"/app/exams/createExamForm"}>
+                <button
+                  onClick={() => {
+                    setShowCreateExam(true);
+                  }}
+                  className="btn btn-outline-success mt-5"
+                >
+                  اضافة امتحان جديد
+                </button>
+              </Link>
+            )}
+            {JSON.parse(localStorage.getItem("data-entry-token")) && (
+              <Link to={"/clubs/exams/createExamForm"}>
+                <button
+                  onClick={() => {
+                    setShowCreateExam(true);
+                  }}
+                  className="btn btn-outline-success mt-5"
+                >
+                  اضافة امتحان جديد
+                </button>
+              </Link>
+            )}
           </div>
         </div>
         <div className="row m-3">
@@ -127,6 +143,9 @@ const Exams = () => {
               </th>
               <th className="text-center" scope="col">
                 الوصف
+              </th>
+              <th className="text-center" scope="col">
+                المادة
               </th>
               <th className="text-center" scope="col">
                 الدرجة
@@ -158,6 +177,7 @@ const Exams = () => {
                   <td className="text-center">
                     {bank[1].exam_description.substring(0, 25)}...
                   </td>
+                  <td className="text-center">{bank[1].subject_name}</td>
                   <td className="text-center">{bank[1].exam_grade}</td>
                   <td className="text-center">{bank[1].NumberOfQuestions}</td>
                   <td className="text-center">
@@ -189,18 +209,34 @@ const Exams = () => {
                     >
                       حذف
                     </button>
-                    <Link to={`/app/exams/${bank[1].exam_id}`}>
-                      <button
-                        onClick={() => {
-                          // setEditQuestionBankPopup(true);
-                          setExamId(bank[1].exam_id);
-                          // console.log(questionBankId);
-                        }}
-                        className="btn btn-outline-primary m-2"
-                      >
-                        تعديل
-                      </button>
-                    </Link>
+                    {JSON.parse(localStorage.getItem("instructor-token")) && (
+                      <Link to={`/app/exams/${bank[1].exam_id}`}>
+                        <button
+                          onClick={() => {
+                            // setEditQuestionBankPopup(true);
+                            setExamId(bank[1].exam_id);
+                            // console.log(questionBankId);
+                          }}
+                          className="btn btn-outline-primary m-2"
+                        >
+                          تعديل
+                        </button>
+                      </Link>
+                    )}
+                    {JSON.parse(localStorage.getItem("data-entry-token")) && (
+                      <Link to={`/clubs/exams/${bank[1].exam_id}`}>
+                        <button
+                          onClick={() => {
+                            // setEditQuestionBankPopup(true);
+                            setExamId(bank[1].exam_id);
+                            // console.log(questionBankId);
+                          }}
+                          className="btn btn-outline-primary m-2"
+                        >
+                          تعديل
+                        </button>
+                      </Link>
+                    )}
                   </td>
                 </tr>
               );

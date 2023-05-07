@@ -1,8 +1,6 @@
 import { React, useEffect, useState, useRef } from "react";
 import AddExam from "./AddExam";
 import CreateExamStep1 from "./CreateExamStep1";
-import CreateExamStep2 from "./CreateExamStep2";
-import Popup from "./Popup";
 
 const CreateExamForm = () => {
   const [page, setPage] = useState(1);
@@ -31,7 +29,7 @@ const CreateExamForm = () => {
   return (
     <>
       <div className="container">
-        <div class=" progress m-5">
+        <div class="progress">
           <div
             class={`progress-bar ${page === 1 && "w-0"}
              ${page === 2 && "w-50"} ${page === 3 && "w-100"}   `}
@@ -42,6 +40,7 @@ const CreateExamForm = () => {
           ></div>
         </div>
         {pageDisplay()}
+        <div className="row mt-4"></div>
       </div>
     </>
   );

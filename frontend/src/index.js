@@ -9,6 +9,7 @@ import App from "./App";
 import ExamineeHome from "./Pages/ExamineeHome";
 import Login from "./Pages/Login";
 import LoginStudent from "./Pages/LoginStudent";
+import LoginDataEntry from "./Pages/LoginDataEntry";
 import Exams from "./Pages/Exams";
 import Home from "./Pages/Home";
 import ExamineeExam from "./Pages/ExamineeExam";
@@ -39,6 +40,7 @@ root.render(
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/studentLogin" element={<LoginStudent />} />
+      <Route path="/dataEntryLogin" element={<LoginDataEntry />} />
       {/* <Route path="/mainClubs" element={<MainClubs />} /> */}
       <Route path="/register" element={<InstructorSignUp />} />
 

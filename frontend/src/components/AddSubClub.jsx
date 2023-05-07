@@ -29,7 +29,9 @@ const AddSubClub = (props) => {
   const [attendenceGrades, setAttendenceGrades] = useState("");
   const [behaviourGrades, setBehaviourGrades] = useState("");
   const [placement, setPlacement] = useState(0);
-  const user = JSON.parse(localStorage.getItem("instructor-token"));
+  const user =
+    JSON.parse(localStorage.getItem("instructor-token")) ||
+    JSON.parse(localStorage.getItem("data-entry-token"));
   let { mainClubId } = useParams();
   const {
     register,

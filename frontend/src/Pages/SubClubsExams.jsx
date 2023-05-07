@@ -116,15 +116,28 @@ const SubClubsExams = () => {
                         .split("T")[0]
                     }
                   </td>
-                  <td className="text-center">
-                    <Link
-                      to={`/app/mainClubExams/${mainClubId}/${club[1].sub_club_id}`}
-                    >
-                      <button className="btn btn-outline-primary">
-                        عرض الامتحانات
-                      </button>
-                    </Link>
-                  </td>
+                  {JSON.parse(localStorage.getItem("instructor-token")) && (
+                    <td className="text-center">
+                      <Link
+                        to={`/app/mainClubExams/${mainClubId}/${club[1].sub_club_id}`}
+                      >
+                        <button className="btn btn-outline-primary">
+                          عرض الامتحانات
+                        </button>
+                      </Link>
+                    </td>
+                  )}
+                  {JSON.parse(localStorage.getItem("data-entry-token")) && (
+                    <td className="text-center">
+                      <Link
+                        to={`/clubs/mainClubExams/${mainClubId}/${club[1].sub_club_id}`}
+                      >
+                        <button className="btn btn-outline-primary">
+                          عرض الامتحانات
+                        </button>
+                      </Link>
+                    </td>
+                  )}
                 </tr>
               );
             })}

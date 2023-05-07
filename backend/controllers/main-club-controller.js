@@ -4,13 +4,12 @@ import Joi from "joi";
 export const createMainClub = (req, res) => {
   const clubName = req.body.clubName;
   const clubDescription = req.body.clubDescription;
-  const clubNumber = req.body.clubNumber;
 
   connection
     .promise()
     .query(
-      `INSERT INTO main_club(club_name,club_description, club_number)
-          VALUES('${clubName}','${clubDescription}','${clubNumber}')`
+      `INSERT INTO main_club(club_name,club_description)
+          VALUES('${clubName}','${clubDescription}')`
     )
     .then((data) => {
       res.status(201).json({

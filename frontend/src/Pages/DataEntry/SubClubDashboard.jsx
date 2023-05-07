@@ -1,5 +1,6 @@
 import { React, useState } from "react";
 import { useParams } from "react-router-dom";
+import Placement from "./Placement";
 import Students from "./Students";
 import Subjects from "./Subjects";
 
@@ -21,6 +22,15 @@ const SubClubDashboard = () => {
         ></Students>
       );
     }
+    if (page === 3) {
+      return (
+        <Placement
+          hidePopup={setAddExamPopup}
+          setPage={setPage}
+          setExamId={setExamId}
+        ></Placement>
+      );
+    }
   };
   return (
     <>
@@ -29,17 +39,31 @@ const SubClubDashboard = () => {
           <div className="col-2 m-1">
             <button
               onClick={() => setPage(1)}
-              className="w-100 btn btn-outline-primary"
+              className={`w-100 btn ${
+                page == 1 ? "btn-primary" : "btn-outline-primary"
+              } `}
             >
               المواد
             </button>
           </div>
-          <div className="col-2">
+          <div className="col-2 m-1">
             <button
               onClick={() => setPage(2)}
-              className="w-100 btn btn-outline-primary"
+              className={`w-100 btn ${
+                page == 2 ? "btn-primary" : "btn-outline-primary"
+              } `}
             >
               الملتحقين بالفرقة
+            </button>
+          </div>
+          <div className="col-2 m-1">
+            <button
+              onClick={() => setPage(3)}
+              className={`w-100 btn ${
+                page == 3 ? "btn-primary" : "btn-outline-primary"
+              } `}
+            >
+              قياس المستوي
             </button>
           </div>
           {/* <div className="col-2">

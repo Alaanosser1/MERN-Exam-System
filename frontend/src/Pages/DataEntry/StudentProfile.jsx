@@ -5,21 +5,31 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import Popup from "../../components/Popup";
 import SubClubChoose from "../SubClubChoose";
+import PlacementOptions from "./PlacementOptions";
+import ExamineePlacement from "./ExamineePlacement";
+import ExamineePlacementBefore from "./ExamineePlacementBefore";
+import ListExamineePlacement from "./ListExamineePlacement";
 
 const StudentProfile = () => {
   useEffect(() => {
     getStudent();
     getStudentClubs();
     getMainClubs();
+    getPlacements();
   }, []);
-  let { studentId } = useParams();
+  let { studentId, currentSubClubId, currentMainClubId } = useParams();
   const [student, setStudent] = useState("");
   const [studentClubs, setStudentClubs] = useState("");
   const [addStudentToClubs, setAddStudentToClub] = useState(false);
   const [mainClubs, setMainClubs] = useState("");
+  const [placements, setPlacements] = useState("");
   const [mainClubId, setMainClubId] = useState("");
   const [subClubId, setSubClubId] = useState("");
   const [subClubs, setSubClubs] = useState([]);
+  const [placementId, setPlacementId] = useState("");
+  const [addPlacement, setAddPlacement] = useState(false);
+  const [placementOptions, setPlacementOptions] = useState(false);
+  const [listPlacementOptions, setListPlacementOptions] = useState(false);
   const refOne = useRef(null);
   const {
     register,
@@ -116,6 +126,31 @@ const StudentProfile = () => {
       });
   };
 
+  const getPlacements = () => {
+    console.log(currentSubClubId);
+    axios
+      .get(
+        "http://localhost:4000/subClub/getSubClubPlacements" ||
+          "http://192.168.1.10:4000/subClub/getSubClubPlacements",
+        {
+          params: {
+            subClubId: currentSubClubId,
+          },
+          //   headers: {
+          //     "auth-token": user.token,
+          //   },
+        }
+      )
+      .then((res) => {
+        console.log(res.data.placements, "Placements");
+        setPlacements(res.data.placements);
+        // setSearchResults(res.data.subjects);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const handleChangeMainCLub = (e) => {
     e.preventDefault();
     setMainClubId(e.target.value);
@@ -159,6 +194,23 @@ const StudentProfile = () => {
 
   return (
     <>
+      <Popup trigger={placementOptions} setTrigger={setPlacementOptions}>
+        <ExamineePlacementBefore
+          placementId={placementId}
+          setClosePlacementOptions={setPlacementOptions}
+        />
+        {console.log(placementId, "FROM PLACEMENT")}
+      </Popup>
+      <Popup
+        trigger={listPlacementOptions}
+        setTrigger={setListPlacementOptions}
+      >
+        <ListExamineePlacement
+          placementId={placementId}
+          setClosePlacementOptions={setListPlacementOptions}
+        />
+        {console.log(placementId, "FROM PLACEMENT")}
+      </Popup>
       <div ref={refOne}>
         <Popup trigger={addStudentToClubs} setTrigger={setAddStudentToClub}>
           <form onSubmit={handleSubmit(addStudentToClubSubmit)} className="">
@@ -211,76 +263,157 @@ const StudentProfile = () => {
         </div>
         {student.length > 0 && (
           <>
-            <div className="row mt-4">
-              <div className="col-6 d-flex justify-content-center mt-5">
+            <div dir="rtl" className="row">
+              <div className="col-6  mt-5 mb-3">
                 <img
                   style={{
                     width: 250,
                     height: 250,
-                    marginLeft: 100,
                     border: 5,
                   }}
                   src={require(`/Users/Nosser/Desktop/Exam-System/frontend/src/profilePictures/students/student${studentId}.png`)}
+                  alt={"لا يوجد صورة شخصية"}
                 />
               </div>
+            </div>
+            <hr />
+            <div dir="rtl" className="row ms-5">
               <div dir="rtl" className="col-6 mt-4">
                 <div className="row mt-3 ms-2">
                   <h4 className="">اسم الدارس: {student[0].examinee_name}</h4>
                 </div>
-                <div className="row mt-5">
-                  <h4>رقم الكود : {student[0].examinee_id}</h4>
-                </div>
-                <div className="row mt-5">
+
+                <div className="row mt-5 mb-5">
                   <h4>الصفة : {student[0].examinee_type}</h4>
                 </div>
-              </div>
-            </div>
-            {student[0].examinee_type == "مدني" && (
-              <div dir="rtl" className="row">
-                <div className="col-6">
-                  <div className="row">
-                    <h4>الرقم القومي: {student[0].examinee_civilian_number}</h4>
+                {student[0].examinee_type == "مدني" && (
+                  <div dir="rtl" className="row">
+                    <div className="row">
+                      <h4>
+                        الرقم القومي: {student[0].examinee_civilian_number}
+                      </h4>
+                    </div>
+                    <div className="row mt-5">
+                      <h4>جهة العمل الحالية: {student[0].examinee_entity}</h4>
+                    </div>
                   </div>
-                  <div className="row mt-5">
-                    <h4>جهة العمل الحالية: {student[0].examinee_entity}</h4>
+                )}
+                {student[0].examinee_type == "ضابط" && (
+                  <div dir="rtl" className="row">
+                    <div className="row ">
+                      <h4>الرتبة : {student[0].examinee_rank}</h4>
+                    </div>
+                    <div className="row mt-5">
+                      <h4>
+                        رقم الاقدامية: {student[0].examinee_seniority_number}
+                      </h4>
+                    </div>
+
+                    <div className="row mt-5">
+                      <h4>جهة العمل الحالية: {student[0].examinee_entity}</h4>
+                    </div>
                   </div>
-                </div>
+                )}
+                {student[0].examinee_type == "فرد" && (
+                  <div dir="rtl" className="row">
+                    <div className="row">
+                      <h4>رقم الشرطة: {student[0].examinee_police_number}</h4>
+                    </div>
+                    <div className="row mt-5">
+                      <h4>الرتبة : {student[0].examinee_rank}</h4>
+                    </div>
+                    <div className="row mt-5">
+                      <h4>جهة العمل الحالية: {student[0].examinee_entity}</h4>
+                    </div>
+                  </div>
+                )}
               </div>
-            )}
-            {student[0].examinee_type == "ضابط" && (
-              <div dir="rtl" className="row">
-                <div className="col-6">
+              <div className="col-6 mt-5">
+                <div className="row">
                   <div className="row ">
-                    <h4>الرتبة : {student[0].examinee_rank}</h4>
+                    <h4>رقم الكود : {student[0].examinee_id}</h4>
                   </div>
                   <div className="row mt-5">
                     <h4>
-                      رقم الاقدامية: {student[0].examinee_seniority_number}
+                      تاريخ التخرج :
+                      {student[0].examinee_graduation_date.substring(
+                        0,
+                        student[0].examinee_graduation_date.indexOf("T")
+                      )}
                     </h4>
                   </div>
                 </div>
                 <div className="row mt-5">
-                  <h4>جهة العمل الحالية: {student[0].examinee_entity}</h4>
-                </div>
-              </div>
-            )}
-            {student[0].examinee_type == "فرد" && (
-              <div dir="rtl" className="row">
-                <div className="col-6">
-                  <div className="row">
-                    <h4>رقم الشرطة: {student[0].examinee_police_number}</h4>
-                  </div>
-                  <div className="row mt-5">
-                    <h4>جهة العمل الحالية: {student[0].examinee_entity}</h4>
-                  </div>
+                  <h4> نوع السيارة : سيارة {student[0].examinee_car_type}</h4>
                 </div>
                 <div className="row mt-5">
-                  <h4>الرتبة : {student[0].examinee_rank}</h4>
+                  <h4> رقم السيارة: {student[0].examinee_car_number}</h4>
                 </div>
+              </div>
+            </div>
+            {placements.length > 0 && (
+              <div dir="rtl" className="row mt-5">
+                <hr />
+                <div className="row">
+                  <div className="col-9">
+                    <h1 className=""> قياس المستوي</h1>
+                  </div>
+                </div>
+                <table
+                  dir="rtl"
+                  className="table mt-2 table-striped border table-responsive-lg p-0"
+                >
+                  <thead>
+                    <tr>
+                      {/* <th scope="col">ID</th> */}
+                      <th className="text-center" scope="col">
+                        الاسم
+                      </th>
+                      <th className="text-center" scope="col">
+                        الوصف
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.entries(placements).map((placement) => {
+                      return (
+                        <tr scope="row" key={placement[1].placement_id}>
+                          <td className="text-center">
+                            {placement[1].placement_name}
+                          </td>
+                          <td className="text-center">
+                            {`${placement[1].placement_description}`}
+                          </td>
+                          <td className="text-center">
+                            <button
+                              onClick={() => {
+                                setPlacementOptions(true);
+                                setPlacementId(placement[1].placement_id);
+                              }}
+                              className="btn btn-outline-primary ms-2"
+                            >
+                              ادخال قياس المستوي قبل و بعد
+                            </button>
+                            <button
+                              onClick={() => {
+                                setListPlacementOptions(true);
+                                setPlacementId(placement[1].placement_id);
+                              }}
+                              className="btn btn-outline-primary"
+                            >
+                              عرض
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
               </div>
             )}
           </>
         )}
+
         <div dir="rtl" className="row mt-5">
           <hr />
           <div className="row" dir="rtl">

@@ -15,7 +15,7 @@ const Students = () => {
   const [addStudent, setAddStudent] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const refOne = useRef(null);
-  const { subClubId } = useParams();
+  const { subClubId, mainClubId } = useParams();
 
   const getStudents = () => {
     axios
@@ -64,14 +64,14 @@ const Students = () => {
             <h1 className="mt-5">الدارسين</h1>
           </div>
           <div className="col-3">
-            <button
+            {/* <button
               onClick={() => {
                 setAddStudent(true);
               }}
               className="btn btn-outline-success mt-5"
             >
               اضافة دارس جديد
-            </button>
+            </button> */}
           </div>
         </div>
         <div dir="rtl" className="row m-3">
@@ -81,7 +81,6 @@ const Students = () => {
             setSearchResults={setSearchResults}
           />
         </div>
-
         <table
           dir="rtl"
           className="table mt-2 table-striped border table-responsive-lg"
@@ -130,7 +129,9 @@ const Students = () => {
                   </td>
                   <td className="text-center">{student[1].examinee_entity}</td>
                   <td className="text-center">
-                    <Link to={`/clubs/students/${student[1].examinee_id}`}>
+                    <Link
+                      to={`/clubs/${mainClubId}/${subClubId}/${student[1].examinee_id}`}
+                    >
                       <button className="btn btn-outline-primary">
                         تفاصيل
                       </button>
@@ -150,6 +151,9 @@ const Students = () => {
             })}
           </tbody>
         </table>
+        <div dir="rtl" className="row">
+          <h2>عدد الدارسين: {searchResults.length}</h2>
+        </div>
       </div>
     </>
   );

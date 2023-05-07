@@ -1,22 +1,79 @@
 import { React, useState, useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate, Link, redirect } from "react-router-dom";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import Swal from "sweetalert2";
-import Popup from "../components/Popup";
+import ReactDOM from "react-dom";
+import ExamCountdown from "../components/ExamCountdown";
 
 let questionNumber = 1;
 
 const ExamineeExam = () => {
   let { examId } = useParams();
   const [examQuestions, setExamQuestions] = useState("");
+  const [examData, setExamData] = useState("");
   const [inputValue, setInputValue] = useState("");
-  const [onLeavePopUp, setOnLeavePopUp] = useState(true);
+  const [examOngoingTime, setExamOngoingTime] = useState("");
   const token = JSON.parse(localStorage.getItem("examinee-token"));
   const user = jwt_decode(token.token);
   const navigate = useNavigate();
-
+  useEffect(() => {
+    getExamData();
+  }, []);
   console.log(user, "USER");
+  const getExamData = () => {
+    axios
+      .get(
+        "http://localhost:4000/exam/getExam" ||
+          "http://192.168.1.10:4000/exam/getExam",
+        {
+          params: {
+            examId,
+          },
+        }
+      )
+      .then((res) => {
+        // setExamQuestions(res.data.questions);
+        console.log(res.data.exam, "???????");
+        setExamData(res.data.exam);
+        if (
+          !localStorage.getItem(
+            `examinee-${user.id}exam-${res.data.exam[0].exam_id}-start-time`
+          )
+        ) {
+          localStorage.setItem(
+            `examinee-${user.id}exam-${res.data.exam[0].exam_id}-start-time`,
+            Date.now()
+          );
+        } else {
+          console.log(
+            localStorage.getItem(
+              `examinee-${user.id}exam-${res.data.exam[0].exam_id}-start-time`
+            )
+          );
+          setExamOngoingTime(
+            Date.now() -
+              localStorage.getItem(
+                `examinee-${user.id}exam-${res.data.exam[0].exam_id}-start-time`
+              )
+          );
+          console.log(examOngoingTime);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const redirect = async () => {
+    Swal.fire("انتهي وقت الامتحان و تم حفظ الاجابات", "", "success").then(
+      () => {
+        navigate("/examineeHome");
+        window.location.reload();
+      }
+    );
+  };
+
   const storeExamineeAnswer = (questionId) => {
     console.log(inputValue, "INPUTVALUE");
     axios
@@ -69,6 +126,7 @@ const ExamineeExam = () => {
         console.log(error);
       });
   };
+
   const handleChange = (event) => {
     setInputValue(event.target.value);
   };
@@ -488,6 +546,7 @@ const ExamineeExam = () => {
       );
     }
   };
+
   return (
     <>
       <div
@@ -496,8 +555,30 @@ const ExamineeExam = () => {
       >
         <div
           dir="rtl"
-          className="container question-card-container   border m-2 p-5"
+          className="container question-card-container border m-2 p-5"
         >
+          {examData.length > 0 &&
+            (examData[0].show_time == 0 ? (
+              <div hidden className="">
+                <ExamCountdown
+                  examTime={examData[0].exam_time * 1000 * 60}
+                  examOngoingTime={examOngoingTime}
+                  evaluateQuestions={evaluateQuestions}
+                  evaluateExam={evaluateExam}
+                  redirect={redirect}
+                ></ExamCountdown>
+              </div>
+            ) : (
+              <div className="">
+                <ExamCountdown
+                  examTime={examData[0].exam_time * 1000 * 60}
+                  examOngoingTime={examOngoingTime}
+                  evaluateQuestions={evaluateQuestions}
+                  evaluateExam={evaluateExam}
+                  redirect={redirect}
+                ></ExamCountdown>
+              </div>
+            ))}
           <nav dir="ltr" className="d-flex">
             {Object.entries(examQuestions).map((question, i) => {
               return (
@@ -515,6 +596,7 @@ const ExamineeExam = () => {
                         );
                         questionNumber = i + 1;
                         getExamQuestions();
+                        getExamData();
                       }}
                       className="page-link"
                     >
@@ -536,6 +618,7 @@ const ExamineeExam = () => {
                     getExamQuestions();
                     console.log(questionNumber, "Question Number");
                   }
+                  getExamData();
                 }}
                 className="btn btn-outline-primary w-100"
               >
@@ -557,6 +640,7 @@ const ExamineeExam = () => {
                       console.log(questionNumber, "Question Number");
                       console.log(examQuestions.length, "LENGTH");
                     }
+                    getExamData();
                   }}
                   className="btn btn-outline-primary w-100"
                 >

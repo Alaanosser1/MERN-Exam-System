@@ -151,6 +151,9 @@ const Students = () => {
           </tbody>
         </table>
       </div>
+      <div dir="rtl" className="row">
+        <h2>عدد الدارسين: {searchResults.length}</h2>
+      </div>
     </>
   );
 };

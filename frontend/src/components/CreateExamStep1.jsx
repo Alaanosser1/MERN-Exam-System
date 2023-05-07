@@ -14,12 +14,11 @@ const CreateExamStep1 = (props) => {
     chooseQuestionsFromQuestionBankPopup,
     setChooseQuestionsFromQuestionBankPopup,
   ] = useState(false);
-  let { examId, mainQuestionBankId } = useParams();
-  const [questionBankName, setName] = useState("");
-  const [questionBankId, setQuestionBankId] = useState("");
-  const [questionBankDescription, setDescription] = useState("");
+  let { examId } = useParams();
   const refOne = useRef(null);
-  const user = JSON.parse(localStorage.getItem("instructor-token"));
+  const user =
+    JSON.parse(localStorage.getItem("instructor-token")) ||
+    JSON.parse(localStorage.getItem("data-entry-token"));
 
   const {
     register,
@@ -73,7 +72,7 @@ const CreateExamStep1 = (props) => {
           <div className="col-3">
             <button
               onClick={() => {
-                navigate("/app/exams");
+                navigate("/clubs/mainClubExams");
               }}
               className="mt-5 w-75 btn btn-outline-success"
             >
@@ -114,16 +113,30 @@ const CreateExamStep1 = (props) => {
                     {bank[1].NumberOfQuestionBanks}
                   </td>
                   <td className="text-center">
-                    <Link
-                      to={`/App/exams/${examId}/mainQuestionBank/${bank[1].main_question_bank_id}/addQuestions`}
-                    >
-                      <button
-                        onClick={() => {}}
-                        className="btn btn-outline-primary m-2"
+                    {JSON.parse(localStorage.getItem("instructor-token")) && (
+                      <Link
+                        to={`/app/exams/${examId}/mainQuestionBank/${bank[1].main_question_bank_id}/addQuestions`}
                       >
-                        المواد
-                      </button>
-                    </Link>
+                        <button
+                          onClick={() => {}}
+                          className="btn btn-outline-primary m-2"
+                        >
+                          المواد
+                        </button>
+                      </Link>
+                    )}
+                    {JSON.parse(localStorage.getItem("data-entry-token")) && (
+                      <Link
+                        to={`/clubs/exams/${examId}/mainQuestionBank/${bank[1].main_question_bank_id}/addQuestions`}
+                      >
+                        <button
+                          onClick={() => {}}
+                          className="btn btn-outline-primary m-2"
+                        >
+                          المواد
+                        </button>
+                      </Link>
+                    )}
                   </td>
                 </tr>
               );

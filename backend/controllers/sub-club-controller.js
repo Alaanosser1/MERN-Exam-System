@@ -337,7 +337,7 @@ export const getClubSubjects = async (req, res) => {
   await connection
     .promise()
     .query(
-      `SELECT * FROM subject WHERE sub_club_id = ${subClubId} AND is_deleted = '0'`
+      `SELECT * FROM subject WHERE sub_club_id = '${subClubId}' AND is_deleted = '0'`
     )
     .then((data) => {
       res.status(200).json({
@@ -369,6 +369,314 @@ export const getSubject = async (req, res) => {
     })
     .catch((error) => {
       isError = true;
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 internal server error",
+      });
+    });
+};
+
+export const createPlacement = (req, res) => {
+  const placementName = req.body.placementName;
+  const placementDescription = req.body.placementDescription;
+  const subClubId = req.body.subClubId;
+
+  connection
+    .promise()
+    .query(
+      `INSERT INTO placement(placement_name, placement_description, sub_club_id)
+      VALUES('${placementName}', '${placementDescription}', '${subClubId}')`
+    )
+    .then((data) => {
+      res.status(201).json({
+        status: "ok",
+        msg: "Created",
+        data: data,
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 Internal Server Error",
+      });
+    });
+};
+
+export const editPlacement = (req, res) => {
+  const placementId = req.body.placementId;
+  const placementName = req.body.placementName;
+  const placementDescription = req.body.placementDescription;
+
+  connection
+    .promise()
+    .query(
+      `
+            UPDATE subject
+            SET placement_name = '${placementId}',
+            placement_description = '${placementName}',
+            WHERE placement_id = '${placementDescription}'
+            `
+    )
+    .then((data) => {
+      if (data[0].affectedRows != 0) {
+        res.status(200).json({
+          status: "ok",
+          msg: "Updated",
+        });
+      } else {
+        res.status(404).json({
+          msg: "No subject with that ID",
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 Internal Server Error",
+      });
+    });
+};
+
+export const deletePlacement = (req, res) => {
+  const placementId = req.query.placementId;
+
+  connection
+    .promise()
+    .query(`DELETE FROM placement WHERE placement_id = '${placementId}' `)
+    .then((data) => {
+      if (data[0].affectedRows != 0) {
+        res.status(200).json({
+          status: "Ok",
+          msg: "Deleted",
+        });
+      } else {
+        res.status(404).json({
+          status: "error",
+          msg: "No placement with this ID",
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 internal server error",
+      });
+    });
+};
+
+export const getSubClubPlacements = async (req, res) => {
+  const subClubId = req.query.subClubId;
+
+  await connection
+    .promise()
+    .query(`SELECT * FROM placement WHERE sub_club_id = ${subClubId} `)
+    .then((data) => {
+      res.status(200).json({
+        placements: data[0],
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 internal server error",
+      });
+    });
+};
+
+export const getPlacement = async (req, res) => {
+  const placementId = req.query.placementId;
+
+  await connection
+    .promise()
+    .query(`SELECT * FROM placement WHERE placement_id = ${placementId} `)
+    .then((data) => {
+      res.status(200).json({
+        placement: data[0],
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 internal server error",
+      });
+    });
+};
+
+export const addPlacementOption = (req, res) => {
+  const placementId = req.body.placementId;
+  const optionName = req.body.optionName;
+
+  connection
+    .promise()
+    .query(
+      `INSERT INTO placement_option(option_name, placement_id)
+      VALUES('${optionName}', '${placementId}')`
+    )
+    .then((data) => {
+      res.status(201).json({
+        status: "ok",
+        msg: "Created",
+        data: data,
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 Internal Server Error",
+      });
+    });
+};
+
+export const removePlacementOption = (req, res) => {
+  const placementOptionId = req.query.placementOptionId;
+
+  connection
+    .promise()
+    .query(
+      `DELETE FROM placement_option
+      WHERE placement_option_id = '${placementOptionId}'`
+    )
+    .then((data) => {
+      if (data[0].affectedRows != 0) {
+        res.status(200).json({
+          status: "Ok",
+          msg: "Deleted",
+        });
+      } else {
+        res.status(404).json({
+          status: "error",
+          msg: "No placement with this ID",
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 Internal Server Error",
+      });
+    });
+};
+
+export const getPlacementOptions = async (req, res) => {
+  const placementId = req.query.placementId;
+
+  await connection
+    .promise()
+    .query(
+      `SELECT * FROM placement_option WHERE placement_id = ${placementId} `
+    )
+    .then((data) => {
+      res.status(200).json({
+        placementOptions: data[0],
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 internal server error",
+      });
+    });
+};
+
+export const fillExamineePlacementData = async (req, res) => {
+  const optionsObject = req.body.optionsObject;
+  let isError = false;
+
+  console.log(optionsObject);
+
+  try {
+    if (optionsObject.length > 0) {
+      for (let i = 0; i < optionsObject.length; i++) {
+        await connection
+          .promise()
+          .query(
+            `SELECT * FROM examinee_placement WHERE 
+          examinee_id = '${optionsObject[i].examinee_id}' AND 
+          placement_option_id = '${optionsObject[i].placement_option_id}' AND 
+          placement_id = '${optionsObject[i].placement_id}'`
+          )
+          .then(async (data) => {
+            if (data[0].length > 0) {
+              await connection
+                .promise()
+                .query(
+                  `DELETE FROM examinee_placement
+              WHERE 
+              placement_option_id = '${optionsObject[i].placement_option_id}' AND
+              examinee_id = '${optionsObject[i].examinee_id}' AND
+              placement_id = '${optionsObject[i].placement_id}'
+              `
+                )
+                .then((data) => {
+                  connection.promise().query(
+                    `INSERT INTO examinee_placement(examinee_id, placement_id,
+                 placement_option_id, value_before, value_after)
+                 VALUES('${optionsObject[i].examinee_id}',
+                       '${optionsObject[i].placement_id}',
+                       '${optionsObject[i].placement_option_id}',
+                       '${optionsObject[i].value_before}',
+                       '${optionsObject[i].value_after}'
+                )`
+                  );
+                });
+            } else {
+              connection.promise().query(
+                `INSERT INTO examinee_placement(examinee_id, placement_id,
+               placement_option_id, value_before, value_after)
+               VALUES('${optionsObject[i].examinee_id}',
+                     '${optionsObject[i].placement_id}',
+                     '${optionsObject[i].placement_option_id}',
+                     '${optionsObject[i].value_before}',
+                     '${optionsObject[i].value_after}'
+              )`
+              );
+            }
+          });
+      }
+    }
+  } catch (error) {
+    isError = true;
+    console.log(error);
+    res.status(500).json({
+      status: "error",
+      msg: "500 Internal Server Error",
+    });
+  }
+  if (!isError) {
+    res.status(200).json({
+      status: "Ok",
+      msg: "created",
+    });
+  }
+};
+
+export const getPlacementOptionsValues = async (req, res) => {
+  const placementId = req.query.placementId;
+  const examineeId = req.query.examineeId;
+  await connection
+    .promise()
+    .query(
+      `SELECT * FROM placement_option
+      JOIN examinee_placement ON
+      examinee_placement.placement_option_id = placement_option.placement_option_id
+      AND examinee_placement.examinee_id = '${examineeId}'
+       WHERE placement_option.placement_id = ${placementId} `
+    )
+    .then((data) => {
+      res.status(200).json({
+        placementOptions: data[0],
+      });
+    })
+    .catch((error) => {
       console.log(error);
       res.status(500).json({
         status: "error",

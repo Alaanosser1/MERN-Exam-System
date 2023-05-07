@@ -21,11 +21,11 @@ const LandingPage = () => {
   return (
     <>
       <div className="h-100 w-100 main-container d-flex align-items-center justify-content-center">
-        <div className="container landing-container w-75 h-75 bg-white">
+        <div className="container landing-container w-75 bg-white">
           <div className="row">
             <div className="col-6 bg-light p-5">
-              <div className="img-container">
-                <img src={logo} alt="" />
+              <div className="img-container d-flex justify-content-center">
+                <img width={300} src={logo} alt="" />
               </div>
             </div>
             <div className="col-6 btn-col p-5">
@@ -56,7 +56,7 @@ const LandingPage = () => {
                   </button>
                 </div>
               </Link>
-              <Link style={{ textDecoration: "none" }} to={"/clubs"}>
+              <Link style={{ textDecoration: "none" }} to={"/dataEntryLogin"}>
                 <div className="row w-75 ms-3">
                   <button className="btn landing-btn btn-outline-success">
                     ادخال بيانات الفرق

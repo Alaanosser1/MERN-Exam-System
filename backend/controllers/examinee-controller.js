@@ -19,6 +19,9 @@ export const addExaminee = async (req, res, next) => {
   const subClubId = req.body.subClubId;
   const listNumber = req.body.listNumber;
   const mobileNumber = req.body.mobileNumber;
+  const carType = req.body.carType;
+  const carNumber = req.body.carNumber;
+  const graduationDate = req.body.graduationDate;
   const { file, fileName } = req;
   let user;
   // const profilePicture = req.body.profilePicture;
@@ -28,14 +31,25 @@ export const addExaminee = async (req, res, next) => {
   let insertId;
 
   const handleProfilePictureUpload = async (insertId) => {
-    fs.rename(
-      `/Users/Nosser/Desktop/Exam-System/frontend/src/profilePictures/students/${fileName}`,
-      `/Users/Nosser/Desktop/Exam-System/frontend/src/profilePictures/students/student${insertId}.png`,
-      (err) => {
-        if (err) throw err;
-        console.log("File Renamed.");
-      }
-    );
+    if (file) {
+      fs.rename(
+        `/Users/Nosser/Desktop/Exam-System/frontend/src/profilePictures/students/${fileName}`,
+        `/Users/Nosser/Desktop/Exam-System/frontend/src/profilePictures/students/student${insertId}.png`,
+        (err) => {
+          if (err) throw err;
+          console.log("File Renamed.");
+        }
+      );
+    } else {
+      fs.appendFile(
+        `/Users/Nosser/Desktop/Exam-System/frontend/src/profilePictures/students/student${insertId}.png`,
+        "Hello content!",
+        function (err) {
+          if (err) throw err;
+          console.log("Saved!");
+        }
+      );
+    }
   };
   // const handleAuth = async () => {
   //   await connection
@@ -136,11 +150,14 @@ export const addExaminee = async (req, res, next) => {
       .query(
         `INSERT INTO examinee(examinee_name, examinee_type,
         examinee_rank, examinee_police_number, examinee_civilian_number,
-         examinee_entity, examinee_list_number, examinee_seniority_number, examinee_mobile_number, examinee_password)
+         examinee_entity, examinee_list_number, examinee_seniority_number,
+          examinee_mobile_number, examinee_password, examinee_car_type,
+           examinee_car_number, examinee_graduation_date)
             VALUES('${examineeName}','${examineeType}',
             '${examineeRank}','${examineePoliceNumber}',
-            '${examineeCivilianNumber}','${examineeEntity}','${listNumber}',
-             '${examineeSeniorityNumber}', '${mobileNumber}', 'hemaya@2023')`
+            '${examineeCivilianNumber}','${examineeEntity}',
+            '${listNumber}','${examineeSeniorityNumber}', '${mobileNumber}',
+             'hemaya@2023', '${carType}', '${carNumber}', '${graduationDate}')`
       )
       .then((data) => {
         insertId = data[0].insertId;
@@ -417,9 +434,11 @@ export const getExamineeExams = async (req, res) => {
     .promise()
     .query(
       `
-  SELECT * FROM examinee JOIN examinee_has_sub_club ON examinee.examinee_id = examinee_has_sub_club.examinee_id
+  SELECT * FROM examinee 
+  JOIN examinee_has_sub_club ON examinee.examinee_id = examinee_has_sub_club.examinee_id
   JOIN exam ON examinee_has_sub_club.sub_club_id = exam.sub_club_id
   JOIN sub_club ON sub_club.sub_club_id = exam.sub_club_id
+  JOIN subject ON exam.subject_id = subject.subject_id 
   WHERE examinee.examinee_id = ${examineeId}
   `
     )

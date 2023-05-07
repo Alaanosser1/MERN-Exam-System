@@ -11,7 +11,7 @@ export const addInstructor = async (req, res) => {
   const name = req.body.instructorName;
   const password = req.body.instructorPassword;
   const policeNumber = req.body.instructorPoliceNumber;
-  const rank = req.body.instructorRank;
+  // const rank = req.body.instructorRank;
 
   console.log(req.body);
   const schema = Joi.object().keys({
@@ -49,9 +49,8 @@ export const addInstructor = async (req, res) => {
       connection
         .promise()
         .query(
-          `INSERT INTO instructor(instructor_name,
-        instructor_password, instructor_police_number, instructor_rank)
-            VALUES('${name}','${hashedPassword}','${policeNumber}', '${rank}')`
+          `INSERT INTO instructor(instructor_name, instructor_password, instructor_police_number)
+              VALUES('${name}','${hashedPassword}','${policeNumber}')`
         )
         .then((data) => {
           res.status(201).json({
@@ -75,9 +74,9 @@ export const instructorLogin = async (req, res) => {
   const password = req.body.password;
 
   let user = await connection.promise().query(`
-            SELECT * FROM instructor
-             WHERE instructor_police_number ='${policeNumber}'
-             `);
+              SELECT * FROM instructor
+               WHERE instructor_police_number ='${policeNumber}'
+               `);
   if (user[0].length == 0) {
     res.status(401).json({
       status: "401",
@@ -99,6 +98,7 @@ export const instructorLogin = async (req, res) => {
               id: user[0][0].instructor_id,
               firstName: user[0][0].instructor_name,
               policeNumber: user[0][0].instructor_police_number,
+              userType: "instructor",
               rank: user[0][0].instructor_rank,
             },
             `${process.env.TOKEN_SECRET}`

@@ -24,6 +24,12 @@ const Login = () => {
         }
       )
       .then((res) => {
+        if (localStorage.getItem("examinee-token")) {
+          localStorage.removeItem("examinee-token");
+        }
+        if (localStorage.getItem("data-entry-token")) {
+          localStorage.removeItem("data-entry-token");
+        }
         if (res.data.token) {
           localStorage.setItem("instructor-token", JSON.stringify(res.data));
         }
@@ -47,7 +53,7 @@ const Login = () => {
 
           <div className="form-container sign-in-container">
             <form onSubmit={formSubmit}>
-              <h1 className="mb-4">تسجيل الدخول</h1>
+              <h2 className="mb-5 text-primary">تسجيل دخول مُعلم</h2>
               <input
                 dir="rtl"
                 className="form-control text-end"
@@ -59,7 +65,7 @@ const Login = () => {
               />
               <input
                 dir="rtl"
-                className="form-control text-end"
+                className="form-control text-end mt-2"
                 type="password"
                 placeholder="كلمة المرور"
                 onChange={(e) => {
@@ -74,10 +80,12 @@ const Login = () => {
               {/* <Link className="h1 text-primary mb-0" href="#">
                 <h6>هل نسيت كلمة المرور؟</h6>
               </Link> */}
-              <Link to={"/register"} className=" text-primary mt-0">
+              {/* <Link to={"/register"} className=" text-primary mt-0">
                 <h6>انشاء حساب جديد</h6>
-              </Link>
-              <button type="submit">تسجيل الدخول </button>
+              </Link> */}
+              <button className="mt-5" type="submit">
+                تسجيل الدخول{" "}
+              </button>
             </form>
           </div>
         </div>

@@ -1,9 +1,6 @@
 import { React, useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Popup from "../components/Popup";
-import AddMainClub from "../components/AddMainClub";
-import EditMainClub from "../components/EditMainClub";
 
 const MainClubExams = () => {
   useEffect(() => {
@@ -11,6 +8,9 @@ const MainClubExams = () => {
   }, []);
 
   const [mainClubs, setMainClubs] = useState("");
+  const user =
+    JSON.parse(localStorage.getItem("instructor-token")) ||
+    JSON.parse(localStorage.getItem("data-entry-token"));
 
   const getMainClubs = () => {
     axios
@@ -18,9 +18,9 @@ const MainClubExams = () => {
         "http://localhost:4000/mainClub/getMainClubs" ||
           "http://192.168.1.10:4000/mainClub/getMainClubs",
         {
-          //   headers: {
-          //     "auth-token": user.token,
-          //   },
+          headers: {
+            "auth-token": user.token,
+          },
         }
       )
       .then((res) => {
@@ -52,9 +52,6 @@ const MainClubExams = () => {
                 الوصف
               </th>
               <th className="text-center" scope="col">
-                رقم الفرقة
-              </th>
-              <th className="text-center" scope="col">
                 عدد الفرق
               </th>
             </tr>
@@ -67,15 +64,25 @@ const MainClubExams = () => {
                   <td className="text-center">
                     {`${club[1].club_description.substring(0, 50)}..`}
                   </td>
-                  <td className="text-center">{club[1].club_number}</td>
                   <td className="text-center">{club[1].number_of_sub_clubs}</td>
-                  <td className="text-center">
-                    <Link to={`/app/mainClubExams/${club[1].club_id}`}>
-                      <button className="btn btn-outline-primary">
-                        عرض الفرق
-                      </button>
-                    </Link>
-                  </td>
+                  {JSON.parse(localStorage.getItem("instructor-token")) && (
+                    <td className="text-center">
+                      <Link to={`/app/mainClubExams/${club[1].club_id}`}>
+                        <button className="btn btn-outline-primary">
+                          عرض الفرق
+                        </button>
+                      </Link>
+                    </td>
+                  )}
+                  {JSON.parse(localStorage.getItem("data-entry-token")) && (
+                    <td className="text-center">
+                      <Link to={`/clubs/mainClubExams/${club[1].club_id}`}>
+                        <button className="btn btn-outline-primary">
+                          عرض الفرق
+                        </button>
+                      </Link>
+                    </td>
+                  )}
                 </tr>
               );
             })}

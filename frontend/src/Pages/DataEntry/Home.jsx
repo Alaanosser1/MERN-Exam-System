@@ -6,7 +6,7 @@ import axios from "axios";
 export default function Home() {
   const [questionBanks, setQuestionBanks] = useState([]);
   const [exams, setExams] = useState("");
-  const user = JSON.parse(localStorage.getItem("instructor-token"));
+  const user = JSON.parse(localStorage.getItem("data-entry-token"));
   const decoded = jwt_decode(user.token);
   console.log(decoded);
 
