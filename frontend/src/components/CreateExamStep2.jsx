@@ -21,8 +21,8 @@ const CreateExamStep2 = (props) => {
   const refOne = useRef(null);
   const user =
     JSON.parse(localStorage.getItem("instructor-token")) ||
-    JSON.parse(localStorage.getItem("data-entry-token"));
-
+    JSON.parse(localStorage.getItem("data-entry-token")) ||
+    JSON.parse(localStorage.getItem("admin-token"));
   const {
     register,
     handleSubmit,
@@ -89,15 +89,39 @@ const CreateExamStep2 = (props) => {
             <h1 className="mt-5">اختر المادة</h1>
           </div>
           <div className="col-3">
-            <button
-              onClick={() => {
-                navigate("/clubs/mainClubExams");
-              }}
-              className="mt-5 w-75 btn btn-outline-success"
-            >
-              {" "}
-              انتهاء
-            </button>
+            {JSON.parse(localStorage.getItem("instructor-token")) && (
+              <button
+                onClick={() => {
+                  navigate("/app/mainClubExams");
+                }}
+                className="mt-5 w-75 btn btn-outline-success"
+              >
+                {" "}
+                انتهاء
+              </button>
+            )}
+            {JSON.parse(localStorage.getItem("data-entry-token")) && (
+              <button
+                onClick={() => {
+                  navigate("/clubs/mainClubExams");
+                }}
+                className="mt-5 w-75 btn btn-outline-success"
+              >
+                {" "}
+                انتهاء
+              </button>
+            )}
+            {JSON.parse(localStorage.getItem("admin-token")) && (
+              <button
+                onClick={() => {
+                  navigate("/admin/mainClubExams");
+                }}
+                className="mt-5 w-75 btn btn-outline-success"
+              >
+                {" "}
+                انتهاء
+              </button>
+            )}
           </div>
         </div>
 

@@ -11,7 +11,8 @@ const EditAndPreviewExam = () => {
   const [showCreateExamStep2, setShowCreateExamStep2] = useState(false);
   const user =
     JSON.parse(localStorage.getItem("instructor-token")) ||
-    JSON.parse(localStorage.getItem("data-entry-token"));
+    JSON.parse(localStorage.getItem("data-entry-token")) ||
+    JSON.parse(localStorage.getItem("admin-token"));
   const navigate = useNavigate();
   useEffect(() => {
     // document.addEventListener("click", handleClickOutside, true);
@@ -131,6 +132,18 @@ const EditAndPreviewExam = () => {
                 </button>
               </Link>
             )}
+            {JSON.parse(localStorage.getItem("admin-token")) && (
+              <Link to={`/admin/exams/${examId}/mainQuestionBanks`}>
+                <button
+                  onClick={() => {
+                    setShowCreateExamStep2(true);
+                  }}
+                  className="btn btn-outline-success mt-5"
+                >
+                  اضافة الأسئلة
+                </button>
+              </Link>
+            )}
           </div>
         </div>
         {examQuestions.length < 1 ? (
@@ -147,14 +160,36 @@ const EditAndPreviewExam = () => {
               </div>
               <div className="row d-flex justify-content-center align-items-center">
                 {/* <Link to={`/app/exams/${examId}/mainQuestionBanks`}> */}
-                <button
-                  onClick={() =>
-                    navigate(`/app/exams/${examId}/mainQuestionBanks`)
-                  }
-                  className="btn btn-success mt-3 w-25"
-                >
-                  اضافة الأسئلة
-                </button>
+                {JSON.parse(localStorage.getItem("instructor-token")) && (
+                  <button
+                    onClick={() =>
+                      navigate(`/app/exams/${examId}/mainQuestionBanks`)
+                    }
+                    className="btn btn-success mt-3 w-25"
+                  >
+                    اضافة الأسئلة
+                  </button>
+                )}
+                {JSON.parse(localStorage.getItem("data-entry-token")) && (
+                  <button
+                    onClick={() =>
+                      navigate(`/clubs/exams/${examId}/mainQuestionBanks`)
+                    }
+                    className="btn btn-success mt-3 w-25"
+                  >
+                    اضافة الأسئلة
+                  </button>
+                )}
+                {JSON.parse(localStorage.getItem("admin-token")) && (
+                  <button
+                    onClick={() =>
+                      navigate(`/admin/exams/${examId}/mainQuestionBanks`)
+                    }
+                    className="btn btn-success mt-3 w-25"
+                  >
+                    اضافة الأسئلة
+                  </button>
+                )}
               </div>
             </div>
           </>

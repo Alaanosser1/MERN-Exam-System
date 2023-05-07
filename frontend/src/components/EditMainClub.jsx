@@ -8,7 +8,8 @@ const EditMainClub = (props) => {
   const [clubNumber, setClubNumber] = useState("");
   const user =
     JSON.parse(localStorage.getItem("instructor-token")) ||
-    JSON.parse(localStorage.getItem("data-entry-token"));
+    JSON.parse(localStorage.getItem("data-entry-token")) ||
+    JSON.parse(localStorage.getItem("admin-token"));
   const {
     register,
     handleSubmit,

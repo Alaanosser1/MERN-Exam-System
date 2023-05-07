@@ -17,7 +17,8 @@ const ChooseQuestionsFromQuestionBank = (props) => {
   const refOne = useRef(null);
   const user =
     JSON.parse(localStorage.getItem("instructor-token")) ||
-    JSON.parse(localStorage.getItem("data-entry-token"));
+    JSON.parse(localStorage.getItem("data-entry-token")) ||
+    JSON.parse(localStorage.getItem("admin-token"));
 
   let examQuestionsId = [];
 

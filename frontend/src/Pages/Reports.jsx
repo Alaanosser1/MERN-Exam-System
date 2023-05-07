@@ -72,13 +72,33 @@ const Reports = () => {
                   <td className="text-center">
                     {report[1].numberOfExamineesExamined}
                   </td>
-                  <td className="text-center">
-                    <Link to={`/app/reports/${report[1].exam_id}`}>
-                      <button className="btn btn-outline-success">
-                        تفاصيل
-                      </button>
-                    </Link>
-                  </td>
+                  {JSON.parse(localStorage.getItem("instructor-token")) && (
+                    <td className="text-center">
+                      <Link to={`/app/reports/${report[1].exam_id}`}>
+                        <button className="btn btn-outline-success">
+                          تفاصيل
+                        </button>
+                      </Link>
+                    </td>
+                  )}
+                  {JSON.parse(localStorage.getItem("data-entry-token")) && (
+                    <td className="text-center">
+                      <Link to={`/clubs/reports/${report[1].exam_id}`}>
+                        <button className="btn btn-outline-success">
+                          تفاصيل
+                        </button>
+                      </Link>
+                    </td>
+                  )}
+                  {JSON.parse(localStorage.getItem("admin-token")) && (
+                    <td className="text-center">
+                      <Link to={`/admin/reports/${report[1].exam_id}`}>
+                        <button className="btn btn-outline-success">
+                          تفاصيل
+                        </button>
+                      </Link>
+                    </td>
+                  )}
                 </tr>
               );
             })}

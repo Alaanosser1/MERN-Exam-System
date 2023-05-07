@@ -103,15 +103,39 @@ const ExamReportDetails = () => {
                     {report[1].total_wrong_answers}
                   </td>
                   <td className="text-center">{`${report[1].examinee_grade}/${report[1].exam_grade}`}</td>
-                  <td className="text-center">
-                    <Link
-                      to={`/app/reports/${report[1].exam_id}/${report[1].examinee_id}`}
-                    >
-                      <button className="btn btn-outline-success">
-                        تفاصيل
-                      </button>
-                    </Link>
-                  </td>
+                  {JSON.parse(localStorage.getItem("data-entry-token")) && (
+                    <td className="text-center">
+                      <Link
+                        to={`/clubs/reports/${report[1].exam_id}/${report[1].examinee_id}`}
+                      >
+                        <button className="btn btn-outline-success">
+                          تفاصيل
+                        </button>
+                      </Link>
+                    </td>
+                  )}
+                  {JSON.parse(localStorage.getItem("instructor-token")) && (
+                    <td className="text-center">
+                      <Link
+                        to={`/app/reports/${report[1].exam_id}/${report[1].examinee_id}`}
+                      >
+                        <button className="btn btn-outline-success">
+                          تفاصيل
+                        </button>
+                      </Link>
+                    </td>
+                  )}
+                  {JSON.parse(localStorage.getItem("admin-token")) && (
+                    <td className="text-center">
+                      <Link
+                        to={`/admin/reports/${report[1].exam_id}/${report[1].examinee_id}`}
+                      >
+                        <button className="btn btn-outline-success">
+                          تفاصيل
+                        </button>
+                      </Link>
+                    </td>
+                  )}
                 </tr>
               );
             })}

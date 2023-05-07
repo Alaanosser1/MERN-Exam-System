@@ -79,10 +79,10 @@ const ExamineeHome = () => {
             console.log(exam[1].NumberOfQuestions);
             return (
               <div
-                className="col-4 d-flex justify-content-center mb-2 mt-2"
+                className={`col-4 d-flex justify-content-center mb-2 mt-2`}
                 key={exam[1].exam_id}
               >
-                <div className="card exam-card text-end">
+                <div className={`card exam-card text-end `}>
                   <div className="card-body">
                     <h4 className="card-title">
                       الفرقة: {exam[1].sub_club_name.substring(0, 30)}
@@ -105,9 +105,10 @@ const ExamineeHome = () => {
                           e.preventDefault();
                           startExamHandler(exam[1].exam_id);
                         }}
-                        className={`btn btn-outline-primary ${
-                          exam[1].NumberOfQuestions < 1 && "disabled"
-                        }`}
+                        className={`btn btn-outline-primary 
+                        ${exam[1].isExaminedBefore == true && "disabled"}
+                        ${exam[1].NumberOfQuestions <= 0 && "disabled"}
+                        `}
                       >
                         ابدأ الامتحان
                       </button>

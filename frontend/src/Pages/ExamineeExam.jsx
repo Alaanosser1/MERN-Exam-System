@@ -259,6 +259,7 @@ const ExamineeExam = () => {
                               onClick={(e) => {
                                 setInputValue(e.target.value);
                                 console.log(e.target.value);
+                                getExamData();
                               }}
                             />
                             <label className="form-check-label">
@@ -296,6 +297,7 @@ const ExamineeExam = () => {
                               onClick={(e) => {
                                 setInputValue(e.target.value);
                                 console.log(e.target.value);
+                                getExamData();
                               }}
                             />
                             <label className="form-check-label">
@@ -333,6 +335,7 @@ const ExamineeExam = () => {
                               onClick={(e) => {
                                 setInputValue(e.target.value);
                                 console.log(e.target.value);
+                                getExamData();
                               }}
                             />
                             <label className="form-check-label">
@@ -370,6 +373,7 @@ const ExamineeExam = () => {
                               onClick={(e) => {
                                 setInputValue(e.target.value);
                                 console.log(e.target.value);
+                                getExamData();
                               }}
                             />
                             <label className="form-check-label">
@@ -411,6 +415,7 @@ const ExamineeExam = () => {
                                   // setIsChecked5(true);
                                   setInputValue(e.target.value);
                                   console.log(e.target.value);
+                                  getExamData();
                                 }}
                               />
                               <label className="form-check-label">
@@ -449,6 +454,7 @@ const ExamineeExam = () => {
                                   // setIsChecked6(true);
                                   setInputValue(e.target.value);
                                   console.log(e.target.value);
+                                  getExamData();
                                 }}
                               />
                               <label className="form-check-label">
@@ -487,6 +493,7 @@ const ExamineeExam = () => {
                                   // setIsChecked7(true);
                                   setInputValue(e.target.value);
                                   console.log(e.target.value);
+                                  getExamData();
                                 }}
                               />
                               <label className="form-check-label">
@@ -525,6 +532,7 @@ const ExamineeExam = () => {
                                   // setIsChecked8(true);
                                   setInputValue(e.target.value);
                                   console.log(e.target.value);
+                                  getExamData();
                                 }}
                               />
                               <label className="form-check-label">

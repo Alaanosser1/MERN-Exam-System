@@ -31,7 +31,8 @@ function AddQuestion(props) {
   const MySwal = withReactContent(Swal);
   const user =
     JSON.parse(localStorage.getItem("instructor-token")) ||
-    JSON.parse(localStorage.getItem("data-entry-token"));
+    JSON.parse(localStorage.getItem("data-entry-token")) ||
+    JSON.parse(localStorage.getItem("admin-token"));
 
   useEffect(() => {
     renderBasedOnQuestionType();
@@ -109,7 +110,7 @@ function AddQuestion(props) {
             <>
               {option.option && (
                 <option key={i} value={option.option}>
-                  Option{i + 1}: {option.option}
+                  اختيار رقم {i + 1}: {option.option}
                 </option>
               )}
             </>

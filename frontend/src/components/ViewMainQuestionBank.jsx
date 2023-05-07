@@ -17,7 +17,8 @@ export default function ViewMainQuestionBanks() {
   const refTwo = useRef(null);
   const user =
     JSON.parse(localStorage.getItem("instructor-token")) ||
-    JSON.parse(localStorage.getItem("data-entry-token"));
+    JSON.parse(localStorage.getItem("data-entry-token")) ||
+    JSON.parse(localStorage.getItem("admin-token"));
   let { mainQuestionBankId } = useParams();
 
   const {
@@ -263,6 +264,35 @@ export default function ViewMainQuestionBanks() {
                     <td className="text-center">
                       <Link
                         to={`/clubs/questionBanks/${bank[1].question_bank_id}`}
+                      >
+                        <button className="btn btn-outline-primary m-2">
+                          عرض
+                        </button>
+                      </Link>
+                      <button
+                        className="btn btn-outline-danger m-2"
+                        onClick={() => {
+                          deleteQuestionBank(bank[1]);
+                        }}
+                      >
+                        حذف
+                      </button>
+                      <button
+                        onClick={() => {
+                          setEditQuestionBankPopup(true);
+                          setQuestionBankId(bank[1].question_bank_id);
+                          console.log(questionBankId);
+                        }}
+                        className="btn btn-outline-info m-2"
+                      >
+                        تعديل
+                      </button>
+                    </td>
+                  )}
+                  {JSON.parse(localStorage.getItem("admin-token")) && (
+                    <td className="text-center">
+                      <Link
+                        to={`/admin/questionBanks/${bank[1].question_bank_id}`}
                       >
                         <button className="btn btn-outline-primary m-2">
                           عرض

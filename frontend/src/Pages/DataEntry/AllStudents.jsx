@@ -129,13 +129,14 @@ const Students = () => {
                       student[1].examinee_civilian_number}
                   </td>
                   <td className="text-center">{student[1].examinee_entity}</td>
-                  <td className="text-center">
-                    <Link to={`/clubs/students/${student[1].examinee_id}`}>
-                      <button className="btn btn-outline-primary">
-                        تفاصيل
-                      </button>
-                    </Link>
-                    {/* <button
+                  {JSON.parse(localStorage.getItem("data-entry-token")) && (
+                    <td className="text-center">
+                      <Link to={`/clubs/students/${student[1].examinee_id}`}>
+                        <button className="btn btn-outline-primary">
+                          تفاصيل
+                        </button>
+                      </Link>
+                      {/* <button
                       onClick={() => {
                         setEditMainClub(true);
                         setClubId(student[1].club_id);
@@ -144,7 +145,44 @@ const Students = () => {
                     >
                       تعديل
                     </button> */}
-                  </td>
+                    </td>
+                  )}
+                  {JSON.parse(localStorage.getItem("instructor-token")) && (
+                    <td className="text-center">
+                      <Link to={`/app/students/${student[1].examinee_id}`}>
+                        <button className="btn btn-outline-primary">
+                          تفاصيل
+                        </button>
+                      </Link>
+                      {/* <button
+                      onClick={() => {
+                        setEditMainClub(true);
+                        setClubId(student[1].club_id);
+                      }}
+                      className="btn btn-outline-success me-3"
+                    >
+                      تعديل
+                    </button> */}
+                    </td>
+                  )}
+                  {JSON.parse(localStorage.getItem("admin-token")) && (
+                    <td className="text-center">
+                      <Link to={`/admin/students/${student[1].examinee_id}`}>
+                        <button className="btn btn-outline-primary">
+                          تفاصيل
+                        </button>
+                      </Link>
+                      {/* <button
+                      onClick={() => {
+                        setEditMainClub(true);
+                        setClubId(student[1].club_id);
+                      }}
+                      className="btn btn-outline-success me-3"
+                    >
+                      تعديل
+                    </button> */}
+                    </td>
+                  )}
                 </tr>
               );
             })}

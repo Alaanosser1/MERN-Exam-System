@@ -26,6 +26,8 @@ import PrivateRoutesExaminee from "./ustils/PrivateRoutesExaminee";
 import MainClubs from "./Pages/DataEntry/MainClubs";
 import Clubs from "./Clubs";
 import MainQuestionBanks from "./Pages/MainQuestionBanks";
+import Admin from "./Adimin";
+import LoginAdmin from "./Pages/LoginAdmin";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -41,12 +43,15 @@ root.render(
       <Route path="/login" element={<Login />} />
       <Route path="/studentLogin" element={<LoginStudent />} />
       <Route path="/dataEntryLogin" element={<LoginDataEntry />} />
+      <Route path="/adminLogin" element={<LoginAdmin />} />
       {/* <Route path="/mainClubs" element={<MainClubs />} /> */}
-      <Route path="/register" element={<InstructorSignUp />} />
 
       <Route path="clubs/*" element={<Clubs />}>
         <Route path="clubs/mainClubs" element={<MainClubs />} />
       </Route>
+
+      <Route path="admin/*" element={<Admin />}></Route>
+
       <Route path="app/*" element={<App />}>
         <Route path="app/exams" element={<Exams />} />
         <Route path="app/home" element={<Home />} />

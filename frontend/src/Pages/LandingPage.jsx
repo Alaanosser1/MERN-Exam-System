@@ -63,6 +63,13 @@ const LandingPage = () => {
                   </button>
                 </div>
               </Link>
+              <Link style={{ textDecoration: "none" }} to={"/adminLogin"}>
+                <div className="row w-75 ms-3">
+                  <button className="btn landing-btn btn-outline-success">
+                    ادمن
+                  </button>
+                </div>
+              </Link>
             </div>
           </div>
         </div>

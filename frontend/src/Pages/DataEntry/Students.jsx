@@ -129,13 +129,33 @@ const Students = () => {
                   </td>
                   <td className="text-center">{student[1].examinee_entity}</td>
                   <td className="text-center">
-                    <Link
-                      to={`/clubs/${mainClubId}/${subClubId}/${student[1].examinee_id}`}
-                    >
-                      <button className="btn btn-outline-primary">
-                        تفاصيل
-                      </button>
-                    </Link>
+                    {JSON.parse(localStorage.getItem("data-entry-token")) && (
+                      <Link
+                        to={`/clubs/${mainClubId}/${subClubId}/${student[1].examinee_id}`}
+                      >
+                        <button className="btn btn-outline-primary">
+                          تفاصيل
+                        </button>
+                      </Link>
+                    )}
+                    {JSON.parse(localStorage.getItem("instructor-token")) && (
+                      <Link
+                        to={`/app/${mainClubId}/${subClubId}/${student[1].examinee_id}`}
+                      >
+                        <button className="btn btn-outline-primary">
+                          تفاصيل
+                        </button>
+                      </Link>
+                    )}
+                    {JSON.parse(localStorage.getItem("admin-token")) && (
+                      <Link
+                        to={`/admin/${mainClubId}/${subClubId}/${student[1].examinee_id}`}
+                      >
+                        <button className="btn btn-outline-primary">
+                          تفاصيل
+                        </button>
+                      </Link>
+                    )}
                     {/* <button
                       onClick={() => {
                         setEditMainClub(true);

@@ -138,6 +138,17 @@ const SubClubsExams = () => {
                       </Link>
                     </td>
                   )}
+                  {JSON.parse(localStorage.getItem("admin-token")) && (
+                    <td className="text-center">
+                      <Link
+                        to={`/admin/mainClubExams/${mainClubId}/${club[1].sub_club_id}`}
+                      >
+                        <button className="btn btn-outline-primary">
+                          عرض الامتحانات
+                        </button>
+                      </Link>
+                    </td>
+                  )}
                 </tr>
               );
             })}

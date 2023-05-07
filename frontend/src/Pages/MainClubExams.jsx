@@ -10,7 +10,8 @@ const MainClubExams = () => {
   const [mainClubs, setMainClubs] = useState("");
   const user =
     JSON.parse(localStorage.getItem("instructor-token")) ||
-    JSON.parse(localStorage.getItem("data-entry-token"));
+    JSON.parse(localStorage.getItem("data-entry-token")) ||
+    JSON.parse(localStorage.getItem("admin-token"));
 
   const getMainClubs = () => {
     axios
@@ -77,6 +78,15 @@ const MainClubExams = () => {
                   {JSON.parse(localStorage.getItem("data-entry-token")) && (
                     <td className="text-center">
                       <Link to={`/clubs/mainClubExams/${club[1].club_id}`}>
+                        <button className="btn btn-outline-primary">
+                          عرض الفرق
+                        </button>
+                      </Link>
+                    </td>
+                  )}
+                  {JSON.parse(localStorage.getItem("admin-token")) && (
+                    <td className="text-center">
+                      <Link to={`/admin/mainClubExams/${club[1].club_id}`}>
                         <button className="btn btn-outline-primary">
                           عرض الفرق
                         </button>

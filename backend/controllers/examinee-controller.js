@@ -442,8 +442,31 @@ export const getExamineeExams = async (req, res) => {
   WHERE examinee.examinee_id = ${examineeId}
   `
     )
-    .then((data) => {
+    .then(async (data) => {
       exams = data[0];
+      for (let i = 0; i < data[0].length; i++) {
+        await connection
+          .promise()
+          .query(
+            `
+      SELECT * FROM exam_evaluation WHERE
+      exam_id = '${data[0][i].exam_id}' AND examinee_id = '${examineeId}'
+      `
+          )
+          .then((data) => {
+            console.log(data[0], "DATA[0]");
+            if (data[0].length > 0) {
+              console.log("insideIF");
+              Object.assign(exams[i], {
+                isExaminedBefore: true,
+              });
+            } else {
+              Object.assign(exams[i], {
+                isExaminedBefore: false,
+              });
+            }
+          });
+      }
     })
     .catch((err) => {
       console.log(err);
@@ -475,7 +498,7 @@ export const getExamineeExams = async (req, res) => {
   }
 
   if (!isError) {
-    console.log(exams);
+    // console.log(exams);
     res.status(200).json({
       exams: exams,
     });

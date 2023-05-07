@@ -14,7 +14,8 @@ export default function AddQuestionBank(props) {
   } = useForm();
   const user =
     JSON.parse(localStorage.getItem("instructor-token")) ||
-    JSON.parse(localStorage.getItem("data-entry-token"));
+    JSON.parse(localStorage.getItem("data-entry-token")) ||
+    JSON.parse(localStorage.getItem("admin-token"));
 
   const formSubmit = () => {
     axios

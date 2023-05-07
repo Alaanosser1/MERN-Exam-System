@@ -5,9 +5,9 @@ import { useForm } from "react-hook-form";
 const AddMainClub = (props) => {
   const [clubName, setClubName] = useState("");
   const [clubDescription, setClubDescription] = useState("");
-  const user =
-    JSON.parse(localStorage.getItem("instructor-token")) ||
-    JSON.parse(localStorage.getItem("data-entry-token"));
+  const user = JSON.parse(localStorage.getItem("instructor-token"));
+  JSON.parse(localStorage.getItem("data-entry-token")) ||
+    JSON.parse(localStorage.getItem("admin-token"));
   const {
     register,
     handleSubmit,

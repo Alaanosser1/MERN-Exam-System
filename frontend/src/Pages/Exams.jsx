@@ -14,7 +14,8 @@ const Exams = () => {
   const refOne = useRef(null);
   const user =
     JSON.parse(localStorage.getItem("instructor-token")) ||
-    JSON.parse(localStorage.getItem("data-entry-token"));
+    JSON.parse(localStorage.getItem("data-entry-token")) ||
+    JSON.parse(localStorage.getItem("admin-token"));
   const { subClubId } = useParams();
 
   useEffect(() => {
@@ -128,6 +129,18 @@ const Exams = () => {
                 </button>
               </Link>
             )}
+            {JSON.parse(localStorage.getItem("admin-token")) && (
+              <Link to={"/admin/exams/createExamForm"}>
+                <button
+                  onClick={() => {
+                    setShowCreateExam(true);
+                  }}
+                  className="btn btn-outline-success mt-5"
+                >
+                  اضافة امتحان جديد
+                </button>
+              </Link>
+            )}
           </div>
         </div>
         <div className="row m-3">
@@ -225,6 +238,20 @@ const Exams = () => {
                     )}
                     {JSON.parse(localStorage.getItem("data-entry-token")) && (
                       <Link to={`/clubs/exams/${bank[1].exam_id}`}>
+                        <button
+                          onClick={() => {
+                            // setEditQuestionBankPopup(true);
+                            setExamId(bank[1].exam_id);
+                            // console.log(questionBankId);
+                          }}
+                          className="btn btn-outline-primary m-2"
+                        >
+                          تعديل
+                        </button>
+                      </Link>
+                    )}
+                    {JSON.parse(localStorage.getItem("admin-token")) && (
+                      <Link to={`/admin/exams/${bank[1].exam_id}`}>
                         <button
                           onClick={() => {
                             // setEditQuestionBankPopup(true);
