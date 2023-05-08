@@ -76,6 +76,22 @@ export default function AdminSideBar() {
             </a>
           </li>
           <li>
+            <a>
+              <i className="fas fa-user"></i>
+              <Link to={"/admin/register"}>
+                <FontAwesomeIcon icon={faNoteSticky} /> &nbsp; تسجيل معلم
+              </Link>
+            </a>
+          </li>
+          <li>
+            <a>
+              <i className="fas fa-user"></i>
+              <Link to={"/admin/dataEntrySignUp"}>
+                <FontAwesomeIcon icon={faNoteSticky} /> &nbsp; تسجيل مدخل بيانات
+              </Link>
+            </a>
+          </li>
+          <li>
             <a href="/" onClick={logout}>
               <FontAwesomeIcon icon={faSignOut} /> &nbsp; تسجيل الخروج
             </a>
