@@ -6,7 +6,6 @@ import { pipeline } from "stream";
 
 const app = express();
 
-//Add new Instructor
 export const addExaminee = async (req, res, next) => {
   const examineeName = req.body.name;
   const examineeType = req.body.type;
@@ -21,20 +20,32 @@ export const addExaminee = async (req, res, next) => {
   const mobileNumber = req.body.mobileNumber;
   const carType = req.body.carType;
   const carNumber = req.body.carNumber;
+  const birthDate = req.body.birthDate;
+  const addressInside = req.body.addressInside;
+  const addressOutside = req.body.addressOutside;
+  const religion = req.body.religion;
+  const financeCode = req.body.financeCode;
+  const bankName = req.body.bankName;
+  const relationshipStatus = req.body.relationshipStatus;
+  const previousClubs = req.body.previousClubs;
+  const previousWorkPlaces = req.body.previousWorkPlaces;
+  const addressLocation = req.body.addressLocation;
   const graduationDate = req.body.graduationDate;
   const { file, fileName } = req;
   let user;
   // const profilePicture = req.body.profilePicture;
   const examId = 80;
-
+ 
+ 
   // console.log(req.file);
   let insertId;
-
+ 
+ 
   const handleProfilePictureUpload = async (insertId) => {
     if (file) {
       fs.rename(
-        `/Users/Nosser/Desktop/Exam-System/frontend/src/profilePictures/students/${fileName}`,
-        `/Users/Nosser/Desktop/Exam-System/frontend/src/profilePictures/students/student${insertId}.png`,
+        `C:/Exam-System/MERN-Exam-System-master/frontend/src/profilePictures/students/${fileName}`,
+        `C:/Exam-System/MERN-Exam-System-master/frontend/src/profilePictures/students/student${insertId}.png`,
         (err) => {
           if (err) throw err;
           console.log("File Renamed.");
@@ -42,7 +53,7 @@ export const addExaminee = async (req, res, next) => {
       );
     } else {
       fs.appendFile(
-        `/Users/Nosser/Desktop/Exam-System/frontend/src/profilePictures/students/student${insertId}.png`,
+        `C:/Exam-System/MERN-Exam-System-master/frontend/src/profilePictures/students/student${insertId}.png`,
         "Hello content!",
         function (err) {
           if (err) throw err;
@@ -152,12 +163,18 @@ export const addExaminee = async (req, res, next) => {
         examinee_rank, examinee_police_number, examinee_civilian_number,
          examinee_entity, examinee_list_number, examinee_seniority_number,
           examinee_mobile_number, examinee_password, examinee_car_type,
-           examinee_car_number, examinee_graduation_date)
+           examinee_car_number, examinee_graduation_date, examinee_birth_date,
+            examinee_address_inside_cairo, examinee_address_outside_cairo, examinee_religion,
+            examinee_finance_code, examinee_bank_name, relationship_status, examinee_previous_clubs,
+            examinee_previous_work_places)
             VALUES('${examineeName}','${examineeType}',
             '${examineeRank}','${examineePoliceNumber}',
             '${examineeCivilianNumber}','${examineeEntity}',
             '${listNumber}','${examineeSeniorityNumber}', '${mobileNumber}',
-             'hemaya@2023', '${carType}', '${carNumber}', '${graduationDate}')`
+             'hemaya@2023', '${carType}', '${carNumber}', '${graduationDate}',
+              '${birthDate}', '${addressInside}', '${addressOutside}', '${religion}',
+               '${financeCode}', '${bankName}', '${relationshipStatus}', '${previousClubs}',
+                '${previousWorkPlaces}')`
       )
       .then((data) => {
         insertId = data[0].insertId;
@@ -191,7 +208,12 @@ export const addExaminee = async (req, res, next) => {
         });
       });
   }
-};
+ };
+ 
+ 
+ 
+ 
+ 
 
 export const examineeLogin = async (req, res) => {
   const examineeId = req.body.examineeId;

@@ -48,7 +48,7 @@ export const editMainClub = (req, res) => {
       `
           UPDATE main_club
           SET club_name = '${clubName}',
-          club_description = '${clubDescription}',
+          club_description = '${clubDescription}'
           WHERE club_id = '${clubId}'
           `
     )

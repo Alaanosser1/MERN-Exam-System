@@ -20,18 +20,14 @@ const SubClubsExams = () => {
 
   const getSubClubs = () => {
     axios
-      .get(
-        "http://localhost:4000/subClub/getSubClubs" ||
-          "http://192.168.1.10:4000/subClub/getSubClubs",
-        {
-          params: {
-            mainClubId,
-          },
-          //   headers: {
-          //     "auth-token": user.token,
-          //   },
-        }
-      )
+      .get(`http://${process.env.REACT_APP_API_IP}:4000/subClub/getSubClubs`, {
+        params: {
+          mainClubId,
+        },
+        //   headers: {
+        //     "auth-token": user.token,
+        //   },
+      })
       .then((res) => {
         console.log(res.data.clubs, "CLUBS");
         setSubClubs(res.data.clubs);
@@ -44,8 +40,7 @@ const SubClubsExams = () => {
   const getMainClub = () => {
     axios
       .get(
-        "http://localhost:4000/mainClub/getSingleMainClub" ||
-          "http://192.168.1.10:4000/mainClub/getSingleMainClub",
+        `http://${process.env.REACT_APP_API_IP}:4000/mainClub/getSingleMainClub`,
         {
           params: {
             clubId: mainClubId,

@@ -23,15 +23,11 @@ const ExamineeExam = () => {
   console.log(user, "USER");
   const getExamData = () => {
     axios
-      .get(
-        "http://localhost:4000/exam/getExam" ||
-          "http://192.168.1.10:4000/exam/getExam",
-        {
-          params: {
-            examId,
-          },
-        }
-      )
+      .get(`http://${process.env.REACT_APP_API_IP}:4000/exam/getExam`, {
+        params: {
+          examId,
+        },
+      })
       .then((res) => {
         // setExamQuestions(res.data.questions);
         console.log(res.data.exam, "???????");
@@ -78,8 +74,7 @@ const ExamineeExam = () => {
     console.log(inputValue, "INPUTVALUE");
     axios
       .post(
-        "http://localhost:4000/examinee/storeExamineeAnswer" ||
-          "http://192.168.1.10:4000/examinee/storeExamineeAnswer",
+        `http://${process.env.REACT_APP_API_IP}:4000/examinee/storeExamineeAnswer`,
         {
           examId,
           questionId,
@@ -111,8 +106,7 @@ const ExamineeExam = () => {
   const getExamQuestions = () => {
     axios
       .get(
-        "http://localhost:4000/exam/getExamQuestions" ||
-          "http://192.168.1.10:4000/exam/getExamQuestions",
+        `http://${process.env.REACT_APP_API_IP}:4000/exam/getExamQuestions`,
         {
           params: {
             examId,
@@ -134,8 +128,7 @@ const ExamineeExam = () => {
   const evaluateQuestions = async () => {
     await axios
       .get(
-        "http://localhost:4000/evaluate/evaluateQuestions" ||
-          "http://192.168.1.10:4000/evaluate/evaluateQuestions",
+        `http://${process.env.REACT_APP_API_IP}:4000/evaluate/evaluateQuestions`,
         {
           params: {
             examId,
@@ -155,8 +148,7 @@ const ExamineeExam = () => {
     console.log(examId, user.id, "Evaluate Exam");
     await axios
       .get(
-        "http://localhost:4000/evaluate/evaluateExam" ||
-          "http://192.168.1.10:4000/evaluate/evaluateExam",
+        `http://${process.env.REACT_APP_API_IP}:4000/evaluate/evaluateExam`,
         {
           params: {
             examId,

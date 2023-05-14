@@ -21,8 +21,7 @@ const ExamineeHome = () => {
   const getExams = () => {
     axios
       .get(
-        "http://localhost:4000/examinee/getExamineeExams" ||
-          "http://192.168.1.10:4000/examinee/getExamineeExams",
+        `http://${process.env.REACT_APP_API_IP}:4000/examinee/getExamineeExams`,
         {
           params: {
             examineeId: user.id,

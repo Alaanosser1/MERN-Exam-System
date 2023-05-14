@@ -20,8 +20,7 @@ export default function AddQuestionBank(props) {
   const formSubmit = () => {
     axios
       .post(
-        "http://localhost:4000/questionBank/createQuestionBank" ||
-          "http://192.168.1.10:4000/questionBank/createQuestionBank",
+        `http://${process.env.REACT_APP_API_IP}:4000/questionBank/createQuestionBank`,
         {
           questionBankName,
           questionBankDescription,

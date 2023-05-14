@@ -17,16 +17,15 @@ const AddMainClub = (props) => {
   const formSubmit = () => {
     axios
       .post(
-        "http://localhost:4000/mainClub/createMainClub" ||
-          "http://192.168.1.10:4000/mainClub/createMainClub",
+        `http://${process.env.REACT_APP_API_IP}:4000/mainClub/createMainClub`,
         {
           clubName,
           clubDescription,
         },
         {
-          headers: {
-            "auth-token": user.token,
-          },
+          // headers: {
+          //   "auth-token": user.token,
+          // },
         }
       )
       .then((data) => {

@@ -12,8 +12,7 @@ const ExamReportDetails = () => {
   const getExamEvaluationStats = () => {
     axios
       .get(
-        "http://localhost:4000/evaluate/getExamEvaluationStats" ||
-          "http://192.168.1.10:4000/evaluate/getExamEvaluationStats",
+        `http://${process.env.REACT_APP_API_IP}:4000/evaluate/getExamEvaluationStats`,
         {
           // headers: {
           //   "auth-token": user.token,

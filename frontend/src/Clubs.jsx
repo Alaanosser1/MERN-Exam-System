@@ -7,7 +7,6 @@ import DataEntrySidebar from "./components/DataEntrySidebar";
 import Students from "./Pages/DataEntry/Students";
 import AllStudents from "./Pages/DataEntry/AllStudents";
 import StudentProfile from "./Pages/DataEntry/StudentProfile";
-
 import Exams from "./Pages/Exams";
 import QuestionBanks from "./Pages/QuestionBanks";
 import AddQuestionBank from "./components/AddQuestionBank";

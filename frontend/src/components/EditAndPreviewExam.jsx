@@ -26,18 +26,14 @@ const EditAndPreviewExam = () => {
 
   const getExam = () => {
     axios
-      .get(
-        "http://localhost:4000/exam/getExam" ||
-          "http://192.168.1.10:4000/exam/getExam",
-        {
-          // headers: {
-          //   "auth-token": user.token,
-          // },
-          params: {
-            examId,
-          },
-        }
-      )
+      .get(`http://${process.env.REACT_APP_API_IP}:4000/exam/getExam`, {
+        // headers: {
+        //   "auth-token": user.token,
+        // },
+        params: {
+          examId,
+        },
+      })
       .then((res) => {
         console.log(res.data.exam[0], "EXAM");
         setExam(res.data.exam[0]);
@@ -56,8 +52,7 @@ const EditAndPreviewExam = () => {
       if (res.isConfirmed) {
         axios
           .delete(
-            "http://localhost:4000/exam/removeQuestionFromExam" ||
-              "http://192.168.1.10:4000/exam/removeQuestionFromExam",
+            `http://${process.env.REACT_APP_API_IP}:4000/exam/removeQuestionFromExam`,
             {
               params: {
                 examId,
@@ -81,8 +76,7 @@ const EditAndPreviewExam = () => {
   const getExamQuestions = () => {
     axios
       .get(
-        "http://localhost:4000/exam/getExamQuestions" ||
-          "http://192.168.1.10:4000/exam/getExamQuestions",
+        `http://${process.env.REACT_APP_API_IP}:4000/exam/getExamQuestions`,
         {
           params: {
             examId,

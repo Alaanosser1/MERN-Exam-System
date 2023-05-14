@@ -19,18 +19,14 @@ const Students = () => {
 
   const getStudents = () => {
     axios
-      .get(
-        "http://localhost:4000/examinee/getStudents" ||
-          "http://192.168.1.10:4000/examinee/getStudents",
-        {
-          params: {
-            subClubId,
-          },
-          //   headers: {
-          //     "auth-token": user.token,
-          //   },
-        }
-      )
+      .get(`http://${process.env.REACT_APP_API_IP}:4000/examinee/getStudents`, {
+        params: {
+          subClubId,
+        },
+        //   headers: {
+        //     "auth-token": user.token,
+        //   },
+      })
       .then((res) => {
         console.log(res.data.students, "STUDENTS");
         setStudents(res.data.students);

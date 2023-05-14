@@ -26,8 +26,7 @@ const DataEntrySignUp = () => {
     if (passwordMatch) {
       axios
         .post(
-          `http://localhost:4000/dataEntry/addDataEntry` ||
-            `http://192.168.1.10:4000/dataEntry/addDataEntry`,
+          `http://${process.env.REACT_APP_API_IP}:4000/dataEntry/addDataEntry`,
           {
             dataEntryName,
             dataEntryPoliceNumber,

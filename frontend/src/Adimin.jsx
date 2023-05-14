@@ -29,6 +29,7 @@ import Reports from "./Pages/Reports";
 import ExamReportDetails from "./Pages/ExamReportDetails";
 import InstructorSignUp from "./Pages/InstructorSignUp";
 import AdminSideBar from "./components/AdminSideBar";
+import AllInstructors from "./Pages/AllInstructors";
 
 function Admin() {
   console.log(window.location);
@@ -94,6 +95,7 @@ function Admin() {
               />
               <Route path="/students/:studentId" element={<StudentProfile />} />
               <Route path="/Allstudents" element={<AllStudents />} />
+              <Route path="/AllInstructors" element={<AllInstructors />} />
               <Route
                 path="/Allstudents/:studentId"
                 element={<StudentProfile />}

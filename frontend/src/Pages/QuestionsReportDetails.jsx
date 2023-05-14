@@ -13,8 +13,7 @@ const QuestionsReportDetails = () => {
   const getEachQuestionEvaluationStats = () => {
     axios
       .get(
-        "http://localhost:4000/evaluate/getEachQuestionEvaluationStats" ||
-          "http://192.168.1.10:4000/evaluate/getEachQuestionEvaluationStats",
+        `http://${process.env.REACT_APP_API_IP}:4000/evaluate/getEachQuestionEvaluationStats`,
         {
           // headers: {
           //   "auth-token": user.token,

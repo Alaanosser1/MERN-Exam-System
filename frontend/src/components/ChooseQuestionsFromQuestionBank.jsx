@@ -43,8 +43,7 @@ const ChooseQuestionsFromQuestionBank = (props) => {
   const getQuestionBank = () => {
     axios
       .get(
-        "http://localhost:4000/questionBank/getQuestionBank" ||
-          "http://192.168.1.10:4000/questionBank/getQuestionBank",
+        `http://${process.env.REACT_APP_API_IP}:4000/questionBank/getQuestionBank`,
         {
           // headers: {
           //   "auth-token": user.token,
@@ -66,8 +65,7 @@ const ChooseQuestionsFromQuestionBank = (props) => {
   const getQuestionBankQuestions = () => {
     axios
       .get(
-        `http://localhost:4000/exam/getQuestionBankQuestionsToAddQuestionsToExam` ||
-          `http://192.168.1.10:4000/exam/getQuestionBankQuestionsToAddQuestionsToExam`,
+        `http://${process.env.REACT_APP_API_IP}:4000/exam/getQuestionBankQuestionsToAddQuestionsToExam`,
         {
           params: {
             examId: props.examId,
@@ -89,8 +87,7 @@ const ChooseQuestionsFromQuestionBank = (props) => {
   const getExamQuestions = () => {
     axios
       .get(
-        "http://localhost:4000/exam/getExamQuestions" ||
-          "http://192.168.1.10:4000/exam/getExamQuestions",
+        `http://${process.env.REACT_APP_API_IP}:4000/exam/getExamQuestions`,
         {
           params: {
             examId: props.examId,
@@ -115,8 +112,7 @@ const ChooseQuestionsFromQuestionBank = (props) => {
   const assignQuestionToExam = (questionId) => {
     axios
       .post(
-        "http://localhost:4000/exam/assignQuestionToExam" ||
-          "http://192.168.1.10:4000/exam/assignQuestionToExam",
+        `http://${process.env.REACT_APP_API_IP}:4000/exam/assignQuestionToExam`,
         {
           examId: props.examId,
           questionId,
@@ -139,8 +135,7 @@ const ChooseQuestionsFromQuestionBank = (props) => {
   const removeQuestionFromExam = (questionId) => {
     axios
       .delete(
-        "http://localhost:4000/exam/removeQuestionFromExam" ||
-          "http://192.168.1.10:4000/exam/removeQuestionFromExam",
+        `http://${process.env.REACT_APP_API_IP}:4000/exam/removeQuestionFromExam`,
         {
           params: {
             examId: props.examId,
@@ -163,8 +158,7 @@ const ChooseQuestionsFromQuestionBank = (props) => {
   const calculateExamTotalGrade = () => {
     axios
       .get(
-        "http://localhost:4000/exam/calculateExamTotalGrade" ||
-          "http://192.168.1.10:4000/exam/calculateExamTotalGrade",
+        `http://${process.env.REACT_APP_API_IP}:4000/exam/calculateExamTotalGrade`,
         {
           params: {
             examId: props.examId,

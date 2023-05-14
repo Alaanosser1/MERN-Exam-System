@@ -20,27 +20,37 @@ const LandingPage = () => {
 
   return (
     <>
-      <div className="h-100 w-100 main-container d-flex align-items-center justify-content-center">
+      <div className="h-100 w-100 main-container  align-items-center justify-content-center">
         <div className="container landing-container w-75 bg-white">
           <div className="row">
             <div className="col-6 bg-light p-5">
               <div className="img-container d-flex justify-content-center">
                 <img width={300} src={logo} alt="" />
+                
+              </div>
+              <div className="row">
+              <h2 className="text-center" dir="rtl">
+                {date}
+              </h2>
+              <h2 className="text-center" dir="rtl">
+                <Clock
+                  className=""
+                  format={`h:mm:ss`}
+                  ticking={true}
+                  locale="ar"
+                />
+              </h2>
               </div>
             </div>
             <div className="col-6 btn-col p-5">
+            <h3 className="text-center text">
+                  الادارة العامة للحماية المدنية 
+              </h3>
+              <h3 className="text-center text-">
+                     معهد تدريب الادارة 
+              </h3>
               <div className="row mb-4">
-                <h2 className="" dir="rtl">
-                  {date}
-                </h2>
-                <h2 dir="rtl">
-                  <Clock
-                    className=""
-                    format={`h:mm:ss`}
-                    ticking={true}
-                    locale="ar"
-                  />
-                </h2>
+                
               </div>
               <Link style={{ textDecoration: "none" }} to={"/studentLogin"}>
                 <div className="row w-75 ms-3">
@@ -52,7 +62,7 @@ const LandingPage = () => {
               <Link style={{ textDecoration: "none" }} to={"/login"}>
                 <div className="row w-75 ms-3">
                   <button className="btn landing-btn btn-outline-success">
-                    معلمين
+                    محاضرين
                   </button>
                 </div>
               </Link>
@@ -66,7 +76,7 @@ const LandingPage = () => {
               <Link style={{ textDecoration: "none" }} to={"/adminLogin"}>
                 <div className="row w-75 ms-3">
                   <button className="btn landing-btn btn-outline-success">
-                    ادمن
+                    الصلاحيات
                   </button>
                 </div>
               </Link>

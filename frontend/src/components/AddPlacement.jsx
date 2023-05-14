@@ -21,8 +21,7 @@ const AddPlacement = (props) => {
   const formSubmit = () => {
     axios
       .post(
-        "http://localhost:4000/subClub/createPlacement" ||
-          "http://192.168.1.10:4000/subClub/createPlacement",
+        `http://${process.env.REACT_APP_API_IP}:4000/subClub/createPlacement`,
         {
           placementName,
           placementDescription,

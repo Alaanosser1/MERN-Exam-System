@@ -20,8 +20,7 @@ const Students = () => {
   const getStudents = () => {
     axios
       .get(
-        "http://localhost:4000/subClub/getSubClubStudents" ||
-          "http://192.168.1.10:4000/subClub/getSubClubStudents",
+        `http://${process.env.REACT_APP_API_IP}:4000/subClub/getSubClubStudents`,
         {
           params: {
             subClubId,

@@ -26,8 +26,7 @@ const ExamineePreExam = () => {
     if (passwordMatch) {
       axios
         .post(
-          `http://localhost:4000/instructor/addInstructor` ||
-            `http://192.168.1.10:4000/instructor/addInstructor`,
+          `http://${process.env.REACT_APP_API_IP}:4000/instructor/addInstructor`,
           {
             instructorName,
             instructorPoliceNumber,

@@ -37,18 +37,14 @@ const Exams = () => {
 
   const getExams = () => {
     axios
-      .get(
-        "http://localhost:4000/exam/getExamsOfClub" ||
-          "http://192.168.1.10:4000/exam/getExamsOfClub",
-        {
-          params: {
-            subClubId,
-          },
-          headers: {
-            "auth-token": user.token,
-          },
-        }
-      )
+      .get(`http://${process.env.REACT_APP_API_IP}:4000/exam/getExamsOfClub`, {
+        params: {
+          subClubId,
+        },
+        headers: {
+          "auth-token": user.token,
+        },
+      })
       .then((res) => {
         console.log(res.data.exams, "EXAMS");
         setSearchResults(res.data.exams);
@@ -68,8 +64,7 @@ const Exams = () => {
       if (res.isConfirmed) {
         axios
           .delete(
-            `http://localhost:4000/exam/deleteExam` ||
-              `http://192.168.1.10:4000/exam/deleteExam`,
+            `http://${process.env.REACT_APP_API_IP}:4000/exam/deleteExam`,
             {
               params: {
                 examId: exam.exam_id,

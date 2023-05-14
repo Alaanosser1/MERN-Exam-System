@@ -18,8 +18,7 @@ export default function Home() {
   const getQuestionBanks = () => {
     axios
       .get(
-        "http://localhost:4000/mainQuestionBank/getMainQuestionBanks" ||
-          "http://192.168.1.10:4000/mainQuestionBank/getMainQuestionBanks",
+        `http://${process.env.REACT_APP_API_IP}:4000/mainQuestionBank/getMainQuestionBanks`,
         {
           headers: {
             "auth-token": user.token,
@@ -37,15 +36,11 @@ export default function Home() {
 
   const getExams = () => {
     axios
-      .get(
-        "http://localhost:4000/exam/getExams" ||
-          "http://192.168.1.10:4000/exam/getExams",
-        {
-          headers: {
-            "auth-token": user.token,
-          },
-        }
-      )
+      .get(`http://${process.env.REACT_APP_API_IP}:4000/exam/getExams`, {
+        headers: {
+          "auth-token": user.token,
+        },
+      })
       .then((res) => {
         console.log(res.data.exams, "EXAMS");
         setExams(res.data.exams);

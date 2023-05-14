@@ -27,9 +27,7 @@ const ExamineePreExam = () => {
     console.log("submitted");
     axios
       .post(
-        `
-      http://localhost:4000/examinee/addExaminee` ||
-          `http://192.168.1.10:4000/examinee/addExaminee`,
+        `http://${process.env.REACT_APP_API_IP}:4000/examinee/addExaminee`,
         {
           name,
           type,

@@ -53,8 +53,7 @@ const CreateExamStep2 = (props) => {
   const getQuestionBanks = () => {
     axios
       .get(
-        "http://localhost:4000/questionBank/getQuestionBanks" ||
-          "http://192.168.1.10:4000/questionBank/getQuestionBanks",
+        `http://${process.env.REACT_APP_API_IP}:4000/questionBank/getQuestionBanks`,
         {
           params: {
             mainQuestionBankId,

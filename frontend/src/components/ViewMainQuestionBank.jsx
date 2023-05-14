@@ -51,8 +51,7 @@ export default function ViewMainQuestionBanks() {
   const getQuestionBanks = () => {
     axios
       .get(
-        "http://localhost:4000/questionBank/getQuestionBanks" ||
-          "http://192.168.1.10:4000/questionBank/getQuestionBanks",
+        `http://${process.env.REACT_APP_API_IP}:4000/questionBank/getQuestionBanks`,
 
         {
           params: {
@@ -81,8 +80,7 @@ export default function ViewMainQuestionBanks() {
       if (res.isConfirmed) {
         axios
           .delete(
-            `http://localhost:4000/questionBank/deleteQuestionBank` ||
-              `http://192.168.1.10:4000/questionBank/deleteQuestionBank`,
+            `http://${process.env.REACT_APP_API_IP}:4000/questionBank/deleteQuestionBank`,
             {
               params: {
                 questionBankId: questionBank.question_bank_id,
@@ -104,8 +102,7 @@ export default function ViewMainQuestionBanks() {
     console.log(questionBankId);
     axios
       .put(
-        `http://localhost:4000/questionBank/editQuestionBank` ||
-          `http://192.168.1.10:4000/questionBank/editQuestionBank`,
+        `http://${process.env.REACT_APP_API_IP}:4000/questionBank/editQuestionBank`,
         {
           questionBankId,
           questionBankName,

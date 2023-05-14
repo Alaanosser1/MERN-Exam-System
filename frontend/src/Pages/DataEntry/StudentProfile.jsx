@@ -39,18 +39,14 @@ const StudentProfile = () => {
 
   const getStudent = () => {
     axios
-      .get(
-        "http://localhost:4000/examinee/getStudent" ||
-          "http://192.168.1.10:4000/examinee/getStudent",
-        {
-          params: {
-            examineeId: studentId,
-          },
-          //   headers: {
-          //     "auth-token": user.token,
-          //   },
-        }
-      )
+      .get(`http://${process.env.REACT_APP_API_IP}:4000/examinee/getStudent`, {
+        params: {
+          examineeId: studentId,
+        },
+        //   headers: {
+        //     "auth-token": user.token,
+        //   },
+      })
       .then((res) => {
         console.log(res.data.student, "Student");
         setStudent(res.data.student);
@@ -62,8 +58,7 @@ const StudentProfile = () => {
   const getStudentClubs = () => {
     axios
       .get(
-        "http://localhost:4000/examinee/getExamineeClubs" ||
-          "http://192.168.1.10:4000/examinee/getExamineeClubs",
+        `http://${process.env.REACT_APP_API_IP}:4000/examinee/getExamineeClubs`,
         {
           params: {
             examineeId: studentId,
@@ -85,8 +80,7 @@ const StudentProfile = () => {
   const getMainClubs = () => {
     axios
       .get(
-        "http://localhost:4000/mainClub/getMainClubs" ||
-          "http://192.168.1.10:4000/mainClub/getMainClubs",
+        `http://${process.env.REACT_APP_API_IP}:4000/mainClub/getMainClubs`,
         {
           //   headers: {
           //     "auth-token": user.token,
@@ -104,18 +98,14 @@ const StudentProfile = () => {
 
   const getSubClubs = (mainClubId) => {
     axios
-      .get(
-        "http://localhost:4000/subClub/getSubClubs" ||
-          "http://192.168.1.10:4000/subClub/getSubClubs",
-        {
-          params: {
-            mainClubId,
-          },
-          //   headers: {
-          //     "auth-token": user.token,
-          //   },
-        }
-      )
+      .get(`http://${process.env.REACT_APP_API_IP}:4000/subClub/getSubClubs`, {
+        params: {
+          mainClubId,
+        },
+        //   headers: {
+        //     "auth-token": user.token,
+        //   },
+      })
       .then((res) => {
         console.log(res.data.clubs, "SUBCLUBS");
         setSubClubs(res.data.clubs);
@@ -130,8 +120,7 @@ const StudentProfile = () => {
     console.log(currentSubClubId);
     axios
       .get(
-        "http://localhost:4000/subClub/getSubClubPlacements" ||
-          "http://192.168.1.10:4000/subClub/getSubClubPlacements",
+        `http://${process.env.REACT_APP_API_IP}:4000/subClub/getSubClubPlacements`,
         {
           params: {
             subClubId: currentSubClubId,
@@ -161,9 +150,7 @@ const StudentProfile = () => {
   const addStudentToClubSubmit = () => {
     axios
       .post(
-        `
-      http://localhost:4000/examinee/addExamineeToClub` ||
-          `http://192.168.1.10:4000/examinee/addExamineeToClub
+        `http://${process.env.REACT_APP_API_IP}:4000/examinee/addExamineeToClub
           `,
         {
           subClubId,
@@ -296,6 +283,24 @@ const StudentProfile = () => {
                     <div className="row mt-5">
                       <h4>جهة العمل الحالية: {student[0].examinee_entity}</h4>
                     </div>
+                    <div className="row mt-5">
+                      {student[0].examinee_birth_date && (
+                        <h4>
+                          تاريخ الميلاد:{" "}
+                          {student[0].examinee_birth_date.substring(
+                            0,
+                            student[0].examinee_birth_date.indexOf("T")
+                          )}
+                        </h4>
+                      )}
+                    </div>
+                    <div className="row mt-5">
+                      <h4>
+                        {" "}
+                        العنوان خارج القاهرة :{" "}
+                        {student[0].examinee_address_outside_cairo}
+                      </h4>
+                    </div>
                   </div>
                 )}
                 {student[0].examinee_type == "ضابط" && (
@@ -312,6 +317,24 @@ const StudentProfile = () => {
                     <div className="row mt-5">
                       <h4>جهة العمل الحالية: {student[0].examinee_entity}</h4>
                     </div>
+                    <div className="row mt-5">
+                      {student[0].examinee_birth_date && (
+                        <h4>
+                          تاريخ الميلاد:{" "}
+                          {student[0].examinee_birth_date.substring(
+                            0,
+                            student[0].examinee_birth_date.indexOf("T")
+                          )}
+                        </h4>
+                      )}
+                    </div>
+                    <div className="row mt-5">
+                      <h4>
+                        {" "}
+                        العنوان خارج القاهرة :{" "}
+                        {student[0].examinee_address_outside_cairo}
+                      </h4>
+                    </div>
                   </div>
                 )}
                 {student[0].examinee_type == "فرد" && (
@@ -325,6 +348,24 @@ const StudentProfile = () => {
                     <div className="row mt-5">
                       <h4>جهة العمل الحالية: {student[0].examinee_entity}</h4>
                     </div>
+                    <div className="row mt-5">
+                      {student[0].examinee_birth_date && (
+                        <h4>
+                          تاريخ الميلاد:{" "}
+                          {student[0].examinee_birth_date.substring(
+                            0,
+                            student[0].examinee_birth_date.indexOf("T")
+                          )}
+                        </h4>
+                      )}
+                    </div>
+                    <div className="row mt-5">
+                      <h4>
+                        {" "}
+                        العنوان خارج القاهرة :{" "}
+                        {student[0].examinee_address_outside_cairo}
+                      </h4>
+                    </div>
                   </div>
                 )}
               </div>
@@ -335,10 +376,15 @@ const StudentProfile = () => {
                   </div>
                   <div className="row mt-5">
                     <h4>
-                      تاريخ التخرج :
-                      {student[0].examinee_graduation_date.substring(
-                        0,
-                        student[0].examinee_graduation_date.indexOf("T")
+                      {student[0].examinee_birth_date && (
+                        <h4>
+                          {" "}
+                          تاريخ التخرج :
+                          {student[0].examinee_graduation_date.substring(
+                            0,
+                            student[0].examinee_graduation_date.indexOf("T")
+                          )}
+                        </h4>
                       )}
                     </h4>
                   </div>
@@ -348,6 +394,37 @@ const StudentProfile = () => {
                 </div>
                 <div className="row mt-5">
                   <h4> رقم السيارة: {student[0].examinee_car_number}</h4>
+                </div>
+                <div className="row mt-5">
+                  <h4> الديانة : {student[0].examinee_religion}</h4>
+                </div>
+                <div className="row mt-5">
+                  <h4> الحالة الاجتماعية : {student[0].relationship_status}</h4>
+                </div>
+                <div className="row mt-5">
+                  <h4>
+                    {" "}
+                    العنوان داخل القاهرة :{" "}
+                    {student[0].examinee_address_inside_cairo}
+                  </h4>
+                </div>
+              </div>
+            </div>
+            <div dir="rtl" className="row">
+              <div className="col-6">
+                <div className="row mt-5">
+                  <h4>
+                    الفرق الحاصل عليها : {student[0].examinee_previous_clubs}
+                  </h4>
+                </div>
+              </div>
+              <div className="col-6">
+                <div className="row mt-5">
+                  <h4>
+                    {" "}
+                    العمل الذي مارس منذ التخرج :{" "}
+                    {student[0].examinee_previous_work_places}
+                  </h4>
                 </div>
               </div>
             </div>

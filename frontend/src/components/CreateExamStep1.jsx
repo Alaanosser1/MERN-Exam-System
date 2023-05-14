@@ -15,6 +15,7 @@ const CreateExamStep1 = (props) => {
     setChooseQuestionsFromQuestionBankPopup,
   ] = useState(false);
   let { examId } = useParams();
+  const exam = examId || props.examId;
   const refOne = useRef(null);
   const user =
     JSON.parse(localStorage.getItem("instructor-token")) ||
@@ -46,8 +47,7 @@ const CreateExamStep1 = (props) => {
   const getQuestionBanks = () => {
     axios
       .get(
-        "http://localhost:4000/mainQuestionBank/getMainQuestionBanks" ||
-          "http://192.168.1.10:4000/mainQuestionBank/getMainQuestionBanks",
+        `http://${process.env.REACT_APP_API_IP}:4000/mainQuestionBank/getMainQuestionBanks`,
 
         {
           headers: {
@@ -140,7 +140,7 @@ const CreateExamStep1 = (props) => {
                   <td className="text-center">
                     {JSON.parse(localStorage.getItem("instructor-token")) && (
                       <Link
-                        to={`/app/exams/${props.examId}/mainQuestionBank/${bank[1].main_question_bank_id}/addQuestions`}
+                        to={`/app/exams/${exam}/mainQuestionBank/${bank[1].main_question_bank_id}/addQuestions`}
                       >
                         <button
                           onClick={() => {}}
@@ -152,7 +152,7 @@ const CreateExamStep1 = (props) => {
                     )}
                     {JSON.parse(localStorage.getItem("data-entry-token")) && (
                       <Link
-                        to={`/clubs/exams/${props.examId}/mainQuestionBank/${bank[1].main_question_bank_id}/addQuestions`}
+                        to={`/clubs/exams/${exam}/mainQuestionBank/${bank[1].main_question_bank_id}/addQuestions`}
                       >
                         <button
                           onClick={() => {}}
@@ -164,7 +164,7 @@ const CreateExamStep1 = (props) => {
                     )}
                     {JSON.parse(localStorage.getItem("admin-token")) && (
                       <Link
-                        to={`/admin/exams/${props.examId}/mainQuestionBank/${bank[1].main_question_bank_id}/addQuestions`}
+                        to={`/admin/exams/${exam}/mainQuestionBank/${bank[1].main_question_bank_id}/addQuestions`}
                       >
                         <button
                           onClick={() => {}}

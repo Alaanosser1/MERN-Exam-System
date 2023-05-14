@@ -10,8 +10,7 @@ const Reports = () => {
   const getReports = () => {
     axios
       .get(
-        "http://localhost:4000/evaluate/getExamsReport" ||
-          "http://192.168.1.10:4000/evaluate/getExamsReport",
+        `http://${process.env.REACT_APP_API_IP}:4000/evaluate/getExamsReport`,
         {
           // headers: {
           //   "auth-token": user.token,

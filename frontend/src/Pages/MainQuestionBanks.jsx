@@ -6,6 +6,8 @@ import AddQuestionBank from "../components/AddQuestionBank";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import AddMainQuestionBank from "../components/AddMainQuestionBank";
+// import * as dotenv from "dotenv";
+// dotenv.config({ path: "/Users/Nosser/Desktop/Exam-System/frontend/.env" });
 
 export default function MainQuestionBanks() {
   const [questionBanks, setQuestionBanks] = useState([]);
@@ -51,8 +53,7 @@ export default function MainQuestionBanks() {
   const getQuestionBanks = () => {
     axios
       .get(
-        "http://localhost:4000/mainQuestionBank/getMainQuestionBanks" ||
-          "http://192.168.1.10:4000/mainQuestionBank/getMainQuestionBanks",
+        `http://${process.env.REACT_APP_API_IP}:4000/mainQuestionBank/getMainQuestionBanks`,
         {
           headers: {
             "auth-token": user.token,
@@ -78,8 +79,7 @@ export default function MainQuestionBanks() {
       if (res.isConfirmed) {
         axios
           .delete(
-            `http://localhost:4000/mainQuestionBank/deleteMainQuestionBank` ||
-              `http://192.168.1.10:4000/mainQuestionBank/deleteMainQuestionBank`,
+            `http://${process.env.API_IP}:4000/mainQuestionBank/deleteMainQuestionBank`,
             {
               params: {
                 questionBankId: questionBank.main_question_bank_id,
@@ -101,8 +101,7 @@ export default function MainQuestionBanks() {
     console.log(questionBankId);
     axios
       .put(
-        `http://localhost:4000/mainQuestionBank/editMainQuestionBank` ||
-          `http://192.168.1.10:4000/mainQuestionBank/editMainQuestionBank`,
+        `http://${process.env.REACT_APP_API_IP}:4000/mainQuestionBank/editMainQuestionBank`,
         {
           questionBankId,
           questionBankName,

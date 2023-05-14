@@ -17,14 +17,10 @@ const LoginAdmin = () => {
     setTimeout(() => {}, 3000);
 
     axios
-      .post(
-        `http://localhost:4000/admin/adminLogin` ||
-          `http://192.168.1.10:4000/admin/adminLogin`,
-        {
-          policeNumber,
-          password,
-        }
-      )
+      .post(`http://${process.env.REACT_APP_API_IP}:4000/admin/adminLogin`, {
+        policeNumber,
+        password,
+      })
       .then((res) => {
         if (res.data.token) {
           if (localStorage.getItem("instructor-token")) {
@@ -40,12 +36,14 @@ const LoginAdmin = () => {
         }
         setLoadingSpinner(false);
         navigate("/admin/mainClubs");
+        console.log(res);
       })
       .catch((err) => {
-        if (err.response.status == 401) {
-          setWrongCredentials(true);
-          setLoadingSpinner(false);
-        }
+        // if (err.response.status == 401) {
+        //   setWrongCredentials(true);
+        //   setLoadingSpinner(false);
+        // }
+        console.log(err);
       });
   };
 
@@ -54,7 +52,7 @@ const LoginAdmin = () => {
       <div className="h-100 d-flex align-items-center justify-content-center">
         <div className="container login-container " id="container">
           {loadingSpinner && (
-            <div class="spinner-border spinner" role="status"></div>
+            <div className="spinner-border spinner" role="status"></div>
           )}
           <div className="form-container sign-in-container">
             <form onSubmit={formSubmit}>

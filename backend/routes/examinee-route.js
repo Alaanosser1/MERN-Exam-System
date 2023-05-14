@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(
       null,
-      "/Users/Nosser/Desktop/Exam-System/frontend/src/profilePictures/students"
+      "C:/Exam-System/MERN-Exam-System-master/frontend/src/profilePictures/students"
     );
   },
   filename: (req, file, cb) => {

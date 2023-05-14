@@ -16,8 +16,7 @@ const MainClubExams = () => {
   const getMainClubs = () => {
     axios
       .get(
-        "http://localhost:4000/mainClub/getMainClubs" ||
-          "http://192.168.1.10:4000/mainClub/getMainClubs",
+        `http://${process.env.REACT_APP_API_IP}:4000/mainClub/getMainClubs`,
         {
           headers: {
             "auth-token": user.token,

@@ -38,9 +38,7 @@ const AddExam = (props) => {
     getMainClubs();
   }, []);
 
-  const apiUrl =
-    "http://localhost:4000/exam/createExam" ||
-    "http://192.168.1.10:4000/exam/createExam";
+  const apiUrl = `http://${process.env.REACT_APP_API_IP}:4000/exam/createExam`;
 
   const formSubmit = () => {
     if (startDate >= endDate) {
@@ -87,8 +85,7 @@ const AddExam = (props) => {
   const getMainClubs = () => {
     axios
       .get(
-        "http://localhost:4000/mainClub/getMainClubs" ||
-          "http://192.168.1.10:4000/mainClub/getMainClubs",
+        `http://${process.env.REACT_APP_API_IP}:4000/mainClub/getMainClubs`,
         {
           //   headers: {
           //     "auth-token": user.token,
@@ -106,18 +103,14 @@ const AddExam = (props) => {
 
   const getSubClubs = (mainClubId) => {
     axios
-      .get(
-        "http://localhost:4000/subClub/getSubClubs" ||
-          "http://192.168.1.10:4000/subClub/getSubClubs",
-        {
-          params: {
-            mainClubId,
-          },
-          //   headers: {
-          //     "auth-token": user.token,
-          //   },
-        }
-      )
+      .get(`http://${process.env.REACT_APP_API_IP}:4000/subClub/getSubClubs`, {
+        params: {
+          mainClubId,
+        },
+        //   headers: {
+        //     "auth-token": user.token,
+        //   },
+      })
       .then((res) => {
         console.log(res.data.clubs, "SUBCLUBS");
         setSubClubs(res.data.clubs);
@@ -131,8 +124,7 @@ const AddExam = (props) => {
   const getSubjects = () => {
     axios
       .get(
-        "http://localhost:4000/subClub/getClubSubjects" ||
-          "http://192.168.1.10:4000/subClub/getClubSubjects",
+        `http://${process.env.REACT_APP_API_IP}:4000/subClub/getClubSubjects`,
         {
           params: {
             subClubId,

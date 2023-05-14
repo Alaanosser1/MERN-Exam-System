@@ -22,8 +22,7 @@ const Subjects = () => {
   const getSubjects = () => {
     axios
       .get(
-        "http://localhost:4000/subClub/getClubSubjects" ||
-          "http://192.168.1.10:4000/subClub/getClubSubjects",
+        `http://${process.env.REACT_APP_API_IP}:4000/subClub/getClubSubjects`,
         {
           params: {
             subClubId,
@@ -53,8 +52,7 @@ const Subjects = () => {
       if (res.isConfirmed) {
         axios
           .delete(
-            `http://localhost:4000/subClub/deleteSubject` ||
-              `http://192.168.1.10:4000/subClub/deleteSubject`,
+            `http://${process.env.REACT_APP_API_IP}:4000/subClub/deleteSubject`,
             {
               params: {
                 subjectId: subject,

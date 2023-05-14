@@ -38,8 +38,7 @@ function ViewQuestionBank() {
       if (res.isConfirmed) {
         axios
           .delete(
-            `http://localhost:4000/question/deleteQuestion` ||
-              `http://192.168.1.10:4000/question/deleteQuestion`,
+            `http://${process.env.REACT_APP_API_IP}:4000/question/deleteQuestion`,
             {
               params: {
                 questionId: question.question_id,
@@ -60,8 +59,7 @@ function ViewQuestionBank() {
   const getQuestions = () => {
     axios
       .get(
-        `http://localhost:4000/questionBank/getQuestions?questionBank=${questionBankId}` ||
-          `http://192.168.1.10:4000/questionBank/getQuestions?questionBank=${questionBankId}`,
+        `http://${process.env.REACT_APP_API_IP}:4000/questionBank/getQuestions?questionBank=${questionBankId}`,
         {
           headers: {
             "auth-token": user.token,

@@ -18,8 +18,7 @@ const Login = () => {
 
     axios
       .post(
-        `http://localhost:4000/dataEntry/dataEntryLogin` ||
-          `http://192.168.1.10:4000/dataEntry/dataEntryLogin`,
+        `http://${process.env.REACT_APP_API_IP}:4000/dataEntry/dataEntryLogin`,
         {
           policeNumber,
           password,

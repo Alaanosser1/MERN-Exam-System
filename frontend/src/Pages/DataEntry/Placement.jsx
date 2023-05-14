@@ -25,8 +25,7 @@ const Placement = () => {
   const getPlacements = () => {
     axios
       .get(
-        "http://localhost:4000/subClub/getSubClubPlacements" ||
-          "http://192.168.1.10:4000/subClub/getSubClubPlacements",
+        `http://${process.env.REACT_APP_API_IP}:4000/subClub/getSubClubPlacements`,
         {
           params: {
             subClubId,
@@ -56,8 +55,7 @@ const Placement = () => {
       if (res.isConfirmed) {
         axios
           .delete(
-            `http://localhost:4000/subClub/deletePlacement` ||
-              `http://192.168.1.10:4000/subClub/deletePlacement`,
+            `http://${process.env.REACT_APP_API_IP}:4000/subClub/deletePlacement`,
             {
               params: {
                 placementId: placement,

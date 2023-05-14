@@ -22,15 +22,11 @@ const EditSubject = (props) => {
 
   const getMainClub = () => {
     axios
-      .get(
-        "http://localhost:4000/subClub/getSubject" ||
-          "http://192.168.1.10:4000/subClub/getSubject",
-        {
-          params: {
-            subjectId: props.subjectId,
-          },
-        }
-      )
+      .get(`http://${process.env.REACT_APP_API_IP}:4000/subClub/getSubject`, {
+        params: {
+          subjectId: props.subjectId,
+        },
+      })
       .then((data) => {
         setSubjectName(data.data.subject[0].subject_name);
         setSubjectDescription(data.data.subject[0].subject_description);
@@ -40,8 +36,7 @@ const EditSubject = (props) => {
   const formSubmit = () => {
     axios
       .post(
-        "http://localhost:4000/subClub/editSubject" ||
-          "http://192.168.1.10:4000/subClub/editSubject",
+        `http://${process.env.REACT_APP_API_IP}:4000/subClub/editSubject`,
         {
           subjectName,
           subjectDescription,

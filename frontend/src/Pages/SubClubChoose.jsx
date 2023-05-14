@@ -13,8 +13,7 @@ const SubClubChoose = (props) => {
   const getSubjects = (subClubId) => {
     axios
       .get(
-        "http://localhost:4000/subClub/getClubSubjects" ||
-          "http://192.168.1.10:4000/subClub/getClubSubjects",
+        `http://${process.env.REACT_APP_API_IP}:4000/subClub/getClubSubjects`,
         {
           params: {
             subClubId,

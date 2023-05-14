@@ -2,6 +2,7 @@ import { React, useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { useParams, Link } from "react-router-dom";
 
 const PlacementOptions = (props) => {
   useEffect(() => {
@@ -10,12 +11,12 @@ const PlacementOptions = (props) => {
 
   const [placementOptions, setPlacementOptions] = useState("");
   const [placementOption, setPlacementOption] = useState("");
+  const { subClubId } = useParams();
 
   const getPlacementOptions = () => {
     axios
       .get(
-        "http://localhost:4000/subClub/getPlacementOptions" ||
-          "http://192.168.1.10:4000/subClub/getPlacementOptions",
+        `http://${process.env.REACT_APP_API_IP}:4000/subClub/getPlacementOptions`,
         {
           params: {
             placementId: props.placementId,
@@ -44,14 +45,17 @@ const PlacementOptions = (props) => {
   const handleOptionRemove = (placementOptionId) => {
     console.log(placementOptionId, "AKSJDS");
     axios
-      .delete(`http://localhost:4000/subClub/removePlacementOption`, {
-        params: {
-          placementOptionId: placementOptionId,
-        },
-        //   headers: {
-        //     "auth-token": user.token,
-        //   },
-      })
+      .delete(
+        `http://${process.env.REACT_APP_API_IP}:4000/subClub/removePlacementOption`,
+        {
+          params: {
+            placementOptionId: placementOptionId,
+          },
+          //   headers: {
+          //     "auth-token": user.token,
+          //   },
+        }
+      )
       .then((res) => {
         console.log("deleted");
         getPlacementOptions();
@@ -63,11 +67,11 @@ const PlacementOptions = (props) => {
     e.preventDefault();
     axios
       .post(
-        "http://localhost:4000/subClub/addPlacementOption" ||
-          "http://192.168.1.10:4000/subClub/addPlacementOption",
+        `http://${process.env.REACT_APP_API_IP}:4000/subClub/addPlacementOption`,
         {
           placementId: props.placementId,
           optionName: placementOption,
+          subClubId,
         },
         {
           //   headers: {

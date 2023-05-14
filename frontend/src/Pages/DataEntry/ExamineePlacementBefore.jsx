@@ -16,10 +16,11 @@ const ExamineePlacementBefore = (props) => {
   const { studentId } = useParams();
 
   const getPlacementOptions = () => {
+    console.log(props.placementId, "1");
+    console.log(studentId, "2");
     axios
       .get(
-        "http://localhost:4000/subClub/getPlacementOptionsValues" ||
-          "http://192.168.1.10:4000/subClub/getPlacementOptionsValues",
+        `http://${process.env.REACT_APP_API_IP}:4000/subClub/getPlacementOptionsValues`,
         {
           params: {
             placementId: props.placementId,
@@ -41,18 +42,14 @@ const ExamineePlacementBefore = (props) => {
 
   const getPlacementData = () => {
     axios
-      .get(
-        "http://localhost:4000/subClub/getPlacement" ||
-          "http://192.168.1.10:4000/subClub/getPlacement",
-        {
-          params: {
-            placementId: props.placementId,
-          },
-          //   headers: {
-          //     "auth-token": user.token,
-          //   },
-        }
-      )
+      .get(`http://${process.env.REACT_APP_API_IP}:4000/subClub/getPlacement`, {
+        params: {
+          placementId: props.placementId,
+        },
+        //   headers: {
+        //     "auth-token": user.token,
+        //   },
+      })
       .then((res) => {
         console.log(res.data.placement, "placement data");
         setPlacementData(res.data.placement);
@@ -65,8 +62,7 @@ const ExamineePlacementBefore = (props) => {
   const fillExamineePlacementData = () => {
     axios
       .post(
-        "http://localhost:4000/subClub/fillExamineePlacementData" ||
-          "http://192.168.1.10:4000/subClub/fillExamineePlacementData",
+        `http://${process.env.REACT_APP_API_IP}:4000/subClub/fillExamineePlacementData`,
         {
           optionsObject: placementOptions,
           params: {

@@ -23,8 +23,7 @@ const EditMainClub = (props) => {
   const getMainClub = () => {
     axios
       .get(
-        "http://localhost:4000/mainClub/getSingleMainClub" ||
-          "http://192.168.1.10:4000/mainClub/getSingleMainClub",
+        `http://${process.env.REACT_APP_API_IP}:4000/mainClub/getSingleMainClub`,
         {
           params: {
             clubId: props.clubId,
@@ -39,8 +38,7 @@ const EditMainClub = (props) => {
   const formSubmit = () => {
     axios
       .post(
-        "http://localhost:4000/mainClub/editMainClub" ||
-          "http://192.168.1.10:4000/mainClub/editMainClub",
+        `http://${process.env.REACT_APP_API_IP}:4000/mainClub/editMainClub`,
         {
           clubName,
           clubDescription,

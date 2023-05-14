@@ -43,8 +43,7 @@ const AddSubClub = (props) => {
   const formSubmit = () => {
     axios
       .post(
-        "http://localhost:4000/subClub/createSubClub" ||
-          "http://192.168.1.10:4000/subClub/createSubClub",
+        `http://${process.env.REACT_APP_API_IP}:4000/subClub/createSubClub`,
         {
           clubName,
           clubDescription,
@@ -58,7 +57,7 @@ const AddSubClub = (props) => {
           practicalGrades,
           attendenceGrades,
           behaviourGrades,
-          placement,
+          placement: 1,
         },
         {
           headers: {
@@ -310,7 +309,7 @@ const AddSubClub = (props) => {
               />
             </div>
           </div>
-          <div className="row d-flex justify-content-center">
+          {/* <div className="row d-flex justify-content-center">
             <div className="col-6 mt-3">
               <div class="form-check form-check-inline mt-5">
                 <input
@@ -341,7 +340,7 @@ const AddSubClub = (props) => {
                 </label>
               </div>
             </div>
-          </div>
+          </div> */}
           <br></br>
           <div className="row mt-3 d-flex justify-content-center">
             <button

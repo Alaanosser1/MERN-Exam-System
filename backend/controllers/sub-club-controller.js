@@ -473,7 +473,7 @@ export const getSubClubPlacements = async (req, res) => {
 
   await connection
     .promise()
-    .query(`SELECT * FROM placement WHERE sub_club_id = ${subClubId} `)
+    .query(`SELECT * FROM placement WHERE sub_club_id =' ${subClubId}' `)
     .then((data) => {
       res.status(200).json({
         placements: data[0],
@@ -508,30 +508,53 @@ export const getPlacement = async (req, res) => {
     });
 };
 
-export const addPlacementOption = (req, res) => {
+export const addPlacementOption = async (req, res) => {
   const placementId = req.body.placementId;
   const optionName = req.body.optionName;
+  const subClubId = req.body.subClubId;
+  let clubStudents
+  let isError = false
 
-  connection
+  try{
+
+    await connection.promise().query(`SELECT examinee_id 
+    FROM examinee_has_sub_club WHERE sub_club_id = '${subClubId}'`)
+    .then(data=>{
+      clubStudents = data[0]
+    console.log(clubStudents);
+  })
+  
+ await connection
     .promise()
     .query(
       `INSERT INTO placement_option(option_name, placement_id)
       VALUES('${optionName}', '${placementId}')`
     )
-    .then((data) => {
+    .then(async (data) => {
+      for (let i = 0; i < clubStudents.length; i++) {
+        await connection.promise()
+        .query(`INSERT INTO examinee_placement (placement_option_id, placement_id, examinee_id)
+        VALUES ('${data[0].insertId}', '${placementId}', '${clubStudents[i].examinee_id}')        
+        `)
+        
+      }
+      
+    })
+  }catch(error){
+    isError = true
+    console.log(error);
+    res.status(500).json({
+      status: "error",
+      msg: "500 Internal Server Error",
+    });
+  }
+   
+    if(!isError){
       res.status(201).json({
         status: "ok",
         msg: "Created",
-        data: data,
       });
-    })
-    .catch((error) => {
-      console.log(error);
-      res.status(500).json({
-        status: "error",
-        msg: "500 Internal Server Error",
-      });
-    });
+    }
 };
 
 export const removePlacementOption = (req, res) => {
