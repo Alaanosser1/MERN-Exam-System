@@ -36,6 +36,7 @@ const StudentProfile = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  console.log(process.env.REACT_APP_STUDENT_IMAGE_PATH, "PAATH");
 
   const getStudent = () => {
     axios
@@ -258,7 +259,7 @@ const StudentProfile = () => {
                     height: 250,
                     border: 5,
                   }}
-                  src={require(`/Users/Nosser/Desktop/Exam-System/frontend/src/profilePictures/students/student${studentId}.png`)}
+                  src={require(`${process.env.REACT_APP_STUDENT_IMAGE_PATH}/student${studentId}.png`)}
                   alt={"لا يوجد صورة شخصية"}
                 />
               </div>

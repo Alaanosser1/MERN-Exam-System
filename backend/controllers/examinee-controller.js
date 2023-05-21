@@ -2,7 +2,9 @@ import express from "express";
 import connection from "../database.js";
 import jwt from "jsonwebtoken";
 import fs from "fs";
-import { pipeline } from "stream";
+import xl from "excel4node";
+import * as dotenv from "dotenv";
+dotenv.config({ path: "/Users/Nosser/Desktop/Exam-System/backend/.env" });
 
 const app = express();
 
@@ -35,17 +37,15 @@ export const addExaminee = async (req, res, next) => {
   let user;
   // const profilePicture = req.body.profilePicture;
   const examId = 80;
- 
- 
+
   // console.log(req.file);
   let insertId;
- 
- 
+
   const handleProfilePictureUpload = async (insertId) => {
     if (file) {
       fs.rename(
-        `C:/Exam-System/MERN-Exam-System-master/frontend/src/profilePictures/students/${fileName}`,
-        `C:/Exam-System/MERN-Exam-System-master/frontend/src/profilePictures/students/student${insertId}.png`,
+        `${process.env.STUDENT_IMAGE_FOLDER_PATH}/${fileName}`,
+        `${process.env.STUDENT_IMAGE_FOLDER_PATH}student${insertId}.png`,
         (err) => {
           if (err) throw err;
           console.log("File Renamed.");
@@ -53,7 +53,7 @@ export const addExaminee = async (req, res, next) => {
       );
     } else {
       fs.appendFile(
-        `C:/Exam-System/MERN-Exam-System-master/frontend/src/profilePictures/students/student${insertId}.png`,
+        `${process.env.STUDENT_IMAGE_FOLDER_PATH}/student${insertId}.png`,
         "Hello content!",
         function (err) {
           if (err) throw err;
@@ -208,12 +208,7 @@ export const addExaminee = async (req, res, next) => {
         });
       });
   }
- };
- 
- 
- 
- 
- 
+};
 
 export const examineeLogin = async (req, res) => {
   const examineeId = req.body.examineeId;
@@ -551,4 +546,90 @@ export const getStudent = (req, res) => {
         msg: "500 internal server error",
       });
     });
+};
+
+export const getStudentsAndExportToExcel = async (req, res) => {
+  let date = new Date();
+  let fileName = req.body.fileName;
+  let tableArray = req.body.tableArray;
+  // "Students" + Date.now() + "_" + Math.floor(Math.random() * 100);
+  let students = [];
+  let isError = false;
+
+  // await connection
+  //   .promise()
+  //   .query(`SELECT * FROM examinee`)
+  //   .then((data) => {
+  //     students = data[0];
+  //   })
+  //   .catch((error) => {
+  //     isError = true;
+  //     console.log(error);
+  //     res.status(500).json({
+  //       status: "error",
+  //       msg: "500 internal server error",
+  //     });
+  //   });
+  // console.log(students, "DB");
+  // console.log(tableArray, "FE");
+
+  try {
+    console.log("start");
+    var arr = JSON.parse(JSON.stringify(tableArray));
+    console.log(arr, "ARR");
+
+    var wb = new xl.Workbook();
+    var ws = wb.addWorksheet("Student"); // Sheet 이름 설정
+
+    for (const [cnt, item] of arr.entries()) {
+      let keys = Object.keys(item);
+      var values = Object.values(item);
+      keys.forEach((col, ind) => {
+        ws.cell(1, ind + 1).string(col);
+        console.log(col);
+        console.log(values[ind]);
+        ws.cell(cnt + 2, ind + 1).string(String(values[ind]) || "null");
+      });
+    }
+    // Todo: /static/excel 폴더 없을 시 에러 발생.
+    wb.write(
+      `/Users/Nosser/Desktop/Exam-System/backend/ExcelFiles/${fileName.replaceAll(
+        " ",
+        ""
+      )}.xlsx`,
+      function (err, stats) {
+        if (err) {
+          console.log(err);
+          console.log("User Excel File Error");
+          res.send({ status: "error" });
+        } else {
+          console.log("User Excel File Done");
+          res.download(
+            `/Users/Nosser/Desktop/Exam-System/backend/ExcelFiles/${fileName.replaceAll(
+              " ",
+              ""
+            )}.xlsx`,
+            (err) => {
+              if (err) {
+                res.send({
+                  status: "error",
+                  errMsg: err,
+                });
+              }
+            }
+          );
+        }
+      }
+    );
+  } catch (err) {
+    isError = true;
+    console.log(err);
+    console.log("User Excel File Error");
+    res.send({ status: "error" });
+  }
+  // if (!isError) {
+  //   res.status(200).json({
+  //     students: students,
+  //   });
+  // }
 };

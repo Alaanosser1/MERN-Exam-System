@@ -1,5 +1,7 @@
 import express from "express";
 import multer from "multer";
+import * as dotenv from "dotenv";
+dotenv.config({ path: "/Users/Nosser/Desktop/Exam-System/backend/.env" });
 import {
   addExaminee,
   storeExamineeAnswer,
@@ -9,13 +11,11 @@ import {
   addExamineeToClub,
   examineeLogin,
   getExamineeExams,
+  getStudentsAndExportToExcel,
 } from "../controllers/examinee-controller.js";
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(
-      null,
-      "C:/Exam-System/MERN-Exam-System-master/frontend/src/profilePictures/students"
-    );
+    cb(null, `${process.env.STUDENT_IMAGE_FOLDER_PATH}`);
   },
   filename: (req, file, cb) => {
     const fileName = `${Date.now()}_${Math.floor(Math.random() * 100)}_${
@@ -26,6 +26,7 @@ const storage = multer.diskStorage({
     cb(null, fileName);
   },
 });
+
 const upload = multer({ storage }).single("img");
 const examineeRouter = express.Router();
 examineeRouter.post("/addExaminee", upload, addExaminee);
@@ -36,5 +37,9 @@ examineeRouter.get("/getStudents", getStudents);
 examineeRouter.get("/getStudent", getStudent);
 examineeRouter.get("/getExamineeClubs", getExamineeClubs);
 examineeRouter.get("/getExamineeExams", getExamineeExams);
+examineeRouter.post(
+  "/getStudentsAndExportTopExcel",
+  getStudentsAndExportToExcel
+);
 
 export default examineeRouter;

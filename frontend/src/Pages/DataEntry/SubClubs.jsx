@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Popup from "../../components/Popup";
 import AddSubClub from "../../components/AddSubClub";
 import { useParams } from "react-router-dom";
+import ExportStudent from "./ExportStudent";
 
 const SubClubs = () => {
   useEffect(() => {
@@ -16,6 +17,9 @@ const SubClubs = () => {
   const [mainClub, setMainClub] = useState("");
   const [addSubClub, setAddSubClub] = useState(false);
   const refOne = useRef(null);
+  const [exportPopup, setExportPopup] = useState(false);
+  const [tableArray, setTableArray] = useState();
+
   let { mainClubId } = useParams();
 
   const getSubClubs = () => {
@@ -52,6 +56,24 @@ const SubClubs = () => {
       });
   };
 
+  const tableToArray = async () => {
+    setTableArray([]);
+    const trs = document.querySelectorAll("#students-table tr");
+    console.log(trs, "TRS");
+
+    for (let tr of trs) {
+      let th_td = tr.querySelectorAll("td:not(#operations-buttons)");
+      if (th_td.length == 0) {
+        th_td = tr.getElementsByTagName("th");
+      }
+      let th_td_array = Array.from(th_td);
+      th_td_array = th_td_array.map((tag) => tag.innerText);
+      // console.log(th_td_array, "HAHAHAHHA");
+      setTableArray((tableArray) => [...tableArray, th_td_array]);
+      // console.log(tableArray, "TABLETOARRAY");
+    }
+    setExportPopup(true);
+  };
   return (
     <>
       <div ref={refOne}>
@@ -62,10 +84,28 @@ const SubClubs = () => {
           ></AddSubClub>
         </Popup>
       </div>
+      <Popup trigger={exportPopup} setTrigger={setExportPopup}>
+        <ExportStudent
+          setExportPopup={setExportPopup}
+          tableArray={tableArray}
+          setTableArray={setTableArray}
+        />
+      </Popup>
       <div className="container mt-5">
         <div className="row" dir="rtl">
-          <div className="col-9">
+          <div className="col-6">
             <h1 className="mt-5">فرق {`(${mainClub.club_name})`}</h1>
+          </div>
+          <div className="col-3">
+            <button
+              id="export-button"
+              onClick={() => {
+                tableToArray();
+              }}
+              className="btn btn-outline-primary mt-5"
+            >
+              استخراج الي اكسيل
+            </button>
           </div>
           <div className="col-3">
             <button
@@ -82,6 +122,7 @@ const SubClubs = () => {
         <table
           dir="rtl"
           className="table mt-5 table-striped border table-responsive-lg"
+          id="students-table"
         >
           <thead>
             <tr>
@@ -130,7 +171,7 @@ const SubClubs = () => {
                   </td>
 
                   {JSON.parse(localStorage.getItem("instructor-token")) && (
-                    <td className="text-center">
+                    <td id="operations-buttons" className="text-center">
                       <Link
                         to={`/app/subClubs/${mainClubId}/${club[1].sub_club_id}`}
                       >
@@ -141,7 +182,7 @@ const SubClubs = () => {
                     </td>
                   )}
                   {JSON.parse(localStorage.getItem("data-entry-token")) && (
-                    <td className="text-center">
+                    <td id="operations-buttons" className="text-center">
                       <Link
                         to={`/clubs/subClubs/${mainClubId}/${club[1].sub_club_id}`}
                       >
@@ -152,7 +193,7 @@ const SubClubs = () => {
                     </td>
                   )}
                   {JSON.parse(localStorage.getItem("admin-token")) && (
-                    <td className="text-center">
+                    <td id="operations-buttons" className="text-center">
                       <Link
                         to={`/admin/subClubs/${mainClubId}/${club[1].sub_club_id}`}
                       >

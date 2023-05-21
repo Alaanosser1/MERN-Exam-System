@@ -33,7 +33,7 @@ export const addDataEntry = async (req, res) => {
     )
     .catch((error) => {
       console.log(error);
-      res.status(500).json({
+      return res.status(500).json({
         status: "error",
         msg: "500 Internal Server Error",
       });
@@ -52,14 +52,14 @@ export const addDataEntry = async (req, res) => {
             VALUES('${name}','${password}','${policeNumber}', '${rank}')`
       )
       .then((data) => {
-        res.status(201).json({
+        return res.status(201).json({
           status: "ok",
           msg: "Created",
         });
       })
       .catch((error) => {
         console.log(error);
-        res.status(500).json({
+        return res.status(500).json({
           status: "error",
           msg: "500 Internal Server Error",
         });
@@ -71,33 +71,41 @@ export const dataEntryLogin = async (req, res) => {
   const policeNumber = req.body.policeNumber;
   const password = req.body.password;
 
-  let user = await connection.promise().query(`
-            SELECT * FROM data_entry_person
-             WHERE data_entry_police_number ='${policeNumber}'
-             `);
-  if (user[0].length == 0) {
-    res.status(401).json({
-      status: "401",
-      msg: "wrong credentials police number",
-    });
-  } else {
-    if (password != user[0][0].data_entry_password) {
-      res.status(401).send("wrong credentials pass");
-    } else {
-      const token = jwt.sign(
-        {
-          id: user[0][0].data_entry_id,
-          firstName: user[0][0].data_entry_name,
-          policeNumber: user[0][0].data_entry_police_number,
-          userType: "data entry",
-          //   rank: user[0][0].data_entry_rank,
-        },
-        `${process.env.TOKEN_SECRET}`
-      );
-      res.header("auth-token", token).json({
-        token: token,
+  try {
+    let user = await connection.promise().query(`
+              SELECT * FROM data_entry_person
+               WHERE data_entry_police_number ='${policeNumber}'
+               `);
+    if (user[0].length == 0) {
+      return res.status(401).json({
+        status: "401",
+        msg: "wrong credentials police number",
       });
+    } else {
+      if (password != user[0][0].data_entry_password) {
+        res.status(401).send("wrong credentials pass");
+      } else {
+        const token = jwt.sign(
+          {
+            id: user[0][0].data_entry_id,
+            firstName: user[0][0].data_entry_name,
+            policeNumber: user[0][0].data_entry_police_number,
+            userType: "data entry",
+            //   rank: user[0][0].data_entry_rank,
+          },
+          `${process.env.TOKEN_SECRET}`
+        );
+        res.header("auth-token", token).json({
+          token: token,
+        });
+      }
     }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      status: "error",
+      msg: "500 Internal Server Error",
+    });
   }
 };
 

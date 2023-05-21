@@ -5,17 +5,21 @@ import Popup from "../../components/Popup";
 import AddExaminee from "./AddExaminee";
 import SearchBar from "../../components/SearchBar";
 import StudentSearch from "./StudentsSearch";
+import ExportStudent from "./ExportStudent";
 
 const Students = () => {
   useEffect(() => {
     getStudents();
+    console.log(tableArray, "TEST");
   }, []);
 
   const [students, setStudents] = useState("");
   const [addStudent, setAddStudent] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
+  const [exportPopup, setExportPopup] = useState(false);
   const refOne = useRef(null);
   const { subClubId, mainClubId } = useParams();
+  const [tableArray, setTableArray] = useState();
 
   const getStudents = () => {
     axios
@@ -40,6 +44,25 @@ const Students = () => {
       });
   };
 
+  const tableToArray = async () => {
+    setTableArray([]);
+    const trs = document.querySelectorAll("#students-table tr");
+    console.log(trs, "TRS");
+
+    for (let tr of trs) {
+      let th_td = tr.querySelectorAll("td:not(#operations-buttons)");
+      if (th_td.length == 0) {
+        th_td = tr.getElementsByTagName("th");
+      }
+      let th_td_array = Array.from(th_td);
+      th_td_array = th_td_array.map((tag) => tag.innerText);
+      // console.log(th_td_array, "HAHAHAHHA");
+      setTableArray((tableArray) => [...tableArray, th_td_array]);
+      // console.log(tableArray, "TABLETOARRAY");
+    }
+    setExportPopup(true);
+  };
+
   return (
     <>
       <div ref={refOne}>
@@ -49,14 +72,22 @@ const Students = () => {
             hidePopup={setAddStudent}
           ></AddExaminee>
         </Popup>
-        {/* <Popup trigger={editMainClub} setTrigger={setEditMainClub}>
+      </div>
+      <Popup trigger={exportPopup} setTrigger={setExportPopup}>
+        <ExportStudent
+          setExportPopup={setExportPopup}
+          tableArray={tableArray}
+          setTableArray={setTableArray}
+          searchResults={searchResults}
+        />
+      </Popup>
+      {/* <Popup trigger={editMainClub} setTrigger={setEditMainClub}>
           <EditMainClub
             rerender={getMainClubs}
             hidePopup={setEditMainClub}
             clubId={clubId}
           ></EditMainClub>
         </Popup> */}
-      </div>
       <div className="container list-container mt-5">
         <div className="row" dir="rtl">
           <div className="col-9">
@@ -74,15 +105,29 @@ const Students = () => {
           </div>
         </div>
         <div dir="rtl" className="row m-3">
-          <label htmlFor="">بحث</label>
-          <StudentSearch
-            content={students}
-            setSearchResults={setSearchResults}
-          />
+          <div className="col-9">
+            <label htmlFor="">بحث</label>
+            <StudentSearch
+              content={students}
+              setSearchResults={setSearchResults}
+            />
+          </div>
+          <div className="col-3">
+            <button
+              id="export-button"
+              onClick={() => {
+                tableToArray();
+              }}
+              className="btn btn-outline-primary"
+            >
+              استخراج الي اكسيل
+            </button>
+          </div>
         </div>
         <table
           dir="rtl"
           className="table mt-2 table-striped border table-responsive-lg"
+          id="students-table"
         >
           <thead>
             <tr>
@@ -127,7 +172,7 @@ const Students = () => {
                       student[1].examinee_civilian_number}
                   </td>
                   <td className="text-center">{student[1].examinee_entity}</td>
-                  <td className="text-center">
+                  <td id="operations-buttons" className="text-center">
                     {JSON.parse(localStorage.getItem("data-entry-token")) && (
                       <Link
                         to={`/clubs/${mainClubId}/${subClubId}/${student[1].examinee_id}`}
