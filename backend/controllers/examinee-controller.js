@@ -555,6 +555,7 @@ export const getStudentsAndExportToExcel = async (req, res) => {
   // "Students" + Date.now() + "_" + Math.floor(Math.random() * 100);
   let students = [];
   let isError = false;
+  console.log(tableArray, "TABLE");
 
   // await connection
   //   .promise()

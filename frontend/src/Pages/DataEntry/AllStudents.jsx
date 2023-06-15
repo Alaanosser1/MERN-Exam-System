@@ -46,15 +46,10 @@ const Students = () => {
     console.log(trs, "TRS");
 
     for (let tr of trs) {
-      let th_td = tr.querySelectorAll("td:not(#operations-buttons)");
-      if (th_td.length == 0) {
-        th_td = tr.getElementsByTagName("th");
-      }
-      let th_td_array = Array.from(th_td);
-      th_td_array = th_td_array.map((tag) => tag.innerText);
-      // console.log(th_td_array, "HAHAHAHHA");
+      let th_td_array = Array.from(tr.cells)
+        .filter((cell) => cell.id !== "operations-buttons")
+        .map((cell) => cell.innerText);
       setTableArray((tableArray) => [...tableArray, th_td_array]);
-      // console.log(tableArray, "TABLETOARRAY");
     }
     setExportPopup(true);
   };
@@ -170,11 +165,9 @@ const Students = () => {
                       student[1].examinee_police_number ||
                       student[1].examinee_civilian_number}
                   </td>
-                  <td id="operations-buttons" className="text-center">
-                    {student[1].examinee_entity}
-                  </td>
+                  <td className="text-center">{student[1].examinee_entity}</td>
                   {JSON.parse(localStorage.getItem("data-entry-token")) && (
-                    <td className="text-center">
+                    <td className="text-center" id="operations-buttons">
                       <Link to={`/clubs/students/${student[1].examinee_id}`}>
                         <button className="btn btn-outline-primary">
                           تفاصيل
@@ -192,7 +185,7 @@ const Students = () => {
                     </td>
                   )}
                   {JSON.parse(localStorage.getItem("instructor-token")) && (
-                    <td className="text-center">
+                    <td className="text-center" id="operations-buttons">
                       <Link to={`/app/students/${student[1].examinee_id}`}>
                         <button className="btn btn-outline-primary">
                           تفاصيل
@@ -210,7 +203,7 @@ const Students = () => {
                     </td>
                   )}
                   {JSON.parse(localStorage.getItem("admin-token")) && (
-                    <td className="text-center">
+                    <td className="text-center" id="operations-buttons">
                       <Link to={`/admin/students/${student[1].examinee_id}`}>
                         <button className="btn btn-outline-primary">
                           تفاصيل
