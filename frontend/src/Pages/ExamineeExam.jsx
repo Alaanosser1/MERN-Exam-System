@@ -17,9 +17,20 @@ const ExamineeExam = () => {
   const token = JSON.parse(localStorage.getItem("examinee-token"));
   const user = jwt_decode(token.token);
   const navigate = useNavigate();
+
   useEffect(() => {
+    questionNumber = 1;
     getExamData();
+    getExamQuestions();
+    const onLeaveAlert = (event) => {
+      event.preventDefault();
+      event.returnValue = "";
+      return "";
+    };
+    window.addEventListener("beforeunload", onLeaveAlert);
+    return () => window.removeEventListener("beforeunload", onLeaveAlert);
   }, []);
+
   console.log(user, "USER");
   const getExamData = () => {
     axios
@@ -62,6 +73,9 @@ const ExamineeExam = () => {
   };
 
   const redirect = async () => {
+    await evaluateQuestions();
+    await evaluateExam();
+    localStorage.removeItem(`examQuestions-examinee${user.id}-exam${examId}`);
     Swal.fire("انتهي وقت الامتحان و تم حفظ الاجابات", "", "success").then(
       () => {
         navigate("/examineeHome");
@@ -91,34 +105,37 @@ const ExamineeExam = () => {
         console.log(error);
       });
   };
-  useEffect(() => {
-    questionNumber = 1;
-    getExamQuestions();
-    const onLeaveAlert = (event) => {
-      event.preventDefault();
-      event.returnValue = "";
-      return "";
-    };
-    window.addEventListener("beforeunload", onLeaveAlert);
-    return () => window.removeEventListener("beforeunload", onLeaveAlert);
-  }, []);
 
   const getExamQuestions = () => {
-    axios
-      .get(
-        `http://${process.env.REACT_APP_API_IP}:4000/exam/getExamQuestions`,
-        {
-          params: {
-            examId,
-          },
-        }
-      )
-      .then((res) => {
-        setExamQuestions(res.data.questions);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (
+      localStorage.getItem(`examQuestions-examinee${user.id}-exam${examId}`)
+    ) {
+      setExamQuestions(
+        JSON.parse(
+          localStorage.getItem(`examQuestions-examinee${user.id}-exam${examId}`)
+        )
+      );
+    } else {
+      axios
+        .get(
+          `http://${process.env.REACT_APP_API_IP}:4000/exam/getExamQuestions`,
+          {
+            params: {
+              examId,
+            },
+          }
+        )
+        .then((res) => {
+          localStorage.setItem(
+            `examQuestions-examinee${user.id}-exam${examId}`,
+            JSON.stringify(res.data.questions)
+          );
+          setExamQuestions(res.data.questions);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   const handleChange = (event) => {
@@ -177,6 +194,9 @@ const ExamineeExam = () => {
       if (result.isConfirmed) {
         await evaluateQuestions();
         await evaluateExam();
+        localStorage.removeItem(
+          `examQuestions-examinee${user.id}-exam${examId}`
+        );
         Swal.fire("تم حفظ الاجابات", "", "success");
         navigate("/ExamineeHome");
       }

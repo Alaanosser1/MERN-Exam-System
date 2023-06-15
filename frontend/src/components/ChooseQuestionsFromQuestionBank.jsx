@@ -236,6 +236,7 @@ const ChooseQuestionsFromQuestionBank = (props) => {
                         <input
                           defaultValue={1}
                           type="number"
+                          min={0}
                           className="form-control  quantity-field text-center"
                           onChange={(e) => {
                             setGrade(e.target.value);
@@ -365,6 +366,7 @@ const ChooseQuestionsFromQuestionBank = (props) => {
                           step="1"
                           defaultValue={1}
                           type="number"
+                          min={1}
                           className="form-control  quantity-field text-center"
                           onChange={(e) => {
                             setGrade(e.target.value);

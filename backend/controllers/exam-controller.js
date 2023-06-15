@@ -257,6 +257,14 @@ export const getExamsOfClub = async (req, res) => {
 export const getExamQuestions = (req, res) => {
   const examId = req.query.examId;
 
+  const shuffleArray = (arr) => {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  };
+
   connection
     .promise()
     .query(
@@ -269,7 +277,7 @@ export const getExamQuestions = (req, res) => {
     .then((data) => {
       console.log(data[0], "examQUESTIONS");
       res.status(200).json({
-        questions: data[0],
+        questions: shuffleArray(data[0]),
       });
     })
     .catch((error) => {

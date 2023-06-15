@@ -35,9 +35,9 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route path="/examineeHome" element={<ExamineeHome />} />
       <Route path="/examineePreExam/" element={<ExamineePreExam />} />
       <Route element={<PrivateRoutesExaminee />}>
+        <Route path="/examineeHome" element={<ExamineeHome />} />
         <Route path="/ExamineeExam/:examId" element={<ExamineeExam />} />
       </Route>
       <Route path="/login" element={<Login />} />

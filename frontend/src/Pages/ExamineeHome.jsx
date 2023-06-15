@@ -53,7 +53,11 @@ const ExamineeHome = () => {
 
   return (
     <>
-      <div dir="rtl" className="container w-100 h-100 p-5">
+      <div
+        dir="rtl"
+        style={{ overflow: "scroll", maxHeight: "1000px" }}
+        className="container examinee-home-container w-100 h-100 p-5"
+      >
         <div className="row mb-2 bg-light p-5">
           <div className="col-9">
             <h2>

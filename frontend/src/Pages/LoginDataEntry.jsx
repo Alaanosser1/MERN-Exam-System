@@ -32,6 +32,9 @@ const Login = () => {
           if (localStorage.getItem("examinee-token")) {
             localStorage.removeItem("examinee-token");
           }
+          if (localStorage.getItem("admin-token")) {
+            localStorage.removeItem("admin-token");
+          }
           localStorage.setItem("data-entry-token", JSON.stringify(res.data));
         }
         setLoadingSpinner(false);
