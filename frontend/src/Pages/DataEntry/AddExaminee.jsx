@@ -69,6 +69,7 @@ const AddExaminee = (props) => {
     formData.append("rank", rank);
     formData.append("entity", entity);
     formData.append("mobileNumber", mobileNumber);
+    formData.append("mobileNumber2", mobileNumber2);
     formData.append("graduationDate", graduationDate);
     formData.append("carType", carType);
     formData.append("birthDate", birthDate);
@@ -78,7 +79,6 @@ const AddExaminee = (props) => {
     formData.append("financeCode", financeCode);
     formData.append("bankName", bankName);
     formData.append("relationshipStatus", relationshipStatus);
-    formData.append("mobileNumber2", mobileNumber2);
     formData.append("previousClubs", previousClubs);
     formData.append("previousWorkPlaces", previousWorkPlaces);
     formData.append("carNumber", carNumber);
@@ -359,46 +359,46 @@ const AddExaminee = (props) => {
                 <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3"> رقم المحمول ١</h5>
                   <input
-                    {...register("mobileNumberRequired", {
-                      required: true,
-                    })}
+                    // {...register("mobileNumberRequired", {
+                    //   required: true,
+                    // })}
                     onChange={(e) => {
                       e.preventDefault();
                       setMobileNumber(e.target.value);
                     }}
-                    type="tel"
+                    type="text"
                     value={mobileNumber}
-                    pattern="^01[0-2]\d{1,8}$"
+                    pattern="^(011|012|010|015)\d{8}$"
                     className="form-control"
                     id="inputPassword4"
                   />
-                  {errors.mobileNumberRequired && (
+                  {/* {errors.mobileNumberRequired && (
                     <span className="text-danger">
                       من فضلك ادخل رقم المحمول*
                     </span>
-                  )}
+                  )} */}
                 </div>
                 <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">رقم المحمول ٢</h5>
                   <input
-                    {...register("mobileNumberRequired", {
-                      required: true,
-                    })}
+                    // {...register("mobileNumberRequired", {
+                    //   required: true,
+                    // })}
                     onChange={(e) => {
                       e.preventDefault();
                       setMobileNumber2(e.target.value);
                     }}
-                    type="tel"
-                    value={mobileNumber}
-                    pattern="^01[0-2]\d{1,8}$"
+                    type="text"
+                    value={mobileNumber2}
+                    pattern="^(011|012|010|015)\d{8}$"
                     className="form-control"
                     id="inputPassword4"
                   />
-                  {errors.mobileNumberRequired && (
+                  {/* {errors.mobileNumberRequired && (
                     <span className="text-danger">
                       من فضلك ادخل رقم المحمول*
                     </span>
-                  )}
+                  )} */}
                 </div>
               </div>
               <div className="row p-2">
@@ -504,9 +504,25 @@ const AddExaminee = (props) => {
               </div>
               <div className="row p-2">
                 <div className="form-group col-md-4 p-2">
+                  <h5 className="mb-3"> اسم البنك</h5>
+                  <input
+                    // {...register("bankNameRequired", { required: true })}
+                    // onChange={(e) => {
+                    //   e.preventDefault();
+                    //   setBankName(e.target.value);
+                    // }}
+                    value={bankName}
+                    type="text"
+                    className="form-control"
+                  />
+                  {/* {errors.bankNameRequired && (
+                    <span className="text-danger">من فضلك ادخل اسم البنك*</span>
+                  )} */}
+                </div>
+                <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3"> رقم الكود المالي</h5>
                   <input
-                    {...register("financeCodeRequired", { required: true })}
+                    // {...register("financeCodeRequired", { required: true })}
                     onChange={(e) => {
                       e.preventDefault();
                       setFinanceCode(e.target.value);
@@ -515,34 +531,19 @@ const AddExaminee = (props) => {
                     type="text"
                     className="form-control"
                   />
-                  {errors.financeCodeRequired && (
+                  {/* {errors.financeCodeRequired && (
                     <span className="text-danger">
                       من فضلك ادخل الكود المالي*
                     </span>
-                  )}
+                  )} */}
                 </div>
-                <div className="form-group col-md-4 p-2">
-                  <h5 className="mb-3"> اسم البنك</h5>
-                  <input
-                    {...register("bankNameRequired", { required: true })}
-                    onChange={(e) => {
-                      e.preventDefault();
-                      setBankName(e.target.value);
-                    }}
-                    value={bankName}
-                    type="text"
-                    className="form-control"
-                  />
-                  {errors.bankNameRequired && (
-                    <span className="text-danger">من فضلك ادخل اسم البنك*</span>
-                  )}
-                </div>
+
                 <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">الحالة الاجتماعية</h5>
                   <select
-                    {...register("relationshipStatusRequired", {
-                      required: true,
-                    })}
+                    // {...register("relationshipStatusRequired", {
+                    //   required: true,
+                    // })}
                     onChange={(e) => {
                       e.preventDefault();
                       setRelationshipStatus(e.target.value);
@@ -556,9 +557,9 @@ const AddExaminee = (props) => {
                     <option value={"اعزب"}> اعزب</option>
                     <option value={"متزوج"}> متزوج</option>
                   </select>
-                  {errors.relationshipStatusRequired && (
+                  {/* {errors.relationshipStatusRequired && (
                     <span className="text-danger">من فضلك ادخل العنوان*</span>
-                  )}
+                  )} */}
                 </div>
               </div>
               <div className="row p-2">
@@ -583,7 +584,7 @@ const AddExaminee = (props) => {
                 <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">نوع السيارة</h5>
                   <select
-                    {...register("carTypeRequired", { required: true })}
+                    // {...register("carTypeRequired", { required: true })}
                     onChange={(e) => {
                       e.preventDefault();
                       setCarType(e.target.value);
@@ -597,16 +598,16 @@ const AddExaminee = (props) => {
                     <option value={"خاصة"}>سيارة خاصة</option>
                     <option value={" شرطة"}>سيارة شرطة</option>
                   </select>
-                  {errors.carTypeRequired && (
+                  {/* {errors.carTypeRequired && (
                     <span className="text-danger">
                       من فضلك اختر نوع السيارة*
                     </span>
-                  )}
+                  )} */}
                 </div>
                 <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">رقم السيارة</h5>
                   <input
-                    {...register("carNumberRequired", { required: true })}
+                    // {...register("carNumberRequired", { required: true })}
                     onChange={(e) => {
                       e.preventDefault();
                       setCarNumber(e.target.value);
@@ -615,11 +616,11 @@ const AddExaminee = (props) => {
                     type="text"
                     className="form-control"
                   />
-                  {errors.carNumberRequired && (
+                  {/* {errors.carNumberRequired && (
                     <span className="text-danger">
                       من فضلك ادخل رقم السيارة *
                     </span>
-                  )}
+                  )} */}
                 </div>
               </div>
               <div className="row p-2">
@@ -845,46 +846,46 @@ const AddExaminee = (props) => {
                 <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3"> رقم المحمول ١</h5>
                   <input
-                    {...register("mobileNumberRequired", {
-                      required: true,
-                    })}
+                    // {...register("mobileNumberRequired", {
+                    //   required: true,
+                    // })}
                     onChange={(e) => {
                       e.preventDefault();
                       setMobileNumber(e.target.value);
                     }}
-                    type="tel"
+                    type="text"
                     value={mobileNumber}
-                    pattern="^01[0-2]\d{1,8}$"
+                    pattern="^(011|012|010|015)\d{8}$"
                     className="form-control"
                     id="inputPassword4"
                   />
-                  {errors.mobileNumberRequired && (
+                  {/* {errors.mobileNumberRequired && (
                     <span className="text-danger">
                       من فضلك ادخل رقم المحمول*
                     </span>
-                  )}
+                  )} */}
                 </div>
                 <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">رقم المحمول ٢</h5>
                   <input
-                    {...register("mobileNumberRequired", {
-                      required: true,
-                    })}
+                    // {...register("mobileNumberRequired", {
+                    //   required: true,
+                    // })}
                     onChange={(e) => {
                       e.preventDefault();
                       setMobileNumber2(e.target.value);
                     }}
-                    type="tel"
-                    value={mobileNumber}
-                    pattern="^01[0-2]\d{1,8}$"
+                    type="text"
+                    value={mobileNumber2}
+                    pattern="^(011|012|010|015)\d{8}$"
                     className="form-control"
                     id="inputPassword4"
                   />
-                  {errors.mobileNumberRequired && (
+                  {/* {errors.mobileNumberRequired && (
                     <span className="text-danger">
                       من فضلك ادخل رقم المحمول*
                     </span>
-                  )}
+                  )} */}
                 </div>
               </div>
               <div className="row p-2">
@@ -992,7 +993,7 @@ const AddExaminee = (props) => {
                 <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3"> رقم الكود المالي</h5>
                   <input
-                    {...register("financeCodeRequired", { required: true })}
+                    // {...register("financeCodeRequired", { required: true })}
                     onChange={(e) => {
                       e.preventDefault();
                       setFinanceCode(e.target.value);
@@ -1001,16 +1002,16 @@ const AddExaminee = (props) => {
                     type="text"
                     className="form-control"
                   />
-                  {errors.financeCodeRequired && (
+                  {/* {errors.financeCodeRequired && (
                     <span className="text-danger">
                       من فضلك ادخل الكود المالي*
                     </span>
-                  )}
+                  )} */}
                 </div>
                 <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3"> اسم البنك</h5>
                   <input
-                    {...register("bankNameRequired", { required: true })}
+                    // {...register("bankNameRequired", { required: true })}
                     onChange={(e) => {
                       e.preventDefault();
                       setBankName(e.target.value);
@@ -1019,16 +1020,16 @@ const AddExaminee = (props) => {
                     type="text"
                     className="form-control"
                   />
-                  {errors.bankNameRequired && (
+                  {/* {errors.bankNameRequired && (
                     <span className="text-danger">من فضلك ادخل اسم البنك*</span>
-                  )}
+                  )} */}
                 </div>
                 <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">الحالة الاجتماعية</h5>
                   <select
-                    {...register("relationshipStatusRequired", {
-                      required: true,
-                    })}
+                    // {...register("relationshipStatusRequired", {
+                    //   required: true,
+                    // })}
                     onChange={(e) => {
                       e.preventDefault();
                       setRelationshipStatus(e.target.value);
@@ -1042,9 +1043,9 @@ const AddExaminee = (props) => {
                     <option value={"اعزب"}> اعزب</option>
                     <option value={"متزوج"}> متزوج</option>
                   </select>
-                  {errors.relationshipStatusRequired && (
+                  {/* {errors.relationshipStatusRequired && (
                     <span className="text-danger">من فضلك ادخل العنوان*</span>
-                  )}
+                  )} */}
                 </div>
               </div>
               <div className="row p-2">
@@ -1069,7 +1070,7 @@ const AddExaminee = (props) => {
                 <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">نوع السيارة</h5>
                   <select
-                    {...register("carTypeRequired", { required: true })}
+                    // {...register("carTypeRequired", { required: true })}
                     onChange={(e) => {
                       e.preventDefault();
                       setCarType(e.target.value);
@@ -1083,16 +1084,16 @@ const AddExaminee = (props) => {
                     <option value={"خاصة"}>سيارة خاصة</option>
                     <option value={" شرطة"}>سيارة شرطة</option>
                   </select>
-                  {errors.carTypeRequired && (
+                  {/* {errors.carTypeRequired && (
                     <span className="text-danger">
                       من فضلك اختر نوع السيارة*
                     </span>
-                  )}
+                  )} */}
                 </div>
                 <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">رقم السيارة</h5>
                   <input
-                    {...register("carNumberRequired", { required: true })}
+                    // {...register("carNumberRequired", { required: true })}
                     onChange={(e) => {
                       e.preventDefault();
                       setCarNumber(e.target.value);
@@ -1101,11 +1102,11 @@ const AddExaminee = (props) => {
                     type="text"
                     className="form-control"
                   />
-                  {errors.carNumberRequired && (
+                  {/* {errors.carNumberRequired && (
                     <span className="text-danger">
                       من فضلك ادخل رقم السيارة *
                     </span>
-                  )}
+                  )} */}
                 </div>
               </div>
               <div className="row p-2">
@@ -1305,46 +1306,46 @@ const AddExaminee = (props) => {
                   <div className="form-group col-md-4 p-2">
                     <h5 className="mb-3"> رقم المحمول ١</h5>
                     <input
-                      {...register("mobileNumberRequired", {
-                        required: true,
-                      })}
+                      // {...register("mobileNumberRequired", {
+                      //   required: true,
+                      // })}
                       onChange={(e) => {
                         e.preventDefault();
                         setMobileNumber(e.target.value);
                       }}
-                      type="tel"
+                      type="text"
                       value={mobileNumber}
-                      pattern="^01[0-2]\d{1,8}$"
+                      pattern="^(011|012|010|015)\d{8}$"
                       className="form-control"
                       id="inputPassword4"
                     />
-                    {errors.mobileNumberRequired && (
+                    {/* {errors.mobileNumberRequired && (
                       <span className="text-danger">
                         من فضلك ادخل رقم المحمول*
                       </span>
-                    )}
+                    )} */}
                   </div>
                   <div className="form-group col-md-4 p-2">
                     <h5 className="mb-3">رقم المحمول ٢</h5>
                     <input
-                      {...register("mobileNumberRequired", {
-                        required: true,
-                      })}
+                      // {...register("mobileNumberRequired", {
+                      //   required: true,
+                      // })}
                       onChange={(e) => {
                         e.preventDefault();
                         setMobileNumber2(e.target.value);
                       }}
-                      type="tel"
-                      value={mobileNumber}
-                      pattern="^01[0-2]\d{1,8}$"
+                      type="text"
+                      value={mobileNumber2}
+                      pattern="^(011|012|010|015)\d{8}$"
                       className="form-control"
                       id="inputPassword4"
                     />
-                    {errors.mobileNumberRequired && (
+                    {/* {errors.mobileNumberRequired && (
                       <span className="text-danger">
                         من فضلك ادخل رقم المحمول*
                       </span>
-                    )}
+                    )} */}
                   </div>
                   <div className="form-group col-md-4 p-2">
                     {/* <h5 className="mb-3">العنوان</h5>
@@ -1387,9 +1388,9 @@ const AddExaminee = (props) => {
                   <div className="form-group col-md-4 p-2">
                     <h5 className="mb-3">الحالة الاجتماعية</h5>
                     <select
-                      {...register("relationshipStatusRequired", {
-                        required: true,
-                      })}
+                      // {...register("relationshipStatusRequired", {
+                      //   required: true,
+                      // })}
                       onChange={(e) => {
                         e.preventDefault();
                         setRelationshipStatus(e.target.value);
@@ -1403,9 +1404,9 @@ const AddExaminee = (props) => {
                       <option value={"اعزب"}> اعزب</option>
                       <option value={"متزوج"}> متزوج</option>
                     </select>
-                    {errors.relationshipStatusRequired && (
+                    {/* {errors.relationshipStatusRequired && (
                       <span className="text-danger">من فضلك ادخل العنوان*</span>
-                    )}
+                    )} */}
                   </div>
                   <div className="form-group col-md-4 p-2">
                     <h5 className="mb-3">تاريخ الميلاد</h5>
@@ -1475,7 +1476,7 @@ const AddExaminee = (props) => {
                   <div className="form-group col-md-4 p-2">
                     <h5 className="mb-3"> رقم الكود المالي</h5>
                     <input
-                      {...register("financeCodeRequired", { required: true })}
+                      // {...register("financeCodeRequired", { required: true })}
                       onChange={(e) => {
                         e.preventDefault();
                         setFinanceCode(e.target.value);
@@ -1484,16 +1485,16 @@ const AddExaminee = (props) => {
                       type="text"
                       className="form-control"
                     />
-                    {errors.financeCodeRequired && (
+                    {/* {errors.financeCodeRequired && (
                       <span className="text-danger">
                         من فضلك ادخل الكود المالي*
                       </span>
-                    )}
+                    )} */}
                   </div>
                   <div className="form-group col-md-4 p-2">
                     <h5 className="mb-3"> اسم البنك</h5>
                     <input
-                      {...register("bankNameRequired", { required: true })}
+                      // {...register("bankNameRequired", { required: true })}
                       onChange={(e) => {
                         e.preventDefault();
                         setBankName(e.target.value);
@@ -1502,16 +1503,16 @@ const AddExaminee = (props) => {
                       type="text"
                       className="form-control"
                     />
-                    {errors.bankNameRequired && (
+                    {/* {errors.bankNameRequired && (
                       <span className="text-danger">
                         من فضلك ادخل اسم البنك*
                       </span>
-                    )}
+                    )} */}
                   </div>
                   <div className="form-group col-md-4 p-2">
                     <h5 className="mb-3">نوع السيارة</h5>
                     <select
-                      {...register("carTypeRequired", { required: true })}
+                      // {...register("carTypeRequired", { required: true })}
                       onChange={(e) => {
                         e.preventDefault();
                         setCarType(e.target.value);
@@ -1525,11 +1526,11 @@ const AddExaminee = (props) => {
                       <option value={"خاصة"}>سيارة خاصة</option>
                       <option value={" شرطة"}>سيارة شرطة</option>
                     </select>
-                    {errors.carTypeRequired && (
+                    {/* {errors.carTypeRequired && (
                       <span className="text-danger">
                         من فضلك اختر نوع السيارة*
                       </span>
-                    )}
+                    )} */}
                   </div>
                 </div>
                 <div className="row p-2">
@@ -1555,7 +1556,7 @@ const AddExaminee = (props) => {
                   <div className="form-group col-md-4 p-2">
                     <h5 className="mb-3">رقم السيارة</h5>
                     <input
-                      {...register("carNumberRequired", { required: true })}
+                      // {...register("carNumberRequired", { required: true })}
                       onChange={(e) => {
                         e.preventDefault();
                         setCarNumber(e.target.value);
@@ -1564,11 +1565,11 @@ const AddExaminee = (props) => {
                       type="text"
                       className="form-control"
                     />
-                    {errors.carNumberRequired && (
+                    {/* {errors.carNumberRequired && (
                       <span className="text-danger">
                         من فضلك ادخل رقم السيارة *
                       </span>
-                    )}
+                    )} */}
                   </div>
                 </div>
                 <div className="row p-2">

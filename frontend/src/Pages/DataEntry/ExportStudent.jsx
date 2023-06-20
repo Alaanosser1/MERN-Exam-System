@@ -24,9 +24,24 @@ const ExportStudent = (props) => {
           // headers: {
           //   "auth-token": user.token,
           // },
+          responseType: "blob",
         }
       )
-      .then((data) => {
+      .then((response) => {
+        // Create a URL for the Blob object
+        const url = window.URL.createObjectURL(response.data);
+
+        // Create a link element to download the file
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `${fileName}.xlsx`);
+        document.body.appendChild(link);
+        link.click();
+
+        // Clean up the URL and link element
+        link.parentNode.removeChild(link);
+        window.URL.revokeObjectURL(url);
+
         setFileName("");
         console.log("done exporting");
         Swal.fire({
@@ -50,6 +65,7 @@ const ExportStudent = (props) => {
         console.log(err);
       });
   };
+
   return (
     <>
       <form dir="rtl" onSubmit={handleSubmit(exportFormSubmit)}>

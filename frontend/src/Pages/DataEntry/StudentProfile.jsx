@@ -9,6 +9,7 @@ import PlacementOptions from "./PlacementOptions";
 import ExamineePlacement from "./ExamineePlacement";
 import ExamineePlacementBefore from "./ExamineePlacementBefore";
 import ListExamineePlacement from "./ListExamineePlacement";
+import EditPoliceOfficer from "../../components/editStudentData/EditPoliceOfficer";
 
 const StudentProfile = () => {
   useEffect(() => {
@@ -29,6 +30,7 @@ const StudentProfile = () => {
   const [placementId, setPlacementId] = useState("");
   const [addPlacement, setAddPlacement] = useState(false);
   const [placementOptions, setPlacementOptions] = useState(false);
+  const [editStudentData, setEditStudentData] = useState(false);
   const [listPlacementOptions, setListPlacementOptions] = useState(false);
   const refOne = useRef(null);
   const {
@@ -36,6 +38,11 @@ const StudentProfile = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const user =
+    JSON.parse(localStorage.getItem("instructor-token")) ||
+    JSON.parse(localStorage.getItem("data-entry-token")) ||
+    JSON.parse(localStorage.getItem("admin-token"));
+
   console.log(process.env.REACT_APP_STUDENT_IMAGE_PATH, "PAATH");
 
   const getStudent = () => {
@@ -189,6 +196,12 @@ const StudentProfile = () => {
         />
         {console.log(placementId, "FROM PLACEMENT")}
       </Popup>
+      <Popup trigger={editStudentData} setTrigger={setEditStudentData}>
+        <EditPoliceOfficer
+          setCloseEditStudent={setEditStudentData}
+          getStudent={getStudent}
+        />
+      </Popup>
       <Popup
         trigger={listPlacementOptions}
         setTrigger={setListPlacementOptions}
@@ -241,10 +254,10 @@ const StudentProfile = () => {
         </Popup>
       </div>
       <div
-        style={{ marginTop: 50 }}
+        style={{ marginTop: "1%", padding: "3%" }}
         className="container student-card-container"
       >
-        <div style={{ height: 35 }} className="row bg-primary">
+        <div style={{ height: 35 }} className="row bg-primary text-center">
           <h3 dir="rtl" className="text-white">
             بيانات الدارس
           </h3>
@@ -255,14 +268,34 @@ const StudentProfile = () => {
               <div className="col-6  mt-5 mb-3">
                 <img
                   style={{
-                    width: 250,
-                    height: 250,
+                    width: 100,
+                    height: 100,
                     border: 5,
                   }}
-                  src={require(`${process.env.REACT_APP_STUDENT_IMAGE_PATH}/student${studentId}.png`)}
+                  src={(() => {
+                    console.log(
+                      `${process.env.REACT_APP_STUDENT_IMAGE_PATH}/student${studentId}.png`
+                    );
+                    try {
+                      return require(`${process.env.REACT_APP_STUDENT_IMAGE_PATH}/student${studentId}.png`);
+                    } catch (error) {
+                      return require("/Users/Nosser/Desktop/Exam-System/frontend/src/profilePictures/defaultUser.avif");
+                    }
+                  })()}
                   alt={"لا يوجد صورة شخصية"}
                 />
               </div>
+              {JSON.parse(localStorage.getItem("admin-token")) &&
+                student[0].examinee_type == "ضابط" && (
+                  <div className="col-6 mt-5 mb-3 h-25 d-flex justify-content-center">
+                    <button
+                      onClick={() => setEditStudentData(true)}
+                      className="btn btn-outline-primary mt-4"
+                    >
+                      تعديل بيانات الدارس
+                    </button>
+                  </div>
+                )}
             </div>
             <hr />
             <div dir="rtl" className="row ms-5">
@@ -336,6 +369,12 @@ const StudentProfile = () => {
                         {student[0].examinee_address_outside_cairo}
                       </h4>
                     </div>
+                    <div className="row mt-5">
+                      <h4>
+                        العمل الذي مارس منذ التخرج :{" "}
+                        {student[0].examinee_previous_work_places}
+                      </h4>
+                    </div>
                   </div>
                 )}
                 {student[0].examinee_type == "فرد" && (
@@ -365,6 +404,12 @@ const StudentProfile = () => {
                         {" "}
                         العنوان خارج القاهرة :{" "}
                         {student[0].examinee_address_outside_cairo}
+                      </h4>
+                    </div>
+                    <div className="row mt-5">
+                      <h4>
+                        العمل الذي مارس منذ التخرج :{" "}
+                        {student[0].examinee_previous_work_places}
                       </h4>
                     </div>
                   </div>
@@ -409,25 +454,16 @@ const StudentProfile = () => {
                     {student[0].examinee_address_inside_cairo}
                   </h4>
                 </div>
+                <div className="row mt-5">
+                  <h4>
+                    الفرق الحاصل عليها :{student[0].examinee_previous_clubs}
+                  </h4>
+                </div>
               </div>
             </div>
             <div dir="rtl" className="row">
-              <div className="col-6">
-                <div className="row mt-5">
-                  <h4>
-                    الفرق الحاصل عليها : {student[0].examinee_previous_clubs}
-                  </h4>
-                </div>
-              </div>
-              <div className="col-6">
-                <div className="row mt-5">
-                  <h4>
-                    {" "}
-                    العمل الذي مارس منذ التخرج :{" "}
-                    {student[0].examinee_previous_work_places}
-                  </h4>
-                </div>
-              </div>
+              <div className="col-6"></div>
+              <div className="col-6"></div>
             </div>
             {placements.length > 0 && (
               <div dir="rtl" className="row mt-5">

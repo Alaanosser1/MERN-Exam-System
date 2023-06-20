@@ -67,10 +67,11 @@ body {
   overflow: scroll;
   width: 100%;
   max-width: 100%;
-  max-height: 800px;
-  min-height: 800px;
+  max-height: 740px;
+  min-height: 750px;
   padding: 3%;
   font-size: larger;
+  margin-bottom: 4%;
 }
 
 /* .list-container-view-question-bank {
@@ -145,11 +146,13 @@ body {
   right: 0;
   bottom: 0;
   left: 0;
-  /* padding: 0.5rem; */
+  padding-top: -0.5px;
   background-color: #0037ae;
   text-align: center;
   font-size: larger;
   color: #fff;
+  height: 24px;
+  width: 100%;
 }
 
 .pagination-row {

@@ -3,7 +3,6 @@ import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import Popup from "../../components/Popup";
 import AddExaminee from "./AddExaminee";
-import SearchBar from "../../components/SearchBar";
 import StudentSearch from "./StudentsSearch";
 import ExportStudent from "./ExportStudent";
 
@@ -15,10 +14,10 @@ const Students = () => {
   const [students, setStudents] = useState("");
   const [addStudent, setAddStudent] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
-  const refOne = useRef(null);
-  const { subClubId } = useParams();
   const [tableArray, setTableArray] = useState();
   const [exportPopup, setExportPopup] = useState(false);
+  const refOne = useRef(null);
+  const { subClubId } = useParams();
 
   const getStudents = () => {
     axios
@@ -79,48 +78,47 @@ const Students = () => {
           ></EditMainClub>
         </Popup> */}
       </div>
-      <div className="container list-container mt-5">
+      <div className="container list-container">
         <div className="row" dir="rtl">
-          <div className="col-6">
-            <h1 className="mt-5">الدارسين</h1>
-          </div>
+          <h1 className="text-center text-primary">الدارسين</h1>
         </div>
-        <div dir="rtl" className="row m-3">
-          <div className="row">
-            <div className="col-6">
-              <label htmlFor="">بحث</label>
-              <StudentSearch
-                content={students}
-                setSearchResults={setSearchResults}
-              />
-            </div>
-            <div className="col-3 mt-5">
-              <button
-                id="export-button"
-                onClick={() => {
-                  tableToArray();
-                }}
-                className="btn btn-outline-primary"
-              >
-                استخراج الي اكسيل
-              </button>
-            </div>
-            <div className="col-3">
-              <button
-                onClick={() => {
-                  setAddStudent(true);
-                }}
-                className="btn btn-outline-success mt-5"
-              >
-                اضافة دارس جديد
-              </button>
-            </div>
+        <div dir="rtl" className="row mt-5">
+          <div className="col-4 mb-2">
+            <label htmlFor="">بحث</label>
+            <StudentSearch
+              content={students}
+              setSearchResults={setSearchResults}
+            />
+          </div>
+          <div className="col-3">
+            <h2 className="mt-4">عدد الدارسين: {searchResults.length}</h2>
+          </div>
+          <div className="col-2 d-flex justify-content-end">
+            <button
+              id="export-button"
+              onClick={() => {
+                tableToArray();
+              }}
+              className="btn btn-outline-primary h-50 mt-4"
+            >
+              استخراج الي اكسيل
+            </button>
+          </div>
+          <div className="col-2 d-flex justify-content-end">
+            <button
+              onClick={() => {
+                setAddStudent(true);
+              }}
+              className="btn btn-outline-success h-50 mt-4"
+            >
+              اضافة دارس جديد
+            </button>
           </div>
         </div>
 
         <table
           dir="rtl"
-          className="table mt-2 table-striped border table-responsive-lg"
+          className="table  table-striped border table-responsive-lg"
           id="students-table"
         >
           <thead>
@@ -225,9 +223,6 @@ const Students = () => {
             })}
           </tbody>
         </table>
-      </div>
-      <div dir="rtl" className="row">
-        <h2>عدد الدارسين: {searchResults.length}</h2>
       </div>
     </>
   );

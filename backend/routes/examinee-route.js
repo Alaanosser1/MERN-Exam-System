@@ -12,6 +12,7 @@ import {
   examineeLogin,
   getExamineeExams,
   getStudentsAndExportToExcel,
+  editPoliceOfficer,
 } from "../controllers/examinee-controller.js";
 
 const storage = multer.diskStorage({
@@ -38,6 +39,7 @@ examineeRouter.get("/getStudents", getStudents);
 examineeRouter.get("/getStudent", getStudent);
 examineeRouter.get("/getExamineeClubs", getExamineeClubs);
 examineeRouter.get("/getExamineeExams", getExamineeExams);
+examineeRouter.post("/editPoliceOfficer", editPoliceOfficer);
 examineeRouter.post(
   "/getStudentsAndExportTopExcel",
   getStudentsAndExportToExcel

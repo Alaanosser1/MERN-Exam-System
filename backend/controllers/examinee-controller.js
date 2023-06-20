@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import fs from "fs";
 import xl from "excel4node";
 import * as dotenv from "dotenv";
+import { log } from "console";
 dotenv.config({ path: "/Users/Nosser/Desktop/Exam-System/backend/.env" });
 
 const app = express();
@@ -20,6 +21,7 @@ export const addExaminee = async (req, res, next) => {
   const subClubId = req.body.subClubId;
   const listNumber = req.body.listNumber;
   const mobileNumber = req.body.mobileNumber;
+  const mobileNumber2 = req.body.mobileNumber2;
   const carType = req.body.carType;
   const carNumber = req.body.carNumber;
   const birthDate = req.body.birthDate;
@@ -35,6 +37,7 @@ export const addExaminee = async (req, res, next) => {
   const graduationDate = req.body.graduationDate;
   const { file, fileName } = req;
   let user;
+
   // const profilePicture = req.body.profilePicture;
   const examId = 80;
 
@@ -45,22 +48,23 @@ export const addExaminee = async (req, res, next) => {
     if (file) {
       fs.rename(
         `${process.env.STUDENT_IMAGE_FOLDER_PATH}/${fileName}`,
-        `${process.env.STUDENT_IMAGE_FOLDER_PATH}student${insertId}.png`,
+        `${process.env.STUDENT_IMAGE_FOLDER_PATH}/student${insertId}.png`,
         (err) => {
           if (err) throw err;
           console.log("File Renamed.");
         }
       );
-    } else {
-      fs.appendFile(
-        `${process.env.STUDENT_IMAGE_FOLDER_PATH}/student${insertId}.png`,
-        "Hello content!",
-        function (err) {
-          if (err) throw err;
-          console.log("Saved!");
-        }
-      );
     }
+    // else {
+    //   fs.appendFile(
+    //     `${process.env.STUDENT_IMAGE_FOLDER_PATH}/student${insertId}.png`,
+    //     "Hello content!",
+    //     function (err) {
+    //       if (err) throw err;
+    //       console.log("Saved!");
+    //     }
+    //   );
+    // }
   };
   // const handleAuth = async () => {
   //   await connection
@@ -160,17 +164,17 @@ export const addExaminee = async (req, res, next) => {
       .promise()
       .query(
         `INSERT INTO examinee(examinee_name, examinee_type,
-        examinee_rank, examinee_police_number, examinee_civilian_number,
-         examinee_entity, examinee_list_number, examinee_seniority_number,
-          examinee_mobile_number, examinee_password, examinee_car_type,
+           examinee_rank, examinee_police_number, examinee_civilian_number,
+           examinee_entity, examinee_list_number, examinee_seniority_number,
+           examinee_mobile_number, examinee_mobile_number2, examinee_password, examinee_car_type,
            examinee_car_number, examinee_graduation_date, examinee_birth_date,
-            examinee_address_inside_cairo, examinee_address_outside_cairo, examinee_religion,
-            examinee_finance_code, examinee_bank_name, relationship_status, examinee_previous_clubs,
-            examinee_previous_work_places)
+           examinee_address_inside_cairo, examinee_address_outside_cairo, examinee_religion,
+           examinee_finance_code, examinee_bank_name, relationship_status, examinee_previous_clubs,
+           examinee_previous_work_places)
             VALUES('${examineeName}','${examineeType}',
             '${examineeRank}','${examineePoliceNumber}',
             '${examineeCivilianNumber}','${examineeEntity}',
-            '${listNumber}','${examineeSeniorityNumber}', '${mobileNumber}',
+            '${listNumber}','${examineeSeniorityNumber}', '${mobileNumber}', '${mobileNumber2}',
              'hemaya@2023', '${carType}', '${carNumber}', '${graduationDate}',
               '${birthDate}', '${addressInside}', '${addressOutside}', '${religion}',
                '${financeCode}', '${bankName}', '${relationshipStatus}', '${previousClubs}',
@@ -208,6 +212,113 @@ export const addExaminee = async (req, res, next) => {
         });
       });
   }
+};
+
+export const editPoliceOfficer = async (req, res) => {
+  const examineeId = req.body.examineeId;
+  const examineeName = req.body.name;
+  const examineeType = req.body.type;
+  const examineePoliceNumber = req.body.policeNumber;
+  const examineeSeniorityNumber = req.body.seniorityNumber;
+  const examineeCivilianNumber = req.body.codeNumber;
+  const examineeRank = req.body.rank;
+  const examineeEntity = req.body.entity;
+  const mobileNumber = req.body.mobileNumber;
+  const mobileNumber2 = req.body.mobileNumber2;
+  const carType = req.body.carType;
+  const carNumber = req.body.carNumber;
+  const birthDate = req.body.birthDate;
+  const addressInside = req.body.addressInside;
+  const addressOutside = req.body.addressOutside;
+  const religion = req.body.religion;
+  const financeCode = req.body.financeCode;
+  const bankName = req.body.bankName;
+  const relationshipStatus = req.body.relationshipStatus;
+  const previousClubs = req.body.previousClubs;
+  const previousWorkPlaces = req.body.previousWorkPlaces;
+  const graduationDate = req.body.graduationDate;
+
+  const updatePoliceOfficer = () => {
+    connection
+      .promise()
+      .query(
+        `
+        UPDATE examinee
+        SET examinee_name = '${examineeName}',
+        examinee_seniority_number = '${examineeSeniorityNumber}',
+        examinee_type = '${examineeType}',
+        examinee_rank = '${examineeRank}',
+        examinee_entity = '${examineeEntity}',
+        examinee_graduation_date = '${graduationDate}',
+        examinee_birth_date = '${birthDate}',
+        examinee_religion = '${religion}',
+        relationship_status = '${relationshipStatus}',
+        examinee_police_number = '${examineePoliceNumber}',
+        examinee_civilian_number = '${examineeCivilianNumber}',
+        examinee_mobile_number = '${mobileNumber}',
+        examinee_mobile_number2 = '${mobileNumber2}',
+        examinee_car_type = '${carType}',
+        examinee_car_number = '${carNumber}',
+        examinee_address_inside_cairo = '${addressInside}',
+        examinee_address_outside_cairo = '${addressOutside}',
+        examinee_bank_name = '${bankName}',
+        examinee_finance_code = '${financeCode}',
+        examinee_previous_clubs = '${previousClubs}',
+        examinee_previous_work_places = '${previousWorkPlaces}',
+        examinee_bank_name = '${bankName}'
+        WHERE examinee_id = '${examineeId}'
+        `
+      )
+      .then((data) => {
+        if (data[0].affectedRows != 0) {
+          res.status(200).json({
+            status: "ok",
+            msg: "Updated",
+          });
+        } else {
+          res.status(404).json({
+            msg: "No examinee with that ID",
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(500).json({
+          status: "error",
+          msg: "500 Internal Server Error",
+        });
+      });
+  };
+
+  await connection
+    .promise()
+    .query(
+      `SELECT * FROM examinee WHERE
+       examinee_seniority_number ='${examineeSeniorityNumber}'`
+    )
+    .then((data) => {
+      if (data.length > 0 && data[0][0].examinee_id == examineeId) {
+        updatePoliceOfficer();
+        console.log("inside available and examinee did not change code");
+      } else if (data.length > 0 && data[0][0].examinee_id != examineeId) {
+        res.status(400).json({
+          status: "error",
+          msg: "police number is already registered",
+        });
+        console.log("inside police number is already registered");
+        console.log(data[0]);
+      } else if (data[0].length < 1) {
+        updatePoliceOfficer();
+        console.log("inside police number is new");
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 Internal Server Error",
+      });
+    });
 };
 
 export const examineeLogin = async (req, res) => {
@@ -586,10 +697,9 @@ export const getStudentsAndExportToExcel = async (req, res) => {
       let keys = Object.keys(item);
       var values = Object.values(item);
       keys.forEach((col, ind) => {
-        ws.cell(1, ind + 1).string(col);
         console.log(col);
         console.log(values[ind]);
-        ws.cell(cnt + 2, ind + 1).string(String(values[ind]) || "null");
+        ws.cell(cnt + 1, ind + 1).string(String(values[ind]) || "null");
       });
     }
     // Todo: /static/excel 폴더 없을 시 에러 발생.

@@ -32,7 +32,7 @@ const StudentSearch = ({ content, setSearchResults }) => {
   return (
     <input
       type="text"
-      class="form-control w-50"
+      class="form-control w-75"
       dir="rtl"
       aria-label="Username"
       aria-describedby="basic-addon1"
