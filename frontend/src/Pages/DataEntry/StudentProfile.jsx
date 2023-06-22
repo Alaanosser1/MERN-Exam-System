@@ -5,11 +5,13 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import Popup from "../../components/Popup";
 import SubClubChoose from "../SubClubChoose";
-import PlacementOptions from "./PlacementOptions";
-import ExamineePlacement from "./ExamineePlacement";
 import ExamineePlacementBefore from "./ExamineePlacementBefore";
 import ListExamineePlacement from "./ListExamineePlacement";
 import EditPoliceOfficer from "../../components/editStudentData/EditPoliceOfficer";
+import jsPDF from "jspdf";
+import html2pdf from "html2pdf.js";
+import "jspdf-autotable";
+// import "jspdf-arabic";
 
 const StudentProfile = () => {
   useEffect(() => {
@@ -18,7 +20,8 @@ const StudentProfile = () => {
     getMainClubs();
     getPlacements();
   }, []);
-  let { studentId, currentSubClubId, currentMainClubId } = useParams();
+
+  let { studentId, currentSubClubId } = useParams();
   const [student, setStudent] = useState("");
   const [studentClubs, setStudentClubs] = useState("");
   const [addStudentToClubs, setAddStudentToClub] = useState(false);
@@ -28,7 +31,6 @@ const StudentProfile = () => {
   const [subClubId, setSubClubId] = useState("");
   const [subClubs, setSubClubs] = useState([]);
   const [placementId, setPlacementId] = useState("");
-  const [addPlacement, setAddPlacement] = useState(false);
   const [placementOptions, setPlacementOptions] = useState(false);
   const [editStudentData, setEditStudentData] = useState(false);
   const [listPlacementOptions, setListPlacementOptions] = useState(false);
@@ -38,6 +40,7 @@ const StudentProfile = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const user =
     JSON.parse(localStorage.getItem("instructor-token")) ||
     JSON.parse(localStorage.getItem("data-entry-token")) ||
@@ -63,6 +66,7 @@ const StudentProfile = () => {
         console.log(error);
       });
   };
+
   const getStudentClubs = () => {
     axios
       .get(
@@ -187,6 +191,28 @@ const StudentProfile = () => {
       });
   };
 
+  function generatePDF() {
+    // Get the HTML content of the page to print
+    const element = document.querySelector("#student-profile-card");
+
+    // Define the configuration options for html2pdf
+    const options = {
+      margin: [10, 10],
+      filename: "my-pdf-file.pdf",
+      html2canvas: { scale: 5 },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait", pdfA: true }, // Set pdfA to true
+      font: [
+        {
+          family: "Noto Naskh Arabic",
+          src: "/Users/Nosser/Desktop/Exam-System/frontend/public/NotoNaskhArabic-VariableFont_wght.ttf",
+        },
+      ],
+    };
+
+    // Use html2pdf to generate the PDF file
+    html2pdf().set(options).from(element).save();
+  }
+
   return (
     <>
       <Popup trigger={placementOptions} setTrigger={setPlacementOptions}>
@@ -254,11 +280,12 @@ const StudentProfile = () => {
         </Popup>
       </div>
       <div
-        style={{ marginTop: "1%", padding: "3%" }}
+        style={{ marginTop: "1%" }}
         className="container student-card-container"
+        id="student-profile-card"
       >
         <div style={{ height: 35 }} className="row bg-primary text-center">
-          <h3 dir="rtl" className="text-white">
+          <h3 dir="rtl" className="text-white" id="test">
             بيانات الدارس
           </h3>
         </div>
@@ -293,6 +320,12 @@ const StudentProfile = () => {
                       className="btn btn-outline-primary mt-4"
                     >
                       تعديل بيانات الدارس
+                    </button>
+                    <button
+                      onClick={generatePDF}
+                      className="btn btn-outline-primary mt-4"
+                    >
+                      طباعة بيانات الدارس
                     </button>
                   </div>
                 )}

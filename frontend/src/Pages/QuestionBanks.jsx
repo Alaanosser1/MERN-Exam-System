@@ -66,6 +66,7 @@ export default function QuestionBanks() {
         console.log(error);
       });
   };
+
   const deleteQuestionBank = (questionBank) => {
     Swal.fire({
       title: `هل انت متأكد من مسح هذا البنك`,
@@ -116,6 +117,7 @@ export default function QuestionBanks() {
         setEditQuestionBankPopup(false);
       });
   };
+
   return (
     <>
       <div dir="rtl" className="container list-container m-5">
