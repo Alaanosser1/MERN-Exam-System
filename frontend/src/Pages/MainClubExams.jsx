@@ -34,8 +34,8 @@ const MainClubExams = () => {
 
   return (
     <>
-      <div dir="rtl" className="container mt-5">
-        <div className="row mt-5">
+      <div dir="rtl" className="container list-container">
+        <div className="row">
           <h1>الامتحانات</h1>
         </div>
         <table
@@ -54,6 +54,7 @@ const MainClubExams = () => {
               <th className="text-center" scope="col">
                 عدد الفرق
               </th>
+              <th></th>
             </tr>
           </thead>
           <tbody>

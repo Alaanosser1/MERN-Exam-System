@@ -88,31 +88,19 @@ const Students = () => {
             clubId={clubId}
           ></EditMainClub>
         </Popup> */}
-      <div className="container list-container mt-5">
-        <div className="row" dir="rtl">
-          <div className="col-9">
-            <h1 className="mt-5">الدارسين</h1>
-          </div>
-          <div className="col-3">
-            {/* <button
-              onClick={() => {
-                setAddStudent(true);
-              }}
-              className="btn btn-outline-success mt-5"
-            >
-              اضافة دارس جديد
-            </button> */}
-          </div>
-        </div>
-        <div dir="rtl" className="row m-3">
-          <div className="col-9">
-            <label htmlFor="">بحث</label>
+      <div className="container">
+        <div dir="rtl" className="row">
+          <label htmlFor="">بحث</label>
+          <div className="col-6">
             <StudentSearch
               content={students}
               setSearchResults={setSearchResults}
             />
           </div>
-          <div className="col-3">
+          <div dir="rtl" className="col-3">
+            <h2>عدد الدارسين: {searchResults.length}</h2>
+          </div>
+          <div dir="ltr" className="col-3">
             <button
               id="export-button"
               onClick={() => {
@@ -150,6 +138,7 @@ const Students = () => {
               <th className="text-center" scope="col">
                 الجهة التابع لها
               </th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -215,9 +204,6 @@ const Students = () => {
             })}
           </tbody>
         </table>
-        <div dir="rtl" className="row">
-          <h2>عدد الدارسين: {searchResults.length}</h2>
-        </div>
       </div>
     </>
   );

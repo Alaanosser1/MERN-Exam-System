@@ -197,7 +197,6 @@ const AddExam = (props) => {
             {errors.descriptionRequired && (
               <span className="text-danger">من فضلك ادخل الوصف*</span>
             )}
-
             <div dir="rtl" className="row mt-5">
               <div className="form-group col-md-4 p-2">
                 <h5 className="mb-3"> الفرقة التخصصية</h5>

@@ -36,7 +36,7 @@ function Admin() {
   return (
     <div className="App">
       <div className="row">
-        <div className="col-2 side-bar-container sticky-top">
+        <div dir="ltr" className=" col-2 side-bar-container sticky-top">
           <AdminSideBar />
         </div>
         <div className="col-9">
@@ -108,8 +108,8 @@ function Admin() {
               />
             </Route>
           </Routes>
-          <Footer />
         </div>
+        <Footer />
       </div>
     </div>
   );

@@ -34,7 +34,7 @@ const SubClubDashboard = () => {
   };
   return (
     <>
-      <div className="container">
+      <div className="container list-container">
         <div className="row pagination-row g-0">
           <div className="col-2 m-1">
             <button

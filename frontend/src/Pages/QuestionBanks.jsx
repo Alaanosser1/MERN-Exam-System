@@ -120,7 +120,7 @@ export default function QuestionBanks() {
 
   return (
     <>
-      <div dir="rtl" className="container list-container m-5">
+      <div dir="rtl" className="container list-container">
         <div ref={refTwo}>
           <Popup
             trigger={addQuestionBankPopup}

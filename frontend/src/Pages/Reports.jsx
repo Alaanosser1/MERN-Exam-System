@@ -58,7 +58,7 @@ const Reports = () => {
           setTableArray={setTableArray}
         />
       </Popup>
-      <div className="container list-container m-5">
+      <div className="container list-container">
         <div className="row" dir="rtl">
           <div className="col-9">
             <h1 className="mt-5">التقارير</h1>

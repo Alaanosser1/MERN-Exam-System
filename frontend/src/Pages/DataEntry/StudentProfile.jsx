@@ -8,9 +8,17 @@ import SubClubChoose from "../SubClubChoose";
 import ExamineePlacementBefore from "./ExamineePlacementBefore";
 import ListExamineePlacement from "./ListExamineePlacement";
 import EditPoliceOfficer from "../../components/editStudentData/EditPoliceOfficer";
-import jsPDF from "jspdf";
 import html2pdf from "html2pdf.js";
+import {
+  PDFDownloadLink,
+  Font,
+  Page,
+  Text,
+  Document,
+} from "@react-pdf/renderer";
+
 import "jspdf-autotable";
+
 // import "jspdf-arabic";
 
 const StudentProfile = () => {
@@ -35,6 +43,7 @@ const StudentProfile = () => {
   const [editStudentData, setEditStudentData] = useState(false);
   const [listPlacementOptions, setListPlacementOptions] = useState(false);
   const refOne = useRef(null);
+  let pdfContent;
   const {
     register,
     handleSubmit,
@@ -191,27 +200,91 @@ const StudentProfile = () => {
       });
   };
 
-  function generatePDF() {
-    // Get the HTML content of the page to print
-    const element = document.querySelector("#student-profile-card");
+  Font.register({
+    family: "NotoNaskhArabic",
+    src: "/Users/Nosser/Desktop/Exam-System/frontend/src/assets/NotoNaskhArabic-Regular.ttf",
+  });
 
-    // Define the configuration options for html2pdf
-    const options = {
-      margin: [10, 10],
-      filename: "my-pdf-file.pdf",
-      html2canvas: { scale: 5 },
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait", pdfA: true }, // Set pdfA to true
-      font: [
-        {
-          family: "Noto Naskh Arabic",
-          src: "/Users/Nosser/Desktop/Exam-System/frontend/public/NotoNaskhArabic-VariableFont_wght.ttf",
-        },
-      ],
+  const downloadStudentInfoPDF = (student) => {
+    if (student.examinee_type === "ضابط") {
+      pdfContent = `
+      <div style=" text-align: right; font-size: 20px;">
+      <h2 style = "text-align: center;">بيانات الدارس</h2>
+      <hr></hr>
+        <div style="font-family: Arial;  text-align: right; width: 50%; float: right;">
+            <br>
+            <p style = "margin = 2px">  اسم الدارس: ${student.examinee_name}</p>
+            <br>
+            <p style = "margin = 2px">   رقم الكود: ${student.examinee_id}</p>
+            <br>
+            <p style = "margin = 2px">  الصفة: ${student.examinee_type}</p>
+            <br>
+            <p style = "margin = 2px">   رقم الاقدامية: ${
+              student.examinee_seniority_number
+            }</p>
+            <br>
+            <p style = "margin = 2px">   جهة العمل الحالية: ${
+              student.examinee_entity
+            }</p>
+            <br>
+            <p style = "margin = 2px">   الديانة: ${
+              student.examinee_religion
+            }</p>
+            <br>
+            <p style = "margin = 2px">  تاريخ الميلاد: ${student.examinee_birth_date.substring(
+              0,
+              student.examinee_birth_date.indexOf("T")
+            )}</p>
+            <br>
+            <p style = "margin = 2px">  تاريخ الميلاد: ${student.examinee_graduation_date.substring(
+              0,
+              student.examinee_graduation_date.indexOf("T")
+            )}</p>
+            <br>
+            <br>
+        </div>
+        <br>
+        <div style="font-family: Arial; text-align: right; width: 50%; float: left;">
+          <p style = "margin = 2px">   نوع السيارة: ${
+            student.examinee_car_type
+          }</p>
+          <br> 
+          <p style = "margin = 2px">  رقم السيارة: ${
+            student.examinee_car_number
+          }</p>
+          <br>
+          <p style = "margin = 2px">  الحالة الاجتماعية: ${
+            student.relationship_status
+          }</p>
+          <br>
+          <p style = "margin = 2px">  العنوان داخل القاهرة: ${
+            student.examinee_address_inside_cairo
+          }</p>
+          <br>
+          <p style = "margin = 2px">   العنوان خارج القاهرة: ${
+            student.examinee_address_outside_cairo
+          }</p>
+          <br>
+          <p style = "margin = 2px">  الفرق الحاصل عليها: ${
+            student.examinee_previous_clubs
+          }</p>
+          <br>
+          <p style = "margin = 2px">  العمل الذي مارس منذ التخرج: ${
+            student.examinee_previous_work_places
+          }</p>
+        </div>
+      </div>`;
+    }
+    const opt = {
+      margin: [20, 20, 20, 20],
+      filename: "arabic_document.pdf",
+      image: { type: "pdf", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
     };
 
-    // Use html2pdf to generate the PDF file
-    html2pdf().set(options).from(element).save();
-  }
+    html2pdf().set(opt).from(pdfContent).save();
+  };
 
   return (
     <>
@@ -317,13 +390,16 @@ const StudentProfile = () => {
                   <div className="col-6 mt-5 mb-3 h-25 d-flex justify-content-center">
                     <button
                       onClick={() => setEditStudentData(true)}
-                      className="btn btn-outline-primary mt-4"
+                      className="btn btn-outline-primary m-2 mt-5"
                     >
                       تعديل بيانات الدارس
                     </button>
+
                     <button
-                      onClick={generatePDF}
-                      className="btn btn-outline-primary mt-4"
+                      onClick={() => {
+                        downloadStudentInfoPDF(student[0]);
+                      }}
+                      className="btn btn-outline-primary m-2 mt-5"
                     >
                       طباعة بيانات الدارس
                     </button>
@@ -331,7 +407,7 @@ const StudentProfile = () => {
                 )}
             </div>
             <hr />
-            <div dir="rtl" className="row ms-5">
+            <div dir="rtl" className="row ms-5" id="student-information">
               <div dir="rtl" className="col-6 mt-4">
                 <div className="row mt-3 ms-2">
                   <h4 className="">اسم الدارس: {student[0].examinee_name}</h4>
@@ -342,7 +418,7 @@ const StudentProfile = () => {
                 </div>
                 {student[0].examinee_type == "مدني" && (
                   <div dir="rtl" className="row">
-                    <div className="row">
+                    <div className="row test">
                       <h4>
                         الرقم القومي: {student[0].examinee_civilian_number}
                       </h4>
@@ -496,7 +572,6 @@ const StudentProfile = () => {
             </div>
             <div dir="rtl" className="row">
               <div className="col-6"></div>
-              <div className="col-6"></div>
             </div>
             {placements.length > 0 && (
               <div dir="rtl" className="row mt-5">
@@ -519,6 +594,7 @@ const StudentProfile = () => {
                       <th className="text-center" scope="col">
                         الوصف
                       </th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -597,6 +673,7 @@ const StudentProfile = () => {
                 <th className="text-center" scope="col">
                   نوع الفرقة
                 </th>
+                <th></th>
               </tr>
             </thead>
             <tbody>

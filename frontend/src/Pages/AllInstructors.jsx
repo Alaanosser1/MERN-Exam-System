@@ -53,7 +53,7 @@ const Students = () => {
           ></EditMainClub>
         </Popup> */}
       </div>
-      <div className="container list-container mt-5">
+      <div className="container list-container ">
         <div className="row" dir="rtl">
           <div className="col-9">
             <h1 className="mt-5">المحاضرين</h1>

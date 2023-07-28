@@ -16,6 +16,7 @@ const Students = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [tableArray, setTableArray] = useState();
   const [exportPopup, setExportPopup] = useState(false);
+  const [page, setPage] = useState(2);
   const refOne = useRef(null);
   const { subClubId } = useParams();
 
@@ -78,11 +79,50 @@ const Students = () => {
           ></EditMainClub>
         </Popup> */}
       </div>
+
       <div className="container list-container">
         <div className="row" dir="rtl">
           <h1 className="text-center text-primary">الدارسين</h1>
         </div>
-        <div dir="rtl" className="row mt-5">
+        <div className="container">
+          <div className="row pagination-row g-0">
+            <div className="col-2 m-1">
+              <button
+                onClick={() => setPage(0)}
+                className={`w-100 btn ${
+                  page == 0 ? "btn-primary" : "btn-outline-primary"
+                } `}
+              >
+                مدنين
+              </button>
+            </div>
+            <div className="col-2 m-1">
+              <button
+                onClick={() => setPage(1)}
+                className={`w-100 btn ${
+                  page == 1 ? "btn-primary" : "btn-outline-primary"
+                } `}
+              >
+                افراد
+              </button>
+            </div>
+            <div className="col-2 m-1">
+              <button
+                onClick={() => setPage(2)}
+                className={`w-100 btn ${
+                  page == 2 ? "btn-primary" : "btn-outline-primary"
+                } `}
+              >
+                ضباط
+              </button>
+            </div>
+            {/* <div className="col-2">
+            <button className="w-100 btn-outline-primary">test</button>
+          </div> */}
+          </div>
+        </div>
+
+        <div dir="rtl" className="row mt-1">
           <div className="col-4 mb-2">
             <label htmlFor="">بحث</label>
             <StudentSearch
@@ -142,84 +182,245 @@ const Students = () => {
               <th className="text-center" scope="col">
                 الجهة التابع لها
               </th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             {Object.entries(searchResults).map((student) => {
-              return (
-                <tr scope="row" key={student[1].club_id}>
-                  <td className="text-center">{student[1].examinee_id}</td>
-                  <td className="text-center">{student[1].examinee_name}</td>
-                  <td className="text-center">
-                    {`${student[1].examinee_type}`}
-                  </td>
-                  <td className="text-center">
-                    {student[1].examinee_type == "مدني"
-                      ? `___`
-                      : `${student[1].examinee_rank}`}
-                  </td>
-                  <td className="text-center">
-                    {student[1].examinee_seniority_number ||
-                      student[1].examinee_police_number ||
-                      student[1].examinee_civilian_number}
-                  </td>
-                  <td className="text-center">{student[1].examinee_entity}</td>
-                  {JSON.parse(localStorage.getItem("data-entry-token")) && (
-                    <td className="text-center" id="operations-buttons">
-                      <Link to={`/clubs/students/${student[1].examinee_id}`}>
-                        <button className="btn btn-outline-primary">
-                          تفاصيل
-                        </button>
-                      </Link>
-                      {/* <button
-                      onClick={() => {
-                        setEditMainClub(true);
-                        setClubId(student[1].club_id);
-                      }}
-                      className="btn btn-outline-success me-3"
-                    >
-                      تعديل
-                    </button> */}
+              if (student[1].examinee_type === "ضابط" && page === 2) {
+                return (
+                  <tr scope="row" key={student[1].club_id}>
+                    <td className="text-center">{student[1].examinee_id}</td>
+                    <td className="text-center">{student[1].examinee_name}</td>
+                    <td className="text-center">
+                      {`${student[1].examinee_type}`}
                     </td>
-                  )}
-                  {JSON.parse(localStorage.getItem("instructor-token")) && (
-                    <td className="text-center" id="operations-buttons">
-                      <Link to={`/app/students/${student[1].examinee_id}`}>
-                        <button className="btn btn-outline-primary">
-                          تفاصيل
-                        </button>
-                      </Link>
-                      {/* <button
-                      onClick={() => {
-                        setEditMainClub(true);
-                        setClubId(student[1].club_id);
-                      }}
-                      className="btn btn-outline-success me-3"
-                    >
-                      تعديل
-                    </button> */}
+                    <td className="text-center">
+                      {student[1].examinee_type == "مدني"
+                        ? `___`
+                        : `${student[1].examinee_rank}`}
                     </td>
-                  )}
-                  {JSON.parse(localStorage.getItem("admin-token")) && (
-                    <td className="text-center" id="operations-buttons">
-                      <Link to={`/admin/students/${student[1].examinee_id}`}>
-                        <button className="btn btn-outline-primary">
-                          تفاصيل
-                        </button>
-                      </Link>
-                      {/* <button
-                      onClick={() => {
-                        setEditMainClub(true);
-                        setClubId(student[1].club_id);
-                      }}
-                      className="btn btn-outline-success me-3"
-                    >
-                      تعديل
-                    </button> */}
+                    <td className="text-center">
+                      {student[1].examinee_seniority_number ||
+                        student[1].examinee_police_number ||
+                        student[1].examinee_civilian_number}
                     </td>
-                  )}
-                </tr>
-              );
+                    <td className="text-center">
+                      {student[1].examinee_entity}
+                    </td>
+                    {JSON.parse(localStorage.getItem("data-entry-token")) && (
+                      <td className="text-center" id="operations-buttons">
+                        <Link to={`/clubs/students/${student[1].examinee_id}`}>
+                          <button className="btn btn-outline-primary">
+                            تفاصيل
+                          </button>
+                        </Link>
+                        {/* <button
+                        onClick={() => {
+                          setEditMainClub(true);
+                          setClubId(student[1].club_id);
+                        }}
+                        className="btn btn-outline-success me-3"
+                      >
+                        تعديل
+                      </button> */}
+                      </td>
+                    )}
+                    {JSON.parse(localStorage.getItem("instructor-token")) && (
+                      <td className="text-center" id="operations-buttons">
+                        <Link to={`/app/students/${student[1].examinee_id}`}>
+                          <button className="btn btn-outline-primary">
+                            تفاصيل
+                          </button>
+                        </Link>
+                        {/* <button
+                        onClick={() => {
+                          setEditMainClub(true);
+                          setClubId(student[1].club_id);
+                        }}
+                        className="btn btn-outline-success me-3"
+                      >
+                        تعديل
+                      </button> */}
+                      </td>
+                    )}
+                    {JSON.parse(localStorage.getItem("admin-token")) && (
+                      <td className="text-center" id="operations-buttons">
+                        <Link to={`/admin/students/${student[1].examinee_id}`}>
+                          <button className="btn btn-outline-primary">
+                            تفاصيل
+                          </button>
+                        </Link>
+                        {/* <button
+                        onClick={() => {
+                          setEditMainClub(true);
+                          setClubId(student[1].club_id);
+                        }}
+                        className="btn btn-outline-success me-3"
+                      >
+                        تعديل
+                      </button> */}
+                      </td>
+                    )}
+                  </tr>
+                );
+              }
+              if (student[1].examinee_type === "فرد" && page === 1) {
+                return (
+                  <tr scope="row" key={student[1].club_id}>
+                    <td className="text-center">{student[1].examinee_id}</td>
+                    <td className="text-center">{student[1].examinee_name}</td>
+                    <td className="text-center">
+                      {`${student[1].examinee_type}`}
+                    </td>
+                    <td className="text-center">
+                      {student[1].examinee_type == "مدني"
+                        ? `___`
+                        : `${student[1].examinee_rank}`}
+                    </td>
+                    <td className="text-center">
+                      {student[1].examinee_seniority_number ||
+                        student[1].examinee_police_number ||
+                        student[1].examinee_civilian_number}
+                    </td>
+                    <td className="text-center">
+                      {student[1].examinee_entity}
+                    </td>
+                    {JSON.parse(localStorage.getItem("data-entry-token")) && (
+                      <td className="text-center" id="operations-buttons">
+                        <Link to={`/clubs/students/${student[1].examinee_id}`}>
+                          <button className="btn btn-outline-primary">
+                            تفاصيل
+                          </button>
+                        </Link>
+                        {/* <button
+                        onClick={() => {
+                          setEditMainClub(true);
+                          setClubId(student[1].club_id);
+                        }}
+                        className="btn btn-outline-success me-3"
+                      >
+                        تعديل
+                      </button> */}
+                      </td>
+                    )}
+                    {JSON.parse(localStorage.getItem("instructor-token")) && (
+                      <td className="text-center" id="operations-buttons">
+                        <Link to={`/app/students/${student[1].examinee_id}`}>
+                          <button className="btn btn-outline-primary">
+                            تفاصيل
+                          </button>
+                        </Link>
+                        {/* <button
+                        onClick={() => {
+                          setEditMainClub(true);
+                          setClubId(student[1].club_id);
+                        }}
+                        className="btn btn-outline-success me-3"
+                      >
+                        تعديل
+                      </button> */}
+                      </td>
+                    )}
+                    {JSON.parse(localStorage.getItem("admin-token")) && (
+                      <td className="text-center" id="operations-buttons">
+                        <Link to={`/admin/students/${student[1].examinee_id}`}>
+                          <button className="btn btn-outline-primary">
+                            تفاصيل
+                          </button>
+                        </Link>
+                        {/* <button
+                        onClick={() => {
+                          setEditMainClub(true);
+                          setClubId(student[1].club_id);
+                        }}
+                        className="btn btn-outline-success me-3"
+                      >
+                        تعديل
+                      </button> */}
+                      </td>
+                    )}
+                  </tr>
+                );
+              }
+              if (student[1].examinee_type === "مدني" && page === 0) {
+                return (
+                  <tr scope="row" key={student[1].club_id}>
+                    <td className="text-center">{student[1].examinee_id}</td>
+                    <td className="text-center">{student[1].examinee_name}</td>
+                    <td className="text-center">
+                      {`${student[1].examinee_type}`}
+                    </td>
+                    <td className="text-center">
+                      {student[1].examinee_type == "مدني"
+                        ? `___`
+                        : `${student[1].examinee_rank}`}
+                    </td>
+                    <td className="text-center">
+                      {student[1].examinee_seniority_number ||
+                        student[1].examinee_police_number ||
+                        student[1].examinee_civilian_number}
+                    </td>
+                    <td className="text-center">
+                      {student[1].examinee_entity}
+                    </td>
+                    {JSON.parse(localStorage.getItem("data-entry-token")) && (
+                      <td className="text-center" id="operations-buttons">
+                        <Link to={`/clubs/students/${student[1].examinee_id}`}>
+                          <button className="btn btn-outline-primary">
+                            تفاصيل
+                          </button>
+                        </Link>
+                        {/* <button
+                        onClick={() => {
+                          setEditMainClub(true);
+                          setClubId(student[1].club_id);
+                        }}
+                        className="btn btn-outline-success me-3"
+                      >
+                        تعديل
+                      </button> */}
+                      </td>
+                    )}
+                    {JSON.parse(localStorage.getItem("instructor-token")) && (
+                      <td className="text-center" id="operations-buttons">
+                        <Link to={`/app/students/${student[1].examinee_id}`}>
+                          <button className="btn btn-outline-primary">
+                            تفاصيل
+                          </button>
+                        </Link>
+                        {/* <button
+                        onClick={() => {
+                          setEditMainClub(true);
+                          setClubId(student[1].club_id);
+                        }}
+                        className="btn btn-outline-success me-3"
+                      >
+                        تعديل
+                      </button> */}
+                      </td>
+                    )}
+                    {JSON.parse(localStorage.getItem("admin-token")) && (
+                      <td className="text-center" id="operations-buttons">
+                        <Link to={`/admin/students/${student[1].examinee_id}`}>
+                          <button className="btn btn-outline-primary">
+                            تفاصيل
+                          </button>
+                        </Link>
+                        {/* <button
+                        onClick={() => {
+                          setEditMainClub(true);
+                          setClubId(student[1].club_id);
+                        }}
+                        className="btn btn-outline-success me-3"
+                      >
+                        تعديل
+                      </button> */}
+                      </td>
+                    )}
+                  </tr>
+                );
+              }
             })}
           </tbody>
         </table>

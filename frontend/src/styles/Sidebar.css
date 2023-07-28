@@ -1,64 +1,92 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    list-style: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
 }
 
 .wrapper {
-    display: flex;
-    position: relative;
-    text-decoration: none;
-
+  display: flex;
+  position: fixed;
+  text-decoration: none;
+  width: 14%;
 }
 
 .wrapper .sidebar {
-    width: 100%;
-    height: 100vh;
-    background: #0D6EFE;
-    padding: 30px 0px;
-    position: relative;
+  width: 100%;
+  height: 100vh;
+  background: #0d6efe;
+  padding: 30px 0px;
+  position: relative;
+  width: 100%;
 }
 
 .wrapper .sidebar h2 {
-    color: #000000;
-    text-transform: uppercase;
-    text-align: center;
-    margin-bottom: 30px;
+  color: #0d6efe;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 30px;
 }
 
-.wrapper .sidebar  li {
-    padding: 15px;
-    border-bottom: 1px solid #bdb8d7;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    height: 60px;
-    min-width: 100%;
+.wrapper .sidebar li {
+  padding: 15px;
+  border-bottom: 1px solid #bdb8d7;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  height: 60px;
+  min-width: 100%;
+  display: flex;
+  align-items: center;
 }
 
-.wrapper .sidebar  li a {
-    color: #000000;
-    display: block;
-    text-decoration: none;
-    height: 100%;
-    width: 100%;
+.wrapper .sidebar li a {
+  color: #000000;
+  display: block;
+  text-decoration: none;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
+
 .wrapper .sidebar img {
-    height: 120px;
-    width: 120px;
-    margin-right: 80px;
-    
+  height: 30%;
+  width: 30%;
+  margin: 0 auto;
 }
 
-/* .wrapper .sidebar ul li a .fas {
-    width: 25px;
-    
-} */
-
-.wrapper .sidebar  li:hover {
-    background-color: #0d6efd;
+.wrapper .sidebar li:hover {
+  background-color: #0d6efd;
 }
 
-.wrapper .sidebar  li:hover a {
-    color: #fff;
+.wrapper .sidebar li:hover a {
+  color: #fff;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .wrapper {
+    flex-direction: row;
+  }
+
+  .wrapper .sidebar {
+    height: auto;
+    padding: 15px 0px;
+  }
+
+  .wrapper .sidebar h2 {
+    font-size: 24px;
+  }
+
+  .wrapper .sidebar li {
+    height: 50px;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .wrapper .sidebar img {
+    height: 24px;
+    width: 24px;
+    margin-right: 10px;
+  }
 }

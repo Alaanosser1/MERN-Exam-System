@@ -91,7 +91,7 @@ const SubClubs = () => {
           setTableArray={setTableArray}
         />
       </Popup>
-      <div className="container mt-5">
+      <div className="container list-container">
         <div className="row" dir="rtl">
           <div className="col-6">
             <h1 className="mt-5">فرق {`(${mainClub.club_name})`}</h1>
@@ -128,13 +128,13 @@ const SubClubs = () => {
             <tr>
               {/* <th scope="col">ID</th> */}
               <th className="text-center" scope="col">
+                رقم الفرقة
+              </th>
+              <th className="text-center" scope="col">
                 الاسم
               </th>
               <th className="text-center" scope="col">
                 الوصف
-              </th>
-              <th className="text-center" scope="col">
-                رقم الفرقة
               </th>
               <th className="text-center" scope="col">
                 تاريخ البدء
@@ -148,11 +148,11 @@ const SubClubs = () => {
             {Object.entries(subClubs).map((club) => {
               return (
                 <tr scope="row" key={club[1].sub_club_id}>
+                  <td className="text-center">{club[1].sub_club_number}</td>
                   <td className="text-center">{club[1].sub_club_name}</td>
                   <td className="text-center">
                     {`${club[1].sub_club_description.substring(0, 50)}..`}
                   </td>
-                  <td className="text-center">{club[1].sub_club_number}</td>
                   <td className="text-center">
                     {
                       new Date(club[1].start_date)
