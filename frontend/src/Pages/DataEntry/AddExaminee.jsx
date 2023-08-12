@@ -507,10 +507,10 @@ const AddExaminee = (props) => {
                   <h5 className="mb-3"> اسم البنك</h5>
                   <input
                     // {...register("bankNameRequired", { required: true })}
-                    // onChange={(e) => {
-                    //   e.preventDefault();
-                    //   setBankName(e.target.value);
-                    // }}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      setBankName(e.target.value);
+                    }}
                     value={bankName}
                     type="text"
                     className="form-control"

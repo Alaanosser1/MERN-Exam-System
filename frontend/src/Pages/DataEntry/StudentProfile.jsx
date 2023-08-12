@@ -200,10 +200,10 @@ const StudentProfile = () => {
       });
   };
 
-  Font.register({
-    family: "NotoNaskhArabic",
-    src: "/Users/Nosser/Desktop/Exam-System/frontend/src/assets/NotoNaskhArabic-Regular.ttf",
-  });
+  // Font.register({
+  //   family: "NotoNaskhArabic",
+  //   src: `${process.env.REACT_APP_ARABIC_FONT}`,
+  // });
 
   const downloadStudentInfoPDF = (student) => {
     if (student.examinee_type === "ضابط") {
@@ -379,7 +379,7 @@ const StudentProfile = () => {
                     try {
                       return require(`${process.env.REACT_APP_STUDENT_IMAGE_PATH}/student${studentId}.png`);
                     } catch (error) {
-                      return require("/Users/Nosser/Desktop/Exam-System/frontend/src/profilePictures/defaultUser.avif");
+                      return require(`${process.env.REACT_APP_DEFAULT_PP}`);
                     }
                   })()}
                   alt={"لا يوجد صورة شخصية"}

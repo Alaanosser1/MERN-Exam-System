@@ -123,14 +123,14 @@ const Students = () => {
         </div>
 
         <div dir="rtl" className="row mt-1">
-          <div className="col-4 mb-2">
+          <div className="col-3 mb-2">
             <label htmlFor="">بحث</label>
             <StudentSearch
               content={students}
               setSearchResults={setSearchResults}
             />
           </div>
-          <div className="col-3">
+          <div className="col-4">
             <h2 className="mt-4">عدد الدارسين: {searchResults.length}</h2>
           </div>
           <div className="col-2 d-flex justify-content-end">

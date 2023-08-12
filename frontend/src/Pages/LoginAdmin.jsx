@@ -15,7 +15,7 @@ const LoginAdmin = () => {
     e.preventDefault();
     setLoadingSpinner(true);
     setTimeout(() => {}, 3000);
-
+console.log(process.env.REACT_APP_API_IP, "APIIP");
     axios
       .post(`http://${process.env.REACT_APP_API_IP}:4000/admin/adminLogin`, {
         policeNumber,
