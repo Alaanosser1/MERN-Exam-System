@@ -180,6 +180,7 @@ const AddExaminee = (props) => {
     setName(e.target.value);
     console.log(e.target.value);
   };
+
   const imageHandler = (e) => {
     e.preventDefault();
     const file = e.target.files[0];
@@ -198,6 +199,7 @@ const AddExaminee = (props) => {
     setDatePickerGraduationDate(date);
     console.log(graduationDate);
   };
+  
   const handleBirthDate = (birthDate, date) => {
     setBirthDate(birthDate);
     setDatePickerBirthDate(date);
