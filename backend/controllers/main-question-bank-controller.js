@@ -66,9 +66,10 @@ export const getMainQuestionBanks = async (req, res) => {
         .promise()
         .query(
           `SELECT COUNT(*) as count FROM question_bank WHERE main_question_bank_id 
-          = '${questionBanks[i].question_bank_id}' `
+          = '${questionBanks[i].main_question_bank_id}' `
         )
         .then((data) => {
+        console.log(data[0], "SADHAKDHSKAHDKSA");
           Object.assign(questionBanks[i], {
             NumberOfQuestionBanks: data[0][0].count,
           });

@@ -209,10 +209,7 @@ export default function MainQuestionBanks() {
                 الوصف
               </th>
               <th className="text-center" scope="col">
-                عدد الاسئلة
-              </th>
-              <th className="text-center" scope="col">
-                العمليات
+                عدد بنوك الاسئلة
               </th>
             </tr>
           </thead>
