@@ -294,9 +294,10 @@ export const editPoliceOfficer = async (req, res) => {
     .promise()
     .query(
       `SELECT * FROM examinee WHERE
-       examinee_seniority_number ='${examineeSeniorityNumber}'`
+      examinee_id = '${examineeId}'`
     )
     .then((data) => {
+      console.log(examineeSeniorityNumber);
       if (data.length > 0 && data[0][0].examinee_id == examineeId) {
         updatePoliceOfficer();
         console.log("inside available and examinee did not change code");
