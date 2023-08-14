@@ -199,7 +199,7 @@ const AddExaminee = (props) => {
     setDatePickerGraduationDate(date);
     console.log(graduationDate);
   };
-  
+
   const handleBirthDate = (birthDate, date) => {
     setBirthDate(birthDate);
     setDatePickerBirthDate(date);
@@ -298,6 +298,7 @@ const AddExaminee = (props) => {
                     <option selected disabled value={""}>
                       اختر الرتبة
                     </option>
+                    <option value={"طالب"}>طالب</option>
                     <option value={"ملازم"}>ملازم</option>
                     <option value={"ملازم اول"}>ملازم اول</option>
                     <option value={"نقيب"}>نقيب</option>
@@ -792,7 +793,12 @@ const AddExaminee = (props) => {
                     <option value={"مندوب شرطة"}>مندوب شرطة</option>
                     <option value={"امين شرطة"}>امين شرطة</option>
                     <option value={"امين شرطة اول"}>امين شرطة اول</option>
+                    <option value={"امين شرطة ثاني"}>امين شرطة ثاني</option>
+                    <option value={"امين شرطة ثالث"}>امين شرطة ثالث</option>
                     <option value={"امين شرطة ممتاز"}>امين شرطة ممتاز</option>
+                    <option value={" معاون امن اول"}>معاون امن اول</option>
+                    <option value={" معاون امن ثاني"}>معاون امن ثاني</option>
+                    <option value={" معاون امن ثالث"}>معاون امن ثالث</option>
                   </select>
                   {errors.officerRankRequired && (
                     <span className="text-danger">من فضلك اختر الدرجة*</span>

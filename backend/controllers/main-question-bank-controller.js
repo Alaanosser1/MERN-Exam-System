@@ -4,6 +4,7 @@ import Joi from "joi";
 
 const app = express();
 
+
 //Add new Instructor
 export const createMainQuestionBank = (req, res) => {
   const questionBankName = req.body.questionBankName;
@@ -69,7 +70,6 @@ export const getMainQuestionBanks = async (req, res) => {
           = '${questionBanks[i].main_question_bank_id}' `
         )
         .then((data) => {
-        console.log(data[0], "SADHAKDHSKAHDKSA");
           Object.assign(questionBanks[i], {
             NumberOfQuestionBanks: data[0][0].count,
           });
