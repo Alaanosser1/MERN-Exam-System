@@ -95,7 +95,7 @@ const Placement = () => {
           {console.log(placementId, "FROM PLACEMENT")}
         </Popup>
       </div>
-      <div className="container list-container mt-5">
+      <div className="container list-container">
         <div className="row" dir="rtl">
           <div className="col-9">
             <h1 className="mt-5">قياس المستوي</h1>
@@ -132,6 +132,7 @@ const Placement = () => {
               <th className="text-center" scope="col">
                 الوصف
               </th>
+              <th className="text-center" scope="col"></th>
             </tr>
           </thead>
           <tbody>

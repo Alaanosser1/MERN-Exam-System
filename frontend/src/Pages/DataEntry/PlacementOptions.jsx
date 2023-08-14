@@ -88,37 +88,34 @@ const PlacementOptions = (props) => {
     <>
       <div dir="rtl" className="container ">
         <h2 className="m-3 text-center text-primary">عناصر قياس المستوي</h2>
-        {Object.entries(placementOptions).map((option, index) => {
-          return (
-            <>
-              <div className="row">
-                <h5 className="mt-3">العنصر رقم {index + 1}</h5>
-                <div className="col-9 mt-1">
-                  <input
-                    type="text"
-                    autoFocus
-                    defaultValue={option[1].option_name}
-                    disabled
-                    className="form-control"
-                    id="exampleFormControlTextarea1"
-                    rows="3"
-                  />
-                </div>
-                <div className="col-2 mt-1">
-                  <button
-                    type="button"
-                    className="btn btn-outline-danger"
-                    onClick={() => {
-                      handleOptionRemove(option[1].placement_option_id);
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faMinus} />
-                  </button>
-                </div>
-              </div>
-            </>
-          );
-        })}
+        {Object.entries(placementOptions).map((option, index) => (
+          <div className="row" key={option[1].placement_option_id}>
+            <h5 className="mt-3">العنصر رقم {index + 1}</h5>
+            <div className="col-9 mt-1">
+              <input
+                type="text"
+                autoFocus
+                defaultValue={option[1].option_name}
+                disabled
+                className="form-control"
+                id="exampleFormControlTextarea1"
+                rows="3"
+              />
+            </div>
+            <div className="col-2 mt-1">
+              <button
+                type="button"
+                className="btn btn-outline-danger"
+                onClick={() => {
+                  handleOptionRemove(option[1].placement_option_id);
+                  console.log(option[1]);
+                }}
+              >
+                <FontAwesomeIcon icon={faMinus} />
+              </button>
+            </div>
+          </div>
+        ))}
         <hr className="mt-5" />
         <form onSubmit={handleOptionAdd}>
           <div className="row mt-2">

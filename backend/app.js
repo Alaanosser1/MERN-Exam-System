@@ -14,7 +14,7 @@ import subClubRoute from "./routes/sub-club-route.js";
 import dataEnrtyRouter from "./routes/data-entry-route.js";
 import adminRouter from "./routes/admin-route.js";
 import * as dotenv from "dotenv";
-dotenv.config({ path: "/Users/Nosser/Desktop/Exam-System/backend/.env" });
+dotenv.config({ path: ".env" });
 
 const app = express();
 

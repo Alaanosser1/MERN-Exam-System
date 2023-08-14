@@ -21,6 +21,9 @@ const StudentSearch = ({ content, setSearchResults }) => {
           .includes(e.target.value.toUpperCase()) ||
         value.examinee_seniority_number
           .toUpperCase()
+          .includes(e.target.value.toUpperCase()) ||
+        value.examinee_entity
+          .toUpperCase()
           .includes(e.target.value.toUpperCase())
     );
     console.log(e.target.value);

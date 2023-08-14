@@ -1,6 +1,6 @@
 import { createConnection } from "mysql2";
 import * as dotenv from "dotenv";
-dotenv.config({ path: "C:/Exam-System-aug/MERN-Exam-System/backend/.env" });
+dotenv.config({ path: ".env" });
 
 const connection = createConnection({
   host: "127.0.0.1",
