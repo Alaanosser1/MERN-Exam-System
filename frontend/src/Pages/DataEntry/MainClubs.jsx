@@ -82,12 +82,10 @@ const MainClubs = () => {
               <th className="text-center" scope="col">
                 الوصف
               </th>
-              <th className="text-center" scope="col">
-                رقم الفرقة
-              </th>
-              <th className="text-center" scope="col">
+              <th className="text-center " scope="col">
                 عدد الفرق
               </th>
+              <th className="text-center" scope="col"></th>
             </tr>
           </thead>
           <tbody>
@@ -98,22 +96,23 @@ const MainClubs = () => {
                   <td className="text-center">
                     {`${club[1].club_description.substring(0, 50)}..`}
                   </td>
-                  <td className="text-center">{club[1].club_number}</td>
-                  <td className="text-center">{club[1].number_of_sub_clubs}</td>
+                  <td className="text-center ps-5 pe-5">{club[1].number_of_sub_clubs}</td>
+                  <td className="text-center">
+                  <button
+                        onClick={() => {
+                          setEditMainClub(true);
+                          setClubId(club[1].club_id);
+                        }}
+                        className="btn btn-outline-success "
+                      >
+                        تعديل
+                      </button>
+                  </td>
                   {JSON.parse(localStorage.getItem("instructor-token")) && (
                     <td className="text-center">
                       <Link to={`/app/subClubs/${club[1].club_id}`}>
                         <button className="btn btn-outline-primary">عرض</button>
                       </Link>
-                      <button
-                        onClick={() => {
-                          setEditMainClub(true);
-                          setClubId(club[1].club_id);
-                        }}
-                        className="btn btn-outline-success me-3"
-                      >
-                        تعديل
-                      </button>
                     </td>
                   )}
                   {JSON.parse(localStorage.getItem("data-entry-token")) && (
@@ -121,15 +120,6 @@ const MainClubs = () => {
                       <Link to={`/clubs/subClubs/${club[1].club_id}`}>
                         <button className="btn btn-outline-primary">عرض</button>
                       </Link>
-                      <button
-                        onClick={() => {
-                          setEditMainClub(true);
-                          setClubId(club[1].club_id);
-                        }}
-                        className="btn btn-outline-success me-3"
-                      >
-                        تعديل
-                      </button>
                     </td>
                   )}
                   {JSON.parse(localStorage.getItem("admin-token")) && (
@@ -137,15 +127,6 @@ const MainClubs = () => {
                       <Link to={`/admin/subClubs/${club[1].club_id}`}>
                         <button className="btn btn-outline-primary">عرض</button>
                       </Link>
-                      <button
-                        onClick={() => {
-                          setEditMainClub(true);
-                          setClubId(club[1].club_id);
-                        }}
-                        className="btn btn-outline-success me-3"
-                      >
-                        تعديل
-                      </button>
                     </td>
                   )}
                 </tr>
