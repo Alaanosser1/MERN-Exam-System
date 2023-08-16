@@ -27,6 +27,11 @@ body {
   font-size: larger;
 }
 
+.list-container td {
+  font-size: 1rem;
+}
+
+
 .list-container-add-exam {
   background-color: #ffffff;
   /* border-radius: 10px;
