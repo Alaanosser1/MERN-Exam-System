@@ -7,10 +7,12 @@ import AddSubject from "../../components/AddSubject";
 import EditSubject from "../../components/EditSubject";
 import AddPlacement from "../../components/AddPlacement";
 import PlacementOptions from "./PlacementOptions";
+import StudentSearch from "./StudentsSearch";
 
 const Placement = () => {
   useEffect(() => {
     getPlacements();
+    getClubStudents();
   }, []);
 
   const [placements, setPlacements] = useState("");
@@ -18,6 +20,9 @@ const Placement = () => {
   const [addPlacement, setAddPlacement] = useState(false);
   const [placementOptions, setPlacementOptions] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
+  const [editPlacementGrades, setEditPlacementGrades] = useState(false);
+  const [students, setStudents] = useState("");
+
   const [editSubject, setEditSubject] = useState(false);
   const refOne = useRef(null);
   const { subClubId } = useParams();
@@ -74,14 +79,96 @@ const Placement = () => {
     });
   };
 
+  const getClubStudents = () => {
+    axios
+      .get(
+        `http://${process.env.REACT_APP_API_IP}:4000/subClub/getSubClubStudents`,
+        {
+          params: {
+            subClubId,
+          },
+          //   headers: {
+          //     "auth-token": user.token,
+          //   },
+        }
+      )
+      .then((res) => {
+        console.log(res.data.students, "STUDENTS");
+        setStudents(res.data.students);
+        setSearchResults(res.data.students);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
       <div ref={refOne}>
-        <Popup trigger={addPlacement} setTrigger={setAddPlacement}>
-          <AddPlacement
-            rerender={getPlacements}
-            hidePopup={setAddPlacement}
-          ></AddPlacement>
+        <Popup
+          trigger={editPlacementGrades}
+          setTrigger={setEditPlacementGrades}
+        >
+          <div className="container">
+            <table
+              dir="rtl"
+              className="table mt-2 table-striped border table-responsive-lg"
+              id="students-table"
+            >
+              <thead>
+                <tr>
+                  {/* <th scope="col">ID</th> */}
+                  <th className="text-center" scope="col">
+                    الكود
+                  </th>
+                  <th className="text-center" scope="col">
+                    الاسم
+                  </th>
+                  <th className="text-center" scope="col">
+                    الصفة
+                  </th>
+                  <th className="text-center" scope="col">
+                    الرتبة
+                  </th>
+                  <th className="text-center" scope="col">
+                    الرقم التعريفي
+                  </th>
+                  <th className="text-center" scope="col">
+                    الجهة التابع لها
+                  </th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.entries(searchResults).map((student) => {
+                  return (
+                    <tr scope="row" key={student[1].club_id}>
+                      <td className="text-center">{student[1].examinee_id}</td>
+                      <td className="text-center">
+                        {student[1].examinee_name}
+                      </td>
+                      <td className="text-center">
+                        {`${student[1].examinee_type}`}
+                      </td>
+                      <td className="text-center">
+                        {student[1].examinee_type == "مدني"
+                          ? `___`
+                          : `${student[1].examinee_rank}`}
+                      </td>
+                      <td className="text-center">
+                        {student[1].examinee_seniority_number ||
+                          student[1].examinee_police_number ||
+                          student[1].examinee_civilian_number}
+                      </td>
+                      <td className="text-center">
+                        {student[1].examinee_entity}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </Popup>
         {/* <Popup trigger={editSubject} setTrigger={setEditSubject}>
           <EditSubject
@@ -145,6 +232,15 @@ const Placement = () => {
                   </td>
                   <td className="text-center">
                     <button
+                      // onClick={() => {
+                      //   deletePlacement(placement[1].placement_id);
+                      // }}
+                      className="btn btn-outline-success m-2"
+                    >
+                      ادخال الدرجات
+                    </button>
+
+                    <button
                       onClick={() => {
                         setPlacementOptions(true);
                         setPlacementId(placement[1].placement_id);
@@ -153,6 +249,7 @@ const Placement = () => {
                     >
                       العناصر
                     </button>
+
                     <button
                       onClick={() => {
                         deletePlacement(placement[1].placement_id);

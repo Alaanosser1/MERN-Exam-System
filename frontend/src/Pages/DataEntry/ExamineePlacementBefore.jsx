@@ -59,6 +59,7 @@ const ExamineePlacementBefore = (props) => {
         console.log(error);
       });
   };
+
   const fillExamineePlacementData = () => {
     axios
       .post(
@@ -88,11 +89,13 @@ const ExamineePlacementBefore = (props) => {
     placementOptions[i].value_before = e.target.value;
     console.log(placementOptions);
   };
+
   const handleChangeValueAfter = (e, i) => {
     e.preventDefault();
     placementOptions[i].value_after = e.target.value;
     console.log(placementOptions);
   };
+
   return (
     <>
       <div dir="rtl" className="container">
@@ -110,7 +113,7 @@ const ExamineePlacementBefore = (props) => {
               <h4 className="mt-3  text-primary">{option[1].option_name}</h4>
               <div className="row mt-1">
                 <div className="col-6 mt-1">
-                  <h6 className="mt-1">قبل</h6>
+                  <h6 className="mt-1">بداية الفرقة </h6>
                   <input
                     type="text"
                     // defaultValue={option[1].option_name}
@@ -122,7 +125,7 @@ const ExamineePlacementBefore = (props) => {
                   />
                 </div>
                 <div className="col-6 mt-1">
-                  <h6 className="mt-1">بعد</h6>
+                  <h6 className="mt-1">نهاية الفرقة</h6>
                   <input
                     type="text"
                     // defaultValue={option[1].option_name}

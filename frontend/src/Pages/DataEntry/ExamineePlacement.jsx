@@ -45,7 +45,7 @@ const ExamineePlacement = (props) => {
                 page == 1 ? "btn-primary" : "btn-outline-primary"
               } `}
             >
-              قياس المستوي بعد
+              قياس المستوي نهاية الفرقة
             </button>
           </div>
           <div className="col-2 m-1">
@@ -55,7 +55,7 @@ const ExamineePlacement = (props) => {
                 page == 2 ? "btn-primary" : "btn-outline-primary"
               } `}
             >
-              قياس المستوي قبل
+              قياس المستوي بداية الفرقة
             </button>
           </div>
 
