@@ -55,7 +55,7 @@ const MainClubs = () => {
       <div className="container list-container">
         <div className="row" dir="rtl">
           <div className="col-9">
-            <h1 className="mt-5">الفرق التخصصية</h1>
+            <h2 className="mt-5">الفرق التخصصية</h2>
           </div>
           <div className="col-3">
             <button
@@ -92,38 +92,39 @@ const MainClubs = () => {
             {Object.entries(mainClubs).map((club) => {
               return (
                 <tr scope="row" key={club[1].club_id}>
-                  <td className="text-center">{club[1].club_name}</td>
-                  <td className="text-center">
+                  <td className="text-center ">{club[1].club_name}</td>
+                  <td className="text-center ">
                     {`${club[1].club_description.substring(0, 50)}..`}
                   </td>
                   <td className="text-center ps-5 pe-5">
                     {club[1].number_of_sub_clubs}
                   </td>
-                  <td className="text-center">
+                  <td className="text-center col-2">
+                    
+                    {JSON.parse(localStorage.getItem("instructor-token")) && (
+                      <Link to={`/app/subClubs/${club[1].club_id}`}>
+                        <button className="btn ms-2 btn-outline-primary">عرض</button>
+                      </Link>
+                    )}
+                    {JSON.parse(localStorage.getItem("data-entry-token")) && (
+                      <Link to={`/clubs/subClubs/${club[1].club_id}`}>
+                        <button className="btn ms-2 btn-outline-primary">عرض</button>
+                      </Link>
+                    )}
+                    {JSON.parse(localStorage.getItem("admin-token")) && (
+                      <Link to={`/admin/subClubs/${club[1].club_id}`}>
+                        <button className="btn ms-2 btn-outline-primary">عرض</button>
+                      </Link>
+                    )}
                     <button
                       onClick={() => {
                         setEditMainClub(true);
                         setClubId(club[1].club_id);
                       }}
-                      className="btn ms-3 btn-outline-success "
+                      className="btn btn-outline-success "
                     >
                       تعديل
                     </button>
-                    {JSON.parse(localStorage.getItem("instructor-token")) && (
-                      <Link to={`/app/subClubs/${club[1].club_id}`}>
-                        <button className="btn btn-outline-primary">عرض</button>
-                      </Link>
-                    )}
-                    {JSON.parse(localStorage.getItem("data-entry-token")) && (
-                      <Link to={`/clubs/subClubs/${club[1].club_id}`}>
-                        <button className="btn btn-outline-primary">عرض</button>
-                      </Link>
-                    )}
-                    {JSON.parse(localStorage.getItem("admin-token")) && (
-                      <Link to={`/admin/subClubs/${club[1].club_id}`}>
-                        <button className="btn btn-outline-primary">عرض</button>
-                      </Link>
-                    )}
                   </td>
                 </tr>
               );
