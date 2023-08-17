@@ -796,9 +796,10 @@ const AddExaminee = (props) => {
                     <option value={"امين شرطة ثاني"}>امين شرطة ثاني</option>
                     <option value={"امين شرطة ثالث"}>امين شرطة ثالث</option>
                     <option value={"امين شرطة ممتاز"}>امين شرطة ممتاز</option>
-                    <option value={" معاون امن اول"}>معاون امن اول</option>
-                    <option value={" معاون امن ثاني"}>معاون امن ثاني</option>
-                    <option value={" معاون امن ثالث"}>معاون امن ثالث</option>
+                    <option value={"معاون امن اول"}>معاون امن اول</option>
+                    <option value={"معاون امن ثاني"}>معاون امن ثاني</option>
+                    <option value={"معاون امن ثالث"}>معاون امن ثالث</option>
+                    <option value={"شرطي"}>شرطي</option>
                   </select>
                   {errors.officerRankRequired && (
                     <span className="text-danger">من فضلك اختر الدرجة*</span>
