@@ -61,13 +61,13 @@ const MainClubExams = () => {
             {Object.entries(mainClubs).map((club) => {
               return (
                 <tr scope="row" key={club[1].club_id}>
-                  <td className="text-center">{club[1].club_name}</td>
-                  <td className="text-center">
+                  <td className="text-center col-3">{club[1].club_name}</td>
+                  <td className="text-center col-3">
                     {`${club[1].club_description.substring(0, 50)}..`}
                   </td>
-                  <td className="text-center">{club[1].number_of_sub_clubs}</td>
+                  <td className="text-center col-1">{club[1].number_of_sub_clubs}</td>
                   {JSON.parse(localStorage.getItem("instructor-token")) && (
-                    <td className="text-center">
+                    <td className="text-center col-2">
                       <Link to={`/app/mainClubExams/${club[1].club_id}`}>
                         <button className="btn btn-outline-primary">
                           عرض الفرق
@@ -76,19 +76,19 @@ const MainClubExams = () => {
                     </td>
                   )}
                   {JSON.parse(localStorage.getItem("data-entry-token")) && (
-                    <td className="text-center">
+                    <td className="text-center col-2">
                       <Link to={`/clubs/mainClubExams/${club[1].club_id}`}>
                         <button className="btn btn-outline-primary">
-                          عرض الفرق
+                        عرض الفرق
                         </button>
                       </Link>
                     </td>
                   )}
                   {JSON.parse(localStorage.getItem("admin-token")) && (
-                    <td className="text-center">
+                    <td className="text-center col-2">
                       <Link to={`/admin/mainClubExams/${club[1].club_id}`}>
                         <button className="btn btn-outline-primary">
-                          عرض الفرق
+                        عرض الفرق
                         </button>
                       </Link>
                     </td>

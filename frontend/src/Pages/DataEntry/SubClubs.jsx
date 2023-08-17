@@ -94,9 +94,9 @@ const SubClubs = () => {
       <div className="container list-container">
         <div className="row" dir="rtl">
           <div className="col-6">
-            <h1 className="mt-5">فرق {`(${mainClub.club_name})`}</h1>
+            <h3 className="mt-5">فرق {`(${mainClub.club_name})`}</h3>
           </div>
-          <div className="col-3">
+          <div className="col-3 text-start">
             <button
               id="export-button"
               onClick={() => {
@@ -107,7 +107,7 @@ const SubClubs = () => {
               استخراج الي اكسيل
             </button>
           </div>
-          <div className="col-3">
+          <div className="col-3 text-start">
             <button
               onClick={() => {
                 setAddSubClub(true);
@@ -121,7 +121,7 @@ const SubClubs = () => {
 
         <table
           dir="rtl"
-          className="table mt-5 table-striped border table-responsive-lg"
+          className="table mt-2 table-striped border table-responsive-lg"
           id="students-table"
         >
           <thead>
