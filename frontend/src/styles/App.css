@@ -30,7 +30,9 @@ body {
 .list-container td {
   font-size: 1rem;
 }
-
+.list-container td input {
+  width: 60px;
+}
 
 .list-container-add-exam {
   background-color: #ffffff;

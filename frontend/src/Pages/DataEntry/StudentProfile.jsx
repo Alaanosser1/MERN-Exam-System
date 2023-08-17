@@ -272,6 +272,10 @@ const StudentProfile = () => {
           <p style = "margin = 2px">  العمل الذي مارس منذ التخرج: ${
             student.examinee_previous_work_places
           }</p>
+          <br>
+          <p style = "margin = 2px"> رقم التليفون: ${
+            student.examinee_mobile_number
+          }</p>
         </div>
       </div>`;
     }
@@ -482,6 +486,11 @@ const StudentProfile = () => {
                       <h4>
                         العمل الذي مارس منذ التخرج :{" "}
                         {student[0].examinee_previous_work_places}
+                      </h4>
+                    </div>
+                    <div className="row mt-5">
+                      <h4>
+                        رقم التليفون : {student[0].examinee_mobile_number}
                       </h4>
                     </div>
                   </div>

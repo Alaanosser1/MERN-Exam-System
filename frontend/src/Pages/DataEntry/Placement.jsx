@@ -25,7 +25,7 @@ const Placement = () => {
 
   const [editSubject, setEditSubject] = useState(false);
   const refOne = useRef(null);
-  const { subClubId } = useParams();
+  const { subClubId, mainClubId } = useParams();
 
   const getPlacements = () => {
     axios
@@ -105,78 +105,12 @@ const Placement = () => {
   return (
     <>
       <div ref={refOne}>
-        <Popup
-          trigger={editPlacementGrades}
-          setTrigger={setEditPlacementGrades}
-        >
-          <div className="container">
-            <table
-              dir="rtl"
-              className="table mt-2 table-striped border table-responsive-lg"
-              id="students-table"
-            >
-              <thead>
-                <tr>
-                  {/* <th scope="col">ID</th> */}
-                  <th className="text-center" scope="col">
-                    الكود
-                  </th>
-                  <th className="text-center" scope="col">
-                    الاسم
-                  </th>
-                  <th className="text-center" scope="col">
-                    الصفة
-                  </th>
-                  <th className="text-center" scope="col">
-                    الرتبة
-                  </th>
-                  <th className="text-center" scope="col">
-                    الرقم التعريفي
-                  </th>
-                  <th className="text-center" scope="col">
-                    الجهة التابع لها
-                  </th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {Object.entries(searchResults).map((student) => {
-                  return (
-                    <tr scope="row" key={student[1].club_id}>
-                      <td className="text-center">{student[1].examinee_id}</td>
-                      <td className="text-center">
-                        {student[1].examinee_name}
-                      </td>
-                      <td className="text-center">
-                        {`${student[1].examinee_type}`}
-                      </td>
-                      <td className="text-center">
-                        {student[1].examinee_type == "مدني"
-                          ? `___`
-                          : `${student[1].examinee_rank}`}
-                      </td>
-                      <td className="text-center">
-                        {student[1].examinee_seniority_number ||
-                          student[1].examinee_police_number ||
-                          student[1].examinee_civilian_number}
-                      </td>
-                      <td className="text-center">
-                        {student[1].examinee_entity}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+        <Popup trigger={addPlacement} setTrigger={setAddPlacement}>
+          <AddPlacement
+            rerender={getPlacements}
+            hidePopup={setAddPlacement}
+          ></AddPlacement>
         </Popup>
-        {/* <Popup trigger={editSubject} setTrigger={setEditSubject}>
-          <EditSubject
-            rerender={getSubjects}
-            hidePopup={setEditSubject}
-            subjectId={subjectId}
-          ></EditSubject>
-        </Popup> */}
         <Popup trigger={placementOptions} setTrigger={setPlacementOptions}>
           <PlacementOptions placementId={placementId} />
           {console.log(placementId, "FROM PLACEMENT")}
@@ -231,14 +165,16 @@ const Placement = () => {
                     {`${placement[1].placement_description}`}
                   </td>
                   <td className="text-center">
-                    <button
-                      // onClick={() => {
-                      //   deletePlacement(placement[1].placement_id);
-                      // }}
-                      className="btn btn-outline-success m-2"
-                    >
-                      ادخال الدرجات
-                    </button>
+                    <Link to={`${placement[1].placement_id}`}>
+                      <button
+                        onClick={() => {
+                          setEditPlacementGrades(true);
+                        }}
+                        className="btn btn-outline-success m-2"
+                      >
+                        ادخال الدرجات
+                      </button>
+                    </Link>
 
                     <button
                       onClick={() => {

@@ -30,6 +30,7 @@ import ExamReportDetails from "./Pages/ExamReportDetails";
 import InstructorSignUp from "./Pages/InstructorSignUp";
 import AdminSideBar from "./components/AdminSideBar";
 import AllInstructors from "./Pages/AllInstructors";
+import EnterPlacementGrades from "./Pages/DataEntry/EnterPlacementGrades";
 
 function Admin() {
   console.log(window.location);
@@ -87,6 +88,10 @@ function Admin() {
               <Route
                 path="/subClubs/:mainClubId/:subClubId"
                 element={<SubClubDashboard />}
+              />
+              <Route
+                path="/subClubs/:mainClubId/:subClubId/:placementId"
+                element={<EnterPlacementGrades />}
               />
               <Route path="/students" element={<Students />} />
               <Route
