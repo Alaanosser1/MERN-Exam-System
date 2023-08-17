@@ -7,10 +7,12 @@ import AddSubject from "../../components/AddSubject";
 import EditSubject from "../../components/EditSubject";
 import AddPlacement from "../../components/AddPlacement";
 import PlacementOptions from "./PlacementOptions";
+import StudentSearch from "./StudentsSearch";
 
 const Placement = () => {
   useEffect(() => {
     getPlacements();
+    getClubStudents();
   }, []);
 
   const [placements, setPlacements] = useState("");
@@ -18,9 +20,12 @@ const Placement = () => {
   const [addPlacement, setAddPlacement] = useState(false);
   const [placementOptions, setPlacementOptions] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
+  const [editPlacementGrades, setEditPlacementGrades] = useState(false);
+  const [students, setStudents] = useState("");
+
   const [editSubject, setEditSubject] = useState(false);
   const refOne = useRef(null);
-  const { subClubId } = useParams();
+  const { subClubId, mainClubId } = useParams();
 
   const getPlacements = () => {
     axios
@@ -74,6 +79,29 @@ const Placement = () => {
     });
   };
 
+  const getClubStudents = () => {
+    axios
+      .get(
+        `http://${process.env.REACT_APP_API_IP}:4000/subClub/getSubClubStudents`,
+        {
+          params: {
+            subClubId,
+          },
+          //   headers: {
+          //     "auth-token": user.token,
+          //   },
+        }
+      )
+      .then((res) => {
+        console.log(res.data.students, "STUDENTS");
+        setStudents(res.data.students);
+        setSearchResults(res.data.students);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
       <div ref={refOne}>
@@ -83,13 +111,6 @@ const Placement = () => {
             hidePopup={setAddPlacement}
           ></AddPlacement>
         </Popup>
-        {/* <Popup trigger={editSubject} setTrigger={setEditSubject}>
-          <EditSubject
-            rerender={getSubjects}
-            hidePopup={setEditSubject}
-            subjectId={subjectId}
-          ></EditSubject>
-        </Popup> */}
         <Popup trigger={placementOptions} setTrigger={setPlacementOptions}>
           <PlacementOptions placementId={placementId} />
           {console.log(placementId, "FROM PLACEMENT")}
@@ -144,6 +165,17 @@ const Placement = () => {
                     {`${placement[1].placement_description}`}
                   </td>
                   <td className="text-center">
+                    <Link to={`${placement[1].placement_id}`}>
+                      <button
+                        onClick={() => {
+                          setEditPlacementGrades(true);
+                        }}
+                        className="btn btn-outline-success m-2"
+                      >
+                        ادخال الدرجات
+                      </button>
+                    </Link>
+
                     <button
                       onClick={() => {
                         setPlacementOptions(true);
@@ -153,6 +185,7 @@ const Placement = () => {
                     >
                       العناصر
                     </button>
+
                     <button
                       onClick={() => {
                         deletePlacement(placement[1].placement_id);

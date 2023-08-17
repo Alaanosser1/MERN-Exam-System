@@ -102,7 +102,7 @@ const PlacementOptions = (props) => {
                 rows="3"
               />
             </div>
-            <div className="col-2 mt-1">
+            <div className="col-1 mt-1">
               <button
                 type="button"
                 className="btn btn-outline-danger"
