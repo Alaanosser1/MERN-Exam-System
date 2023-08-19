@@ -121,7 +121,7 @@ const Students = () => {
           </div> */}
           </div>
         </div>
-
+        <hr />
         <div dir="rtl" className="row mt-1">
           <div className="col-3 mb-2">
             <label htmlFor="">بحث</label>
@@ -130,8 +130,10 @@ const Students = () => {
               setSearchResults={setSearchResults}
             />
           </div>
-          <div className="col-4">
-            <h2 className="mt-4">عدد الدارسين: {searchResults.length}</h2>
+          <div className="col-4 ">
+            <h2 className="mt-4 text-end">
+              عدد الدارسين: {searchResults.length}
+            </h2>
           </div>
           <div className="col-2 d-flex justify-content-end">
             <button
@@ -144,7 +146,7 @@ const Students = () => {
               استخراج الي اكسيل
             </button>
           </div>
-          <div className="col-2 d-flex justify-content-end">
+          <div className="col-3 d-flex justify-content-end">
             <button
               onClick={() => {
                 setAddStudent(true);
@@ -164,22 +166,22 @@ const Students = () => {
           <thead>
             <tr>
               {/* <th scope="col">ID</th> */}
-              <th className="text-center" scope="col">
+              <th className="" scope="col">
                 الكود
               </th>
-              <th className="text-center" scope="col">
+              <th className="" scope="col">
                 الاسم
               </th>
-              <th className="text-center" scope="col">
+              <th className="" scope="col">
                 الصفة
               </th>
-              <th className="text-center" scope="col">
+              <th className="" scope="col">
                 الرتبة
               </th>
-              <th className="text-center" scope="col">
+              <th className="" scope="col">
                 الرقم التعريفي
               </th>
-              <th className="text-center" scope="col">
+              <th className="" scope="col">
                 الجهة التابع لها
               </th>
               <th></th>
@@ -190,24 +192,20 @@ const Students = () => {
               if (student[1].examinee_type === "ضابط" && page === 2) {
                 return (
                   <tr scope="row" key={student[1].club_id}>
-                    <td className="text-center">{student[1].examinee_id}</td>
-                    <td className="text-center">{student[1].examinee_name}</td>
-                    <td className="text-center">
-                      {`${student[1].examinee_type}`}
-                    </td>
-                    <td className="text-center">
+                    <td className="">{student[1].examinee_id}</td>
+                    <td className="">{student[1].examinee_name}</td>
+                    <td className="">{`${student[1].examinee_type}`}</td>
+                    <td className="">
                       {student[1].examinee_type == "مدني"
                         ? `___`
                         : `${student[1].examinee_rank}`}
                     </td>
-                    <td className="text-center">
+                    <td className="">
                       {student[1].examinee_seniority_number ||
                         student[1].examinee_police_number ||
                         student[1].examinee_civilian_number}
                     </td>
-                    <td className="text-center">
-                      {student[1].examinee_entity}
-                    </td>
+                    <td className="">{student[1].examinee_entity}</td>
                     {JSON.parse(localStorage.getItem("data-entry-token")) && (
                       <td className="text-center" id="operations-buttons">
                         <Link to={`/clubs/students/${student[1].examinee_id}`}>
