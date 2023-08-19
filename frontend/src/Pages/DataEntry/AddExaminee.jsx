@@ -800,6 +800,7 @@ const AddExaminee = (props) => {
                     <option value={"معاون امن ثاني"}>معاون امن ثاني</option>
                     <option value={"معاون امن ثالث"}>معاون امن ثالث</option>
                     <option value={"شرطي"}>شرطي</option>
+                    <option value={"خفير"}>خفير</option>
                   </select>
                   {errors.officerRankRequired && (
                     <span className="text-danger">من فضلك اختر الدرجة*</span>
