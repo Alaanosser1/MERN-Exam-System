@@ -10,6 +10,7 @@ const EnterPlacementGrades = () => {
 
   const [searchResults, setSearchResults] = useState([]);
   const [placement, setPlacements] = useState([]);
+  const [inputActivity, setInputActivity] = useState(true);
   const { subClubId, placementId } = useParams();
 
   const getPlacement = () => {
@@ -55,6 +56,26 @@ const EnterPlacementGrades = () => {
       });
   };
 
+  const toggleInputActivity = (studentId) => {
+    setInputActivity((prevActivity) => ({
+      ...prevActivity,
+      [studentId]: !prevActivity[studentId],
+    }));
+  };
+
+  const enableAllInputs = () => {
+    // Create a copy of the inputActivity state
+    const updatedInputActivity = { ...inputActivity };
+
+    // Enable all inputs for each student
+    Object.keys(updatedInputActivity).forEach((studentId) => {
+      updatedInputActivity[studentId] = true;
+    });
+
+    // Update the state
+    setInputActivity(updatedInputActivity);
+  };
+
   return (
     <>
       <div className="container list-container">
@@ -63,6 +84,7 @@ const EnterPlacementGrades = () => {
             <h2 className="text-center">{placement[0].placement_name}</h2>
           </div>
         )}
+
         <table
           dir="rtl"
           className="table mt-2 table-striped border table-responsive-lg"
@@ -83,10 +105,19 @@ const EnterPlacementGrades = () => {
               <th className="text-center" scope="col">
                 الرقم التعريفي
               </th>
+              <th className="text-center" scope="col">
+                <button
+                  onClick={enableAllInputs}
+                  className="btn btn-outline-success me-4"
+                >
+                  تمكين الكل
+                </button>
+              </th>
             </tr>
           </thead>
           <tbody>
             {Object.entries(searchResults).map((student) => {
+              const studentId = student[1].examinee_id;
               return (
                 <tr scope="row" key={student[1].club_id}>
                   <td className="text-center">{student[1].examinee_id}</td>
@@ -103,14 +134,33 @@ const EnterPlacementGrades = () => {
                   </td>
                   <td className="text-center">
                     <label>قبل</label>
-                    <input className="ms-2 me-2" type="number" min={0}></input>
+                    <input
+                      disabled={!inputActivity[studentId]}
+                      className="ms-2 me-2"
+                      type="number"
+                      min={0}
+                    />
                     <label>بعد</label>
-                    <input className="ms-2 me-2" type="number" min={0}></input>
-                    <button className="btn btn-outline-primary me-4">
-                      تعديل
-                    </button>
-                    <button className="btn btn-outline-success me-2">
-                      حفظ
+                    <input
+                      disabled={!inputActivity[studentId]}
+                      className="ms-2 me-2"
+                      type="number"
+                      min={0}
+                    />
+                    <button
+                      onClick={() =>
+                        setInputActivity((prevState) => ({
+                          ...prevState,
+                          [studentId]: !prevState[studentId],
+                        }))
+                      }
+                      className={`btn ${
+                        inputActivity[studentId]
+                          ? "btn-outline-success"
+                          : "btn-outline-primary"
+                      } me-4`}
+                    >
+                      {inputActivity[studentId] ? "حفظ" : "تعديل"}
                     </button>
                   </td>
                 </tr>

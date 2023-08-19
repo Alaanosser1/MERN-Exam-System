@@ -17,6 +17,7 @@ export const addExaminee = async (req, res, next) => {
   const examineeCivilianNumber = req.body.codeNumber;
   const examineeRank = req.body.rank;
   const examineeEntity = req.body.entity;
+  const examineeEntityType = req.body.entityType;
   const mainClubId = req.body.mainClubId;
   const subClubId = req.body.subClubId;
   const listNumber = req.body.listNumber;
@@ -165,7 +166,7 @@ export const addExaminee = async (req, res, next) => {
       .query(
         `INSERT INTO examinee(examinee_name, examinee_type,
            examinee_rank, examinee_police_number, examinee_civilian_number,
-           examinee_entity, examinee_list_number, examinee_seniority_number,
+           examinee_entity, examinee_entity_type, examinee_list_number, examinee_seniority_number,
            examinee_mobile_number, examinee_mobile_number2, examinee_password, examinee_car_type,
            examinee_car_number, examinee_graduation_date, examinee_birth_date,
            examinee_address_inside_cairo, examinee_address_outside_cairo, examinee_religion,
@@ -173,7 +174,7 @@ export const addExaminee = async (req, res, next) => {
            examinee_previous_work_places)
             VALUES('${examineeName}','${examineeType}',
             '${examineeRank}','${examineePoliceNumber}',
-            '${examineeCivilianNumber}','${examineeEntity}',
+            '${examineeCivilianNumber}','${examineeEntity}', '${examineeEntityType}',
             '${listNumber}','${examineeSeniorityNumber}', '${mobileNumber}', '${mobileNumber2}',
              'hemaya@2023', '${carType}', '${carNumber}', '${graduationDate}',
               '${birthDate}', '${addressInside}', '${addressOutside}', '${religion}',
@@ -223,6 +224,7 @@ export const editPoliceOfficer = async (req, res) => {
   const examineeCivilianNumber = req.body.codeNumber;
   const examineeRank = req.body.rank;
   const examineeEntity = req.body.entity;
+  const examineeEntityType = req.body.entityType;
   const mobileNumber = req.body.mobileNumber;
   const mobileNumber2 = req.body.mobileNumber2;
   const carType = req.body.carType;
@@ -249,6 +251,7 @@ export const editPoliceOfficer = async (req, res) => {
         examinee_type = '${examineeType}',
         examinee_rank = '${examineeRank}',
         examinee_entity = '${examineeEntity}',
+        examinee_entity_type = '${examineeEntityType}',
         examinee_graduation_date = '${graduationDate}',
         examinee_birth_date = '${birthDate}',
         examinee_religion = '${religion}',
