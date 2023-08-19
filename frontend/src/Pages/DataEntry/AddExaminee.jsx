@@ -987,21 +987,206 @@ const AddExaminee = (props) => {
               <div className="row p-2">
                 <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">جهة العمل الحالية</h5>
-                  <input
+                  <select
                     {...register("entityRequired", { required: true })}
                     onChange={(e) => {
                       e.preventDefault();
                       setEntity(e.target.value);
                     }}
-                    value={entity}
-                    type="text"
+                    id="inputState"
                     className="form-control"
-                  />
+                  >
+                    <option selected disabled value={""}>
+                      اختر جهة العمل
+                    </option>
+                    <option value={"قطاع الأمن المركزى"}>
+                      قطاع الأمن المركزى
+                    </option>
+                    <option value={"قطاع الأحوال المدنية"}>
+                      قطاع الأحوال المدنية
+                    </option>
+                    <option value={"قطاع الحماية المجتمعية"}>
+                      قطاع الحماية المجتمعية
+                    </option>
+                    <option value={"الادارة العامة للتدريب"}>
+                      الادارة العامة للتدريب
+                    </option>
+                    <option value={"أكاديمية الشرطة"}>أكاديمية الشرطة</option>
+                    <option value={"ا.ع لمعاهد معاوني الأمن"}>
+                      ا.ع لمعاهد معاوني الأمن
+                    </option>
+                    <option value={"ا.ع للمرور"}>ا.ع للمرور</option>
+                    <option value={"ا.ع للأسلحة والذخيرة"}>
+                      ا.ع للأسلحة والذخيرة
+                    </option>
+                    <option value={"ا.ع لتصاريح العمل"}>
+                      ا.ع لتصاريح العمل
+                    </option>
+                    <option value={"ا.ع لأمن المواني"}>ا.ع لأمن المواني</option>
+                    <option value={"ا.ع لإتصالات الشرطة"}>
+                      ا.ع لإتصالات الشرطة
+                    </option>
+                    <option value={"ا.ع لتأمين محور قناة السويس"}>
+                      ا.ع لتأمين محور قناة السويس
+                    </option>
+                    <option value={"ا.ع لشرطة الكهرباء"}>
+                      ا.ع لشرطة الكهرباء
+                    </option>
+                    <option value={"ا.ع لتدريب قوات الأمن"}>
+                      ا.ع لتدريب قوات الأمن
+                    </option>
+                    <option value={"ا.ع للحماية المدنية"}>
+                      ا.ع للحماية المدنية
+                    </option>
+                    <option value={"ا.ع لنظم ومعلومات المرور"}>
+                      ا.ع لنظم ومعلومات المرور
+                    </option>
+                    <option value={"ا.ع للجوازات والهجرة والجنسية"}>
+                      ا.ع للجوازات والهجرة والجنسية
+                    </option>
+                    <option value={"ا.ع لأندية وفنادق الشرطة"}>
+                      ا.ع لأندية وفنادق الشرطة
+                    </option>
+                    <option value={"ا.ع للشئون الادارية"}>
+                      ا.ع للشئون الادارية
+                    </option>
+                    <option value={"ا.ع لشرطة النقل والمواصلات"}>
+                      ا.ع لشرطة النقل والمواصلات
+                    </option>
+                    <option value={"ا.ع لمكافحة المخدرات"}>
+                      ا.ع لمكافحة المخدرات
+                    </option>
+                    <option value={"ا.ع لشئون المجندين"}>
+                      ا.ع لشئون المجندين
+                    </option>
+                    <option value={"ا.ع لامداد الشرطة"}>
+                      ا.ع لامداد الشرطة
+                    </option>
+                    <option value={" ا.ع لمركبات الشرطة"}>
+                      {" "}
+                      ا.ع لمركبات الشرطة
+                    </option>
+                    <option value={"ا.ع لميناء القاهرة الجوي"}>
+                      ا.ع لميناء القاهرة الجوي
+                    </option>
+                    <option value={"ا.ع لشرطة ميناء الإسكندرية البحري"}>
+                      ا.ع لشرطة ميناء الإسكندرية البحري
+                    </option>
+                    <option value={"ا.ع لشرطة الحراسات الخاصة"}>
+                      ا.ع لشرطة الحراسات الخاصة
+                    </option>
+                    <option value={"قطاع السياحة والآثار"}>
+                      قطاع السياحة والآثار
+                    </option>
+                    <option value={"قطاع الخدمات الطبية"}>
+                      قطاع الخدمات الطبية
+                    </option>
+                    <option value={"قطاع الأفراد"}>قطاع الأفراد</option>
+                    <option value={"ا.ع لشرطة البيئة والمسطحات"}>
+                      ا. ع لشرطة البيئة والمسطحات
+                    </option>
+                    <option value={"ا.ع لإتحاد الشرطة الرياضي"}>
+                      ا. ع لإتحاد الشرطة الرياضي
+                    </option>
+                    <option value={"ا.ع لشئون الأمانة العامة"}>
+                      ا. ع لشئون الأمانة العامة
+                    </option>
+                    <option value={"قطاع الأمن العام"}>قطاع الأمن العام</option>
+                    <option value={"ا.ع لنظم معلومات المرور"}>
+                      ا. ع لنظم معلومات المرور
+                    </option>
+                    <option value={"قطاع أمن القاهرة"}>قطاع أمن القاهرة</option>
+                    <option value={"قطاع أمن الجيزة"}>قطاع أمن الجيزة</option>
+                    <option value={"مديرية أمن الشرقية"}>
+                      مديرية أمن الشرقية
+                    </option>
+                    <option value={"مديرية أمن القليوبية"}>
+                      مديرية أمن القليوبية
+                    </option>
+                    <option value={"مديرية أمن الغربية"}>
+                      مديرية أمن الغربية
+                    </option>
+                    <option value={"مديرية أمن البحيرة"}>
+                      مديرية أمن البحيرة
+                    </option>
+                    <option value={"مديرية أمن الاسكندرية"}>
+                      مديرية أمن الاسكندرية
+                    </option>
+                    <option value={"مديرية أمن كفر الشيخ"}>
+                      مديرية أمن كفر الشيخ
+                    </option>
+                    <option value={"مديرية أمن مطروح"}>مديرية أمن مطروح</option>
+                    <option value={"مديرية أمن دمياط"}>مديرية أمن دمياط</option>
+                    <option value={"مديرية أمن المنوفية"}>
+                      مديرية أمن المنوفية
+                    </option>
+                    <option value={"مديرية أمن الدقهلية"}>
+                      مديرية أمن الدقهلية
+                    </option>
+                    <option value={"مديرية أمن بورسعيد"}>
+                      مديرية أمن بورسعيد
+                    </option>
+                    <option value={"مديرية أمن الاسماعيلية"}>
+                      مديرية أمن الاسماعيلية
+                    </option>
+                    <option value={"مديرية أمن السويس"}>
+                      مديرية أمن السويس
+                    </option>
+                    <option value={"مديرية أمن شمال سيناء"}>
+                      مديرية أمن شمال سيناء
+                    </option>
+                    <option value={"مديرية أمن جنوب سيناء"}>
+                      مديرية أمن جنوب سيناء
+                    </option>
+                    <option value={"مديرية أمن البحر الأحمر"}>
+                      مديرية أمن البحر الأحمر
+                    </option>
+                    <option value={"مديرية أمن الفيوم"}>
+                      مديرية أمن الفيوم
+                    </option>
+                    <option value={"مديرية أمن بني سويف"}>
+                      مديرية أمن بني سويف
+                    </option>
+                    <option value={"مديرية أمن المنيا"}>
+                      مديرية أمن المنيا
+                    </option>
+                    <option value={"مديرية أمن أسيوط"}>مديرية أمن أسيوط</option>
+                    <option value={"مديرية أمن سوهاج"}>مديرية أمن سوهاج</option>
+                    <option value={"مديرية أمن قنا"}>مديرية أمن قنا</option>
+                    <option value={"مديرية أمن الأقصر"}>
+                      مديرية أمن الأقصر
+                    </option>
+                    <option value={"مديرية أمن أسوان"}>مديرية أمن أسوان</option>
+                    <option value={"مديرية أمن الوادي الجديد"}>
+                      مديرية أمن الوادي الجديد
+                    </option>
+                  </select>
                   {errors.entityRequired && (
                     <span className="text-danger">
-                      من فضلك ادخل جهة العمل الحالية*
+                      من فضلك اختر جهة العمل الحالية*
                     </span>
                   )}
+                </div>
+                <div className="form-group col-md-4 p-2">
+                  <h5 className="mb-3">نوع جهة العمل</h5>
+                  <input
+                    // {...register("mobileNumberRequired", {
+                    //   required: true,
+                    // })}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      setEntityType(e.target.value);
+                    }}
+                    type="text"
+                    value={entityType}
+                    className="form-control"
+                    id="inputPassword4"
+                  />
+                  {/* {errors.mobileNumberRequired && (
+                    <span className="text-danger">
+                      من فضلك ادخل رقم المحمول*
+                    </span>
+                  )} */}
                 </div>
                 <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3"> رقم المحمول ١</h5>
@@ -1025,6 +1210,8 @@ const AddExaminee = (props) => {
                     </span>
                   )} */}
                 </div>
+              </div>
+              <div className="row p-2">
                 <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">رقم المحمول ٢</h5>
                   <input
@@ -1047,44 +1234,7 @@ const AddExaminee = (props) => {
                     </span>
                   )} */}
                 </div>
-              </div>
-              <div className="row p-2">
-                <div className="form-group col-md-4 p-2">
-                  {/* <h5 className="mb-3">العنوان</h5>
-                  <input
-                    {...register("religionRequired", { required: true })}
-                    onChange={(e) => {
-                      e.preventDefault();
-                      setReligion(e.target.value);
-                    }}
-                    value={religion}
-                    type="text"
-                    className="form-control"
-                    id="inputEmail4"
-                  />
-                  {errors.religionRequired && (
-                    <span className="text-danger">من فضلك ادخل الاسم*</span>
-                  )} */}
-                  <h5 className="mb-3">الديانة</h5>
-                  <select
-                    {...register("religionRequired", { required: true })}
-                    onChange={(e) => {
-                      e.preventDefault();
-                      setReligion(e.target.value);
-                    }}
-                    id="inputState"
-                    className="form-control"
-                  >
-                    <option selected disabled value={""}>
-                      الديانة
-                    </option>
-                    <option value={"مسلم"}> مسلم</option>
-                    <option value={"مسيحي"}> مسيحي</option>
-                  </select>
-                  {errors.religionRequired && (
-                    <span className="text-danger">من فضلك اختر الديانة*</span>
-                  )}
-                </div>
+
                 <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">تاريخ الميلاد</h5>
                   <DatePicker
@@ -1105,28 +1255,6 @@ const AddExaminee = (props) => {
                     </span>
                   )} */}
                 </div>
-
-                {/* <div className="form-group col-md-4 p-2">
-                  <h5 className="mb-3">العنوان</h5>
-                  <select
-                    {...register("addressRequired", { required: true })}
-                    onChange={(e) => {
-                      e.preventDefault();
-                      setAddress(e.target.value);
-                    }}
-                    id="inputState"
-                    className="form-control"
-                  >
-                    <option selected disabled value={""}>
-                      العنوان
-                    </option>
-                    <option value={"داخل القاهرة"}>داخل القاهرة</option>
-                    <option value={"خارج القاهرة"}>خارج القاهرة</option>
-                  </select>
-                  {errors.addressRequired && (
-                    <span className="text-danger">من فضلك ادخل العنوان*</span>
-                  )}
-                </div> */}
 
                 <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">تاريخ التخرج</h5>
@@ -1185,6 +1313,29 @@ const AddExaminee = (props) => {
                   )} */}
                 </div>
                 <div className="form-group col-md-4 p-2">
+                  <h5 className="mb-3">الديانة</h5>
+                  <select
+                    {...register("religionRequired", { required: true })}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      setReligion(e.target.value);
+                    }}
+                    id="inputState"
+                    className="form-control"
+                  >
+                    <option selected disabled value={""}>
+                      الديانة
+                    </option>
+                    <option value={"مسلم"}> مسلم</option>
+                    <option value={"مسيحي"}> مسيحي</option>
+                  </select>
+                  {errors.religionRequired && (
+                    <span className="text-danger">من فضلك اختر الديانة*</span>
+                  )}
+                </div>
+              </div>
+              <div className="row p-2">
+                <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">الحالة الاجتماعية</h5>
                   <select
                     // {...register("relationshipStatusRequired", {
@@ -1207,26 +1358,6 @@ const AddExaminee = (props) => {
                     <span className="text-danger">من فضلك ادخل العنوان*</span>
                   )} */}
                 </div>
-              </div>
-              <div className="row p-2">
-                {/* <div className="form-group col-md-4 p-2">
-                  <h5 className="mb-3"> رقم الكود المالي</h5>
-                  <input
-                    {...register("financeCodeRequired", { required: true })}
-                    onChange={(e) => {
-                      e.preventDefault();
-                      setFinanceCode(e.target.value);
-                    }}
-                    value={financeCode}
-                    type="text"
-                    className="form-control"
-                  />
-                  {errors.financeCodeRequired && (
-                    <span className="text-danger">
-                      من فضلك ادخل جهة العمل الحالية*
-                    </span>
-                  )}
-                </div> */}
                 <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">نوع السيارة</h5>
                   <select
