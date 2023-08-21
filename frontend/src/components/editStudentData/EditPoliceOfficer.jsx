@@ -322,8 +322,8 @@ const EditPoliceOfficer = (props) => {
             <div className="form-group col-md-4 p-2">
               <h5 className="mb-3">جهة العمل الحالية</h5>
               <select
-                {...register("entityRequired", { required: true })}
                 onChange={entityHandler}
+                required
                 value={entity}
                 id="inputState"
                 className="form-control"
@@ -467,11 +467,11 @@ const EditPoliceOfficer = (props) => {
                   مديرية أمن الوادي الجديد
                 </option>
               </select>
-              {errors.entityRequired && (
+              {/* {errors.entityRequired && (
                 <span className="text-danger">
                   من فضلك اختر جهة العمل الحالية*
                 </span>
-              )}
+              )} */}
             </div>
             <div className="form-group col-md-4 p-2">
               <h5 className="mb-3">نوع جهة العمل </h5>

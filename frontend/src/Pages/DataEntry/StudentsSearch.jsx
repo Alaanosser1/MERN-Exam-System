@@ -1,4 +1,4 @@
-const StudentSearch = ({ content, setSearchResults }) => {
+const StudentSearch = ({ content, setSearchResults, resetPagination }) => {
   const handleSubmit = (e) => e.preventDefault();
 
   const handleSearchChange = (e) => {
@@ -27,7 +27,7 @@ const StudentSearch = ({ content, setSearchResults }) => {
           .includes(e.target.value.toUpperCase())
     );
     console.log(e.target.value);
-
+    resetPagination(1);
     setSearchResults(resultsArray);
     console.log(resultsArray);
   };

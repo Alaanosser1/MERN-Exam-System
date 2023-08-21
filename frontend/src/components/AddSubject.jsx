@@ -7,6 +7,7 @@ const AddSubject = (props) => {
   const [subjectName, setSubjectName] = useState("");
   const [subjectDescription, setSubjectDescription] = useState("");
   const [subjectGrade, setSubjectGrade] = useState("");
+  const [subjectType, setSubjectType] = useState("");
   const user =
     JSON.parse(localStorage.getItem("instructor-token")) ||
     JSON.parse(localStorage.getItem("data-entry-token")) ||
@@ -26,6 +27,7 @@ const AddSubject = (props) => {
           subjectName,
           subjectDescription,
           subjectGrade,
+          subjectType,
           subClubId,
         },
         {
@@ -42,9 +44,9 @@ const AddSubject = (props) => {
 
   return (
     <>
-      <div dir="rtl" className="container">
+      <div style={{ maxWidth: "60%" }} dir="rtl" className="container">
         <div className="row">
-          <h1 className="m-4">اضافة فرقة تخصصية</h1>
+          <h1 className="m-4">اضافة مادة جديدة</h1>
         </div>
         <form onSubmit={handleSubmit(formSubmit)}>
           <h5 className="mt-4"> اسم المادة </h5>
@@ -67,15 +69,15 @@ const AddSubject = (props) => {
             className="form-control form-control-lg"
             type="text"
             aria-label=".form-control-lg example"
-            {...register("descriptionRequired", { required: true })}
+            // {...register("descriptionRequired", { required: true })}
             onChange={(e) => {
               setSubjectDescription(e.target.value);
               console.log(e.target.value);
             }}
           />
-          {errors.descriptionRequired && (
+          {/* {errors.descriptionRequired && (
             <span className="text-danger">من فضلك ادخل الوصف*</span>
-          )}
+          )} */}
           <h5 className="mt-4">درجة المادة </h5>
           <input
             className="form-control form-control-lg"
@@ -89,6 +91,27 @@ const AddSubject = (props) => {
           />
           {errors.subjectGradeRequired && (
             <span className="text-danger">من فضلك ادخل درجة المادة*</span>
+          )}
+          <h5 className="mt-4">نوع المادة </h5>
+          <select
+            {...register("subjectTypeRequired", {
+              required: true,
+            })}
+            onChange={(e) => {
+              e.preventDefault();
+              setSubjectType(e.target.value);
+            }}
+            id="inputState"
+            className="form-control"
+          >
+            <option selected disabled value={""}>
+              نوع المادة
+            </option>
+            <option value={"نظري"}> نظري</option>
+            <option value={"عملي"}> عملي</option>
+          </select>
+          {errors.subjectTypeRequired && (
+            <span className="text-danger">من فضلك اختر نوع المادة*</span>
           )}
           <br></br>
           <div className="row d-flex justify-content-center mt-3">
