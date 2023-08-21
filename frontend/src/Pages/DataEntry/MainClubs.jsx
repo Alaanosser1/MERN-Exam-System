@@ -76,44 +76,47 @@ const MainClubs = () => {
           <thead>
             <tr>
               {/* <th scope="col">ID</th> */}
-              <th className="text-center" scope="col">
+              <th className="" scope="col">
                 الاسم
               </th>
-              <th className="text-center" scope="col">
+              <th className="" scope="col">
                 الوصف
               </th>
-              <th className="text-center " scope="col">
+              <th className="" scope="col">
                 عدد الفرق
               </th>
-              <th className="text-center" scope="col"></th>
+              <th className="" scope="col"></th>
             </tr>
           </thead>
           <tbody>
             {Object.entries(mainClubs).map((club) => {
               return (
                 <tr scope="row" key={club[1].club_id}>
-                  <td className="text-center ">{club[1].club_name}</td>
-                  <td className="text-center ">
+                  <td className="col-4">{club[1].club_name}</td>
+                  <td className=" ">
                     {`${club[1].club_description.substring(0, 50)}..`}
                   </td>
-                  <td className="text-center ps-5 pe-5">
-                    {club[1].number_of_sub_clubs}
-                  </td>
-                  <td className="text-center col-2">
-                    
+                  <td className="ps-5 pe-5">{club[1].number_of_sub_clubs}</td>
+                  <td className=" col-2">
                     {JSON.parse(localStorage.getItem("instructor-token")) && (
                       <Link to={`/app/subClubs/${club[1].club_id}`}>
-                        <button className="btn ms-2 btn-outline-primary">عرض</button>
+                        <button className="btn ms-2 btn-outline-primary">
+                          عرض
+                        </button>
                       </Link>
                     )}
                     {JSON.parse(localStorage.getItem("data-entry-token")) && (
                       <Link to={`/clubs/subClubs/${club[1].club_id}`}>
-                        <button className="btn ms-2 btn-outline-primary">عرض</button>
+                        <button className="btn ms-2 btn-outline-primary">
+                          عرض
+                        </button>
                       </Link>
                     )}
                     {JSON.parse(localStorage.getItem("admin-token")) && (
                       <Link to={`/admin/subClubs/${club[1].club_id}`}>
-                        <button className="btn ms-2 btn-outline-primary">عرض</button>
+                        <button className="btn ms-2 btn-outline-primary">
+                          عرض
+                        </button>
                       </Link>
                     )}
                     <button

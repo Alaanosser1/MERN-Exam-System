@@ -6,6 +6,8 @@ const EditSubject = (props) => {
   const [subjectName, setSubjectName] = useState("");
   const [subjectDescription, setSubjectDescription] = useState("");
   const [subjectGrade, setSubjectGrade] = useState("");
+  const [subjectType, setSubjectType] = useState("");
+
   const user =
     JSON.parse(localStorage.getItem("instructor-token")) ||
     JSON.parse(localStorage.getItem("data-entry-token")) ||
@@ -31,6 +33,7 @@ const EditSubject = (props) => {
         setSubjectName(data.data.subject[0].subject_name);
         setSubjectDescription(data.data.subject[0].subject_description);
         setSubjectGrade(data.data.subject[0].subject_description);
+        setSubjectType(data.data.subject[0].subject_type);
       });
   };
   const formSubmit = () => {
@@ -41,6 +44,7 @@ const EditSubject = (props) => {
           subjectName,
           subjectDescription,
           subjectGrade,
+          subjectType,
           subjectId: props.subjectId,
         },
         {
@@ -57,9 +61,9 @@ const EditSubject = (props) => {
 
   return (
     <>
-      <div dir="rtl" className="container">
+      <div style={{ maxWidth: "60%" }} dir="rtl" className="container">
         <div className="row ">
-          <h1 className="m-5">تعديل </h1>
+          <h1 className="m-5 text-center"> تعديل المادة </h1>
         </div>
         <form onSubmit={handleSubmit(formSubmit)}>
           <h5 className="mt-4">اسم الفرقة</h5>
@@ -104,12 +108,34 @@ const EditSubject = (props) => {
             defaultValue={subjectGrade}
             // {...register("descriptionRequired", { required: true })}
             onChange={(e) => {
-              setSubjectDescription(e.target.value);
+              setSubjectGrade(e.target.value);
               console.log(e.target.value);
             }}
           />
           {errors.descriptionRequired && (
             <span className="text-danger">من فضلك ادخل الوصف*</span>
+          )}
+          <h5 className="mt-4">نوع المادة </h5>
+          <select
+            {...register("subjectTypeRequired", {
+              required: true,
+            })}
+            onChange={(e) => {
+              e.preventDefault();
+              setSubjectType(e.target.value);
+            }}
+            value={subjectType}
+            id="inputState"
+            className="form-control"
+          >
+            <option selected disabled value={""}>
+              نوع المادة
+            </option>
+            <option value={"نظري"}> نظري</option>
+            <option value={"عملي"}> عملي</option>
+          </select>
+          {errors.subjectTypeRequired && (
+            <span className="text-danger">من فضلك اختر نوع المادة*</span>
           )}
           <br></br>
           <div className="row justify-content-center">
