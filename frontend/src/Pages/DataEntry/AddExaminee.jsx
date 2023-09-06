@@ -6,6 +6,7 @@ import SubClubChoose from "../SubClubChoose";
 import Swal from "sweetalert2";
 import DatePicker from "react-datepicker";
 import ar from "date-fns/locale/ar";
+import Select from "react-select";
 
 const AddExaminee = (props) => {
   const [mainClubs, setMainClubs] = useState("");
@@ -92,15 +93,8 @@ const AddExaminee = (props) => {
         formData
       )
       .then((res) => {
-        console.log(res, "?????");
         props.hidePopup(false);
         props.rerender();
-
-        // if (res.data.token) {
-        //   localStorage.setItem("examinee-token", JSON.stringify(res.data));
-        // }
-        // // window.open(`/examineeExam/${examId.examId}`, "_blank");
-        // navigate(`/ExamineeHome`);
       })
       .catch((err) => {
         if (err.response.status == 400 && type == "فرد") {
@@ -990,7 +984,7 @@ const AddExaminee = (props) => {
               <div className="row p-2">
                 <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">جهة العمل الحالية</h5>
-                  <select
+                  {/* <select
                     {...register("entityRequired", { required: true })}
                     onChange={(e) => {
                       e.preventDefault();
@@ -1166,7 +1160,100 @@ const AddExaminee = (props) => {
                     <option value={"مديرية أمن الوادي الجديد"}>
                       مديرية أمن الوادي الجديد
                     </option>
-                  </select>
+                  </select> */}
+                  <Select
+                    {...register("entityRequired", { required: true })}
+                    onChange={(selectedOption) => {
+                      setEntity(selectedOption);
+                    }}
+                    options={[
+                      // ... existing options ...
+
+                      {
+                        value: "مديرية أمن الشرقية",
+                        label: "مديرية أمن الشرقية",
+                      },
+                      {
+                        value: "مديرية أمن القليوبية",
+                        label: "مديرية أمن القليوبية",
+                      },
+                      {
+                        value: "مديرية أمن الغربية",
+                        label: "مديرية أمن الغربية",
+                      },
+                      {
+                        value: "مديرية أمن البحيرة",
+                        label: "مديرية أمن البحيرة",
+                      },
+                      {
+                        value: "مديرية أمن الاسكندرية",
+                        label: "مديرية أمن الاسكندرية",
+                      },
+                      {
+                        value: "مديرية أمن كفر الشيخ",
+                        label: "مديرية أمن كفر الشيخ",
+                      },
+                      { value: "مديرية أمن مطروح", label: "مديرية أمن مطروح" },
+                      { value: "مديرية أمن دمياط", label: "مديرية أمن دمياط" },
+                      {
+                        value: "مديرية أمن المنوفية",
+                        label: "مديرية أمن المنوفية",
+                      },
+                      {
+                        value: "مديرية أمن الدقهلية",
+                        label: "مديرية أمن الدقهلية",
+                      },
+                      {
+                        value: "مديرية أمن بورسعيد",
+                        label: "مديرية أمن بورسعيد",
+                      },
+                      {
+                        value: "مديرية أمن الاسماعيلية",
+                        label: "مديرية أمن الاسماعيلية",
+                      },
+                      {
+                        value: "مديرية أمن السويس",
+                        label: "مديرية أمن السويس",
+                      },
+                      {
+                        value: "مديرية أمن شمال سيناء",
+                        label: "مديرية أمن شمال سيناء",
+                      },
+                      {
+                        value: "مديرية أمن جنوب سيناء",
+                        label: "مديرية أمن جنوب سيناء",
+                      },
+                      {
+                        value: "مديرية أمن البحر الأحمر",
+                        label: "مديرية أمن البحر الأحمر",
+                      },
+                      {
+                        value: "مديرية أمن الفيوم",
+                        label: "مديرية أمن الفيوم",
+                      },
+                      {
+                        value: "مديرية أمن بني سويف",
+                        label: "مديرية أمن بني سويف",
+                      },
+                      {
+                        value: "مديرية أمن المنيا",
+                        label: "مديرية أمن المنيا",
+                      },
+                      { value: "مديرية أمن أسيوط", label: "مديرية أمن أسيوط" },
+                      { value: "مديرية أمن سوهاج", label: "مديرية أمن سوهاج" },
+                      { value: "مديرية أمن قنا", label: "مديرية أمن قنا" },
+                      {
+                        value: "مديرية أمن الأقصر",
+                        label: "مديرية أمن الأقصر",
+                      },
+                      { value: "مديرية أمن أسوان", label: "مديرية أمن أسوان" },
+                      {
+                        value: "مديرية أمن الوادي الجديد",
+                        label: "مديرية أمن الوادي الجديد",
+                      },
+                    ]}
+                    placeholder="اختر جهة العمل"
+                  />
                   {errors.entityRequired && (
                     <span className="text-danger">
                       من فضلك اختر جهة العمل الحالية*

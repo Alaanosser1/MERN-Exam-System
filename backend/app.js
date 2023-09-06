@@ -13,6 +13,7 @@ import mainClubRoute from "./routes/main-club-route.js";
 import subClubRoute from "./routes/sub-club-route.js";
 import dataEnrtyRouter from "./routes/data-entry-route.js";
 import adminRouter from "./routes/admin-route.js";
+import fitnessLevelMeasurementRouter from "./routes/level-measurement-route.js";
 import * as dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 
@@ -20,11 +21,6 @@ const app = express();
 
 console.log(process.env.DATABASE_PASSWORD, "DATABASEPASSWORD");
 app.use(express.json());
-// app.use(
-//   urlencoded({
-//     extended: true,
-//   })
-// );
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "YOUR-DOMAIN.TLD"); // update to match the domain you will make the request from
@@ -47,6 +43,7 @@ app.use("/mainClub", mainClubRoute);
 app.use("/subClub", subClubRoute);
 app.use("/dataEntry", dataEnrtyRouter);
 app.use("/admin", adminRouter);
+app.use("/fitnessLevelMeasurement", fitnessLevelMeasurementRouter);
 
 app.use((error, req, res, next) => {
   if (error.status == 404) {

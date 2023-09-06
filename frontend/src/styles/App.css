@@ -70,6 +70,11 @@ body {
   font-size: larger;
 }
 
+.pagination-div-students-list {
+  max-width: 100%;
+  overflow: scroll;
+}
+
 .student-card-container {
   background-color: #fff;
   border-radius: 10px;

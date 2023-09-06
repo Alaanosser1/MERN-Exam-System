@@ -44,7 +44,7 @@ const Subjects = () => {
 
   const deleteSubject = (subject) => {
     Swal.fire({
-      title: `هل انت متأكد من مسح هذا الامتحان؟`,
+      title: `هل انت متأكد من مسح هذة المادة؟`,
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
@@ -134,6 +134,9 @@ const Subjects = () => {
               <th className="text-center" scope="col">
                 الدرجة
               </th>
+              <th className="text-center" scope="col">
+                النوع
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -145,6 +148,7 @@ const Subjects = () => {
                     {`${subject[1].subject_description}`}
                   </td>
                   <td className="text-center">{subject[1].subject_grade}</td>
+                  <td className="text-center">{subject[1].subject_type}</td>
                   <td className="text-center">
                     <button
                       onClick={() => {

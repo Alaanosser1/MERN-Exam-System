@@ -27,7 +27,6 @@ const StudentSearch = ({ content, setSearchResults }) => {
           .includes(e.target.value.toUpperCase())
     );
     console.log(e.target.value);
-
     setSearchResults(resultsArray);
     console.log(resultsArray);
   };

@@ -120,22 +120,22 @@ const Students = () => {
           <thead>
             <tr>
               {/* <th scope="col">ID</th> */}
-              <th className="text-center" scope="col">
+              <th className="" scope="col">
                 الكود
               </th>
-              <th className="text-center" scope="col">
+              <th className="" scope="col">
                 الاسم
               </th>
-              <th className="text-center" scope="col">
+              <th className="" scope="col">
                 الصفة
               </th>
-              <th className="text-center" scope="col">
+              <th className="" scope="col">
                 الرتبة
               </th>
-              <th className="text-center" scope="col">
+              <th className="" scope="col">
                 الرقم التعريفي
               </th>
-              <th className="text-center" scope="col">
+              <th className="" scope="col">
                 الجهة التابع لها
               </th>
               <th></th>
@@ -145,23 +145,21 @@ const Students = () => {
             {Object.entries(searchResults).map((student) => {
               return (
                 <tr scope="row" key={student[1].club_id}>
-                  <td className="text-center">{student[1].examinee_id}</td>
-                  <td className="text-center">{student[1].examinee_name}</td>
-                  <td className="text-center">
-                    {`${student[1].examinee_type}`}
-                  </td>
-                  <td className="text-center">
+                  <td className="">{student[1].examinee_id}</td>
+                  <td className="">{student[1].examinee_name}</td>
+                  <td className="">{`${student[1].examinee_type}`}</td>
+                  <td className="">
                     {student[1].examinee_type == "مدني"
                       ? `___`
                       : `${student[1].examinee_rank}`}
                   </td>
-                  <td className="text-center">
+                  <td className="">
                     {student[1].examinee_seniority_number ||
                       student[1].examinee_police_number ||
                       student[1].examinee_civilian_number}
                   </td>
-                  <td className="text-center">{student[1].examinee_entity}</td>
-                  <td id="operations-buttons" className="text-center">
+                  <td className="">{student[1].examinee_entity}</td>
+                  <td id="operations-buttons" className="">
                     {JSON.parse(localStorage.getItem("data-entry-token")) && (
                       <Link
                         to={`/clubs/${mainClubId}/${subClubId}/${student[1].examinee_id}`}

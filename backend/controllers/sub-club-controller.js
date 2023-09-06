@@ -234,14 +234,13 @@ export const createSubject = (req, res) => {
   const subjectDescription = req.body.subjectDescription;
   const subClubId = req.body.subClubId;
   const subjectGrade = req.body.subjectGrade;
+  const subjectType = req.body.subjectType;
 
   connection
     .promise()
     .query(
-      `INSERT INTO subject(subject_name, subject_description,subject_grade, sub_club_id)
-          VALUES(
-           '${subjectName}','${subjectDescription}','${subjectGrade}',
-           '${subClubId}')`
+      `INSERT INTO subject(subject_name, subject_description,subject_grade, subject_type, sub_club_id)
+          VALUES('${subjectName}','${subjectDescription}','${subjectGrade}', '${subjectType}','${subClubId}')`
     )
     .then((data) => {
       res.status(201).json({
@@ -264,6 +263,7 @@ export const editSubject = (req, res) => {
   const subjectName = req.body.subjectName;
   const subjectDescription = req.body.subjectDescription;
   const subjectGrade = req.body.subjectGrade;
+  const subjectType = req.body.subjectType;
 
   connection
     .promise()
@@ -272,7 +272,8 @@ export const editSubject = (req, res) => {
             UPDATE subject
             SET subject_name = '${subjectName}',
             subject_description = '${subjectDescription}',
-            subject_grade = '${subjectGrade}'
+            subject_grade = '${subjectGrade}',
+            subject_type = '${subjectType}'
             WHERE subject_id = '${subjectId}'
             `
     )

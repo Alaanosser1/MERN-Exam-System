@@ -127,19 +127,19 @@ const SubClubs = () => {
           <thead>
             <tr>
               {/* <th scope="col">ID</th> */}
-              <th className="text-center" scope="col">
+              <th className="" scope="col">
                 رقم الفرقة
               </th>
-              <th className="text-center" scope="col">
+              <th className="" scope="col">
                 الاسم
               </th>
-              <th className="text-center" scope="col">
+              <th className="" scope="col">
                 الوصف
               </th>
-              <th className="text-center" scope="col">
+              <th className="" scope="col">
                 تاريخ البدء
               </th>
-              <th className="text-center" scope="col">
+              <th className="" scope="col">
                 تاريخ الانتهاء
               </th>
             </tr>
@@ -148,12 +148,12 @@ const SubClubs = () => {
             {Object.entries(subClubs).map((club) => {
               return (
                 <tr scope="row" key={club[1].sub_club_id}>
-                  <td className="text-center">{club[1].sub_club_number}</td>
-                  <td className="text-center">{club[1].sub_club_name}</td>
-                  <td className="text-center">
+                  <td className="">{club[1].sub_club_number}</td>
+                  <td className="">{club[1].sub_club_name}</td>
+                  <td className="col-3">
                     {`${club[1].sub_club_description.substring(0, 50)}..`}
                   </td>
-                  <td className="text-center">
+                  <td className="">
                     {
                       new Date(club[1].start_date)
                         .toISOString()
@@ -161,7 +161,7 @@ const SubClubs = () => {
                         .split("T")[0]
                     }
                   </td>
-                  <td className="text-center">
+                  <td className="">
                     {
                       new Date(club[1].end_date)
                         .toISOString()
