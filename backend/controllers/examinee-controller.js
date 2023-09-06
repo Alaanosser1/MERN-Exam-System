@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken";
 import fs from "fs";
 import xl from "excel4node";
 import * as dotenv from "dotenv";
-import { log } from "console";
 dotenv.config({ path: "/Users/Nosser/Desktop/Exam-System/backend/.env" });
 
 const app = express();
@@ -183,7 +182,7 @@ export const addExaminee = async (req, res, next) => {
       )
       .then((data) => {
         insertId = data[0].insertId;
-        // handleAuth();
+
         connection
           .promise()
           .query(
@@ -198,7 +197,24 @@ export const addExaminee = async (req, res, next) => {
               msg: "500 Internal Server Error",
             });
           });
+
+        connection
+          .promise()
+          .query(
+            `INSERT INTO fitness_level_measurement(examinee_id, sub_club_id)
+              VALUES('${insertId}','${subClubId}')`
+          )
+          .then((data) => {})
+          .catch((error) => {
+            console.log(error);
+            res.status(500).json({
+              status: "error",
+              msg: "500 Internal Server Error",
+            });
+          });
+
         handleProfilePictureUpload(insertId);
+
         res.status(200).json({
           status: "ok",
           msg: "created",
@@ -363,7 +379,6 @@ export const examineeLogin = async (req, res) => {
   }
 };
 
-//SELECT fields FROM table ORDER BY id DESC
 export const getStudents = async (req, res) => {
   let students = [];
   let isError = false;
@@ -499,6 +514,15 @@ export const addExamineeToClub = (req, res) => {
   const examineeId = req.body.examineeId;
   const subClubId = req.body.subClubId;
 
+  const createExamineeFitnessRecord = () => {
+    connection.promise().query(
+      `
+  INSERT INTO fitness_measurement_level(examinee_id, sub_club_id)
+  VALUES('${examineeId}','${subClubId}')
+  `
+    );
+  };
+
   connection
     .promise()
     .query(
@@ -508,6 +532,7 @@ export const addExamineeToClub = (req, res) => {
   `
     )
     .then((data) => {
+      createExamineeFitnessRecord();
       res.status(200).json({
         status: "ok",
         msg: "added to club",
