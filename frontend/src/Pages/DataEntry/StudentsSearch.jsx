@@ -4,28 +4,46 @@ const StudentSearch = ({ content, setSearchResults }) => {
   const handleSearchChange = (e) => {
     if (!e.target.value) return setSearchResults(content);
     console.log(content, "CONTET");
-    const resultsArray = content.filter(
-      (value) =>
-        value.examinee_name
-          .toUpperCase()
-          .includes(e.target.value.toUpperCase()) ||
-        value.examinee_id
-          .toString()
-          .toUpperCase()
-          .includes(e.target.value.toUpperCase()) ||
-        value.examinee_police_number
-          .toUpperCase()
-          .includes(e.target.value.toUpperCase()) ||
-        value.examinee_civilian_number
-          .toUpperCase()
-          .includes(e.target.value.toUpperCase()) ||
-        value.examinee_seniority_number
-          .toUpperCase()
-          .includes(e.target.value.toUpperCase()) ||
-        value.examinee_entity
-          .toUpperCase()
-          .includes(e.target.value.toUpperCase())
-    );
+    let resultsArray = [];
+    try {
+      resultsArray = content.filter(
+        (value) =>
+          value.examinee_name
+            .toUpperCase()
+            .includes(e.target.value.toUpperCase()) ||
+          value.examinee_id
+            .toString()
+            .toUpperCase()
+            .includes(e.target.value.toUpperCase()) ||
+          value.examinee_police_number
+            .toUpperCase()
+            .includes(e.target.value.toUpperCase()) ||
+          value.examinee_civilian_number
+            .toUpperCase()
+            .includes(e.target.value.toUpperCase()) ||
+          value.examinee_seniority_number
+            .toUpperCase()
+            .includes(e.target.value.toUpperCase()) ||
+          value.examinee_entity
+            .toUpperCase()
+            .includes(e.target.value.toUpperCase())
+      );
+    } catch {
+      resultsArray = content.filter(
+        (value) =>
+          value.examinee_name
+            .toUpperCase()
+            .includes(e.target.value.toUpperCase()) ||
+          value.examinee_id
+            .toString()
+            .toUpperCase()
+            .includes(e.target.value.toUpperCase()) ||
+          value.examinee_rank
+            .toUpperCase()
+            .includes(e.target.value.toUpperCase())
+      );
+    }
+
     console.log(e.target.value);
     setSearchResults(resultsArray);
     console.log(resultsArray);

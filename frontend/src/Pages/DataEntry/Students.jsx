@@ -88,10 +88,10 @@ const Students = () => {
             clubId={clubId}
           ></EditMainClub>
         </Popup> */}
-      <div className="container">
+      <div className="">
         <div dir="rtl" className="row">
           <label htmlFor="">بحث</label>
-          <div className="col-6">
+          <div className="col-5">
             <StudentSearch
               content={students}
               setSearchResults={setSearchResults}
