@@ -141,7 +141,7 @@ export const getSubClubs = async (req, res) => {
   await connection
     .promise()
     .query(
-      `SELECT * FROM sub_club WHERE main_club_id = ${mainClubId} ORDER BY sub_club_number ASC;`
+      `SELECT * FROM sub_club WHERE main_club_id = ${mainClubId}  ORDER BY sub_club_number ASC;`
     )
     .then((data) => {
       res.status(200).json({
