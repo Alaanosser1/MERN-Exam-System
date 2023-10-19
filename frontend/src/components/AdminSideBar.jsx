@@ -78,7 +78,7 @@ export default function AdminSideBar() {
           <li>
             <a>
               <i className="fas fa-user"></i>
-              <Link to={"/admin/reports"}>
+              <Link to={"/admin/mainClubReports"}>
                 <FontAwesomeIcon icon={faNoteSticky} /> &nbsp; التقارير
               </Link>
             </a>

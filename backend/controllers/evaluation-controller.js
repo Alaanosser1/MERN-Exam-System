@@ -227,18 +227,19 @@ export const evaluateExam = async (req, res) => {
 };
 
 export const getExamsReport = async (req, res) => {
-  //   const instructorId = req.query.instructorId;
+  const subClubId = req.query.subClubId;
   let instructorExams;
   let numberOfQuestions;
   let examEvaluationData;
   let numberOfExamineesExamined;
   let isError = false;
+
   try {
     await connection
       .promise()
       .query(
         `
-      SELECT * FROM exam 
+      SELECT * FROM exam WHERE sub_club_id = '${subClubId}'
           `
       )
       .then((data) => {

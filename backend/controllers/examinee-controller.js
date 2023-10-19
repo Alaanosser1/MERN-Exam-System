@@ -55,6 +55,7 @@ export const addExaminee = async (req, res, next) => {
         }
       );
     }
+
     // else {
     //   fs.appendFile(
     //     `${process.env.STUDENT_IMAGE_FOLDER_PATH}/student${insertId}.png`,
@@ -154,6 +155,23 @@ export const addExaminee = async (req, res, next) => {
         });
       });
   }
+
+  const createExamineeSubjectsRecords = (examineeId) => {
+    for (let i = 0; i < subClubSubjects[0].length; i++) {
+      connection.promise().query(
+        `
+    INSERT INTO examinee_has_subject(examinee_id, sub_club_id, subject_id)
+    VALUES('${examineeId}','${subClubId}','${subClubSubjects[0][i].subject_id}')
+    `
+      );
+    }
+  };
+
+  const subClubSubjects = await connection.promise().query(
+    `
+  SELECT * FROM subject WHERE sub_club_id = '${subClubId}'
+  `
+  );
   if (user.length > 0) {
     res.status(400).json({
       status: "error",
@@ -182,6 +200,7 @@ export const addExaminee = async (req, res, next) => {
       )
       .then((data) => {
         insertId = data[0].insertId;
+        createExamineeSubjectsRecords(insertId);
 
         connection
           .promise()
@@ -510,14 +529,31 @@ export const storeExamineeAnswer = async (req, res) => {
   }
 };
 
-export const addExamineeToClub = (req, res) => {
+export const addExamineeToClub = async (req, res) => {
   const examineeId = req.body.examineeId;
   const subClubId = req.body.subClubId;
+
+  const subClubSubjects = await connection.promise().query(
+    `
+  SELECT * FROM subject WHERE sub_club_id = '${subClubId}'
+  `
+  );
+
+  const createExamineeSubjectsRecords = () => {
+    for (let i = 0; i < subClubSubjects[0].length; i++) {
+      connection.promise().query(
+        `
+    INSERT INTO examinee_has_subject(examinee_id, sub_club_id, subject_id)
+    VALUES('${examineeId}','${subClubId}','${subClubSubjects[0][i].subject_id}')
+    `
+      );
+    }
+  };
 
   const createExamineeFitnessRecord = () => {
     connection.promise().query(
       `
-  INSERT INTO fitness_measurement_level(examinee_id, sub_club_id)
+  INSERT INTO fitness_level_measurement(examinee_id, sub_club_id)
   VALUES('${examineeId}','${subClubId}')
   `
     );
@@ -532,7 +568,9 @@ export const addExamineeToClub = (req, res) => {
   `
     )
     .then((data) => {
+      console.log(subClubSubjects, "SUBJECTSSS");
       createExamineeFitnessRecord();
+      createExamineeSubjectsRecords();
       res.status(200).json({
         status: "ok",
         msg: "added to club",

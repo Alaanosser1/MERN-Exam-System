@@ -8,14 +8,16 @@ export const createFitnessLevelMeasurement = async (req, res) => {
   const textureAfter = req.body.textureAfter;
   const subClubId = req.body.subClubId;
   const examineeId = req.body.examineeId;
+  const behavior = req.body.behavior; // Add behavior as a parameter
+  const perseverance = req.body.perseverance; // Add perseverance as a parameter
 
   connection
     .promise()
     .execute(
       `INSERT INTO fitness_level_measurement
     (fitness_level_before, fitness_level_during,
-    fitness_level_after, texture_before, texture_after, sub_club_id, examinee_id)
-    VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    fitness_level_after, texture_before, texture_after, sub_club_id, examinee_id, behavior, perseverance)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`, // Include behavior and perseverance in the INSERT statement
       [
         fitnessLevelBefore,
         fitnessLevelDuring,
@@ -24,6 +26,8 @@ export const createFitnessLevelMeasurement = async (req, res) => {
         textureAfter,
         subClubId,
         examineeId,
+        behavior, // Include behavior here
+        perseverance, // Include perseverance here
       ]
     )
     .then((data) => {
@@ -52,6 +56,8 @@ export const editFitnessLevelMeasurement = async (req, res) => {
   const shootingTest = req.body.shootingTest;
   const subClubId = req.body.subClubId;
   const examineeId = req.body.examineeId;
+  const behavior = req.body.behavior; // Add behavior as a parameter
+  const perseverance = req.body.perseverance; // Add perseverance as a parameter
 
   console.log(
     fitnessLevelBefore,
@@ -62,13 +68,11 @@ export const editFitnessLevelMeasurement = async (req, res) => {
     shootingBefore,
     shootingTest,
     subClubId,
-    examineeId
+    examineeId,
+    behavior, // Log behavior
+    perseverance // Log perseverance
   );
 
-  // const result = schema.validate(req.body);
-  // if (result.error) {
-  //   return res.status(400).send(result.error.details[0].message);
-  // }
   const query = `
   UPDATE fitness_level_measurement
   SET fitness_level_before = ?,
@@ -77,7 +81,9 @@ export const editFitnessLevelMeasurement = async (req, res) => {
       texture_before = ?,
       texture_after = ?,
       shooting_level_before = ?,
-      shooting_level_test = ?
+      shooting_level_test = ?,
+      behavior = ?, 
+      perseverance = ? 
   WHERE examinee_id = ? AND sub_club_id = ?
     `;
 
@@ -91,6 +97,8 @@ export const editFitnessLevelMeasurement = async (req, res) => {
       textureAfter,
       shootingBefore,
       shootingTest,
+      behavior, // Include behavior here
+      perseverance, // Include perseverance here
       examineeId,
       subClubId,
     ])
@@ -120,15 +128,26 @@ export const getAllSubClubFitnessLevelMeasurement = async (req, res) => {
 
   try {
     const data = await connection.promise().query(
-      `SELECT fitness_level_before, fitness_level_after, fitness_level_during,
-      texture_before, texture_after, shooting_level_before, shooting_level_test, examinee.examinee_id, examinee_name, examinee_rank
-      FROM fitness_level_measurement JOIN examinee ON
-      examinee.examinee_id WHERE fitness_level_measurement.sub_club_id = ?
-      AND examinee.examinee_id = fitness_level_measurement.examinee_id`,
+      `SELECT 
+        fitness_level_before, 
+        fitness_level_after, 
+        fitness_level_during,
+        texture_before, 
+        texture_after, 
+        shooting_level_before, 
+        shooting_level_test, 
+        examinee.examinee_id, 
+        examinee_name, 
+        examinee_rank,
+        behavior, -- Include behavior in the SELECT statement
+        perseverance -- Include perseverance in the SELECT statement
+      FROM fitness_level_measurement 
+      JOIN examinee ON fitness_level_measurement.examinee_id = examinee.examinee_id 
+      WHERE fitness_level_measurement.sub_club_id = ?`,
       [subClubId]
     );
     res.status(200).json({
-      subClubfitnessLeveMeasurement: data[0],
+      subClubfitnessLevelMeasurement: data[0],
     });
   } catch (error) {
     console.log(error);

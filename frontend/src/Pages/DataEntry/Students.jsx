@@ -106,7 +106,7 @@ const Students = () => {
               onClick={() => {
                 tableToArray();
               }}
-              className="btn btn-outline-primary"
+              className="btn btn-outline-success"
             >
               استخراج الي اكسيل
             </button>

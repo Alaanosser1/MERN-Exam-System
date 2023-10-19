@@ -23,6 +23,9 @@ import DataEntrySignUp from "./Pages/DataEntrySignUp";
 import PrivateRoutesDataEntry from "./ustils/PrivateRoutesDataEntry";
 import MainClubExams from "./Pages/MainClubExams";
 import SubClubsExams from "./Pages/SubClubsExams";
+import MainClubReports from "./Pages/MainClubReports";
+import SubClubsReports from "./Pages/SubClubsReports";
+import Reports from "./Pages/Reports";
 
 function Clubs() {
   console.log(window.location);
@@ -44,6 +47,15 @@ function Clubs() {
               <Route
                 path="/mainClubExams/:mainClubId/:subClubId"
                 element={<Exams />}
+              />
+              <Route path="/mainClubReports" element={<MainClubReports />} />
+              <Route
+                path="/mainClubReports/:mainClubId"
+                element={<SubClubsReports />}
+              />
+              <Route
+                path="/mainClubReports/:mainClubId/:subClubId"
+                element={<Reports />}
               />
               <Route path="/exams/:examId" element={<EditAndPreviewExam />} />
               <Route path="exams/createExamForm" element={<CreateExamForm />} />

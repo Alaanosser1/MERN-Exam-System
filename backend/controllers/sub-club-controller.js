@@ -229,33 +229,70 @@ export const getSubClubStudents = async (req, res) => {
     });
 };
 
-export const createSubject = (req, res) => {
-  const subjectName = req.body.subjectName;
-  const subjectDescription = req.body.subjectDescription;
-  const subClubId = req.body.subClubId;
-  const subjectGrade = req.body.subjectGrade;
-  const subjectType = req.body.subjectType;
+export const createSubject = async (req, res) => {
+  try {
+    const subjectName = req.body.subjectName;
+    const subjectDescription = req.body.subjectDescription;
+    const subClubId = req.body.subClubId;
+    const subjectGrade = req.body.subjectGrade;
+    const subjectType = req.body.subjectType;
+    let subClubStudents;
 
-  connection
-    .promise()
-    .query(
-      `INSERT INTO subject(subject_name, subject_description,subject_grade, subject_type, sub_club_id)
-          VALUES('${subjectName}','${subjectDescription}','${subjectGrade}', '${subjectType}','${subClubId}')`
-    )
-    .then((data) => {
-      res.status(201).json({
-        status: "ok",
-        msg: "Created",
-        data: data,
-      });
-    })
-    .catch((error) => {
-      console.log(error);
-      res.status(500).json({
-        status: "error",
-        msg: "500 Internal Server Error",
-      });
+    const addSubjectRecordForEachExaminee = async (subjectId) => {
+      for (let i = 0; i < subClubStudents.length; i++) {
+        const examineeId = subClubStudents[i].examinee_id;
+        try {
+          await connection.promise().query(
+            `INSERT INTO examinee_has_subject(subject_id, examinee_id, sub_club_id)
+              VALUES('${subjectId}','${examineeId}','${subClubId}')`
+          );
+        } catch (error) {
+          // Handle the error, you can log it or send a specific error response
+          console.error(
+            `Error inserting examinee_has_subject for subjectId ${subjectId} and examineeId ${examineeId}: ${error}`
+          );
+        }
+      }
+    };
+
+    const addSubject = async () => {
+      try {
+        const result = await connection.promise().query(
+          `INSERT INTO subject(subject_name, subject_description, subject_grade, subject_type, sub_club_id)
+            VALUES('${subjectName}','${subjectDescription}','${subjectGrade}', '${subjectType}','${subClubId}')`
+        );
+        const subjectId = result[0].insertId;
+        await addSubjectRecordForEachExaminee(subjectId);
+        res.status(201).json({
+          status: "ok",
+          msg: "Created",
+        });
+      } catch (error) {
+        // Handle the error, you can log it or send a specific error response
+        console.error(`Error inserting subject: ${error}`);
+        res.status(500).json({
+          status: "error",
+          msg: "500 Internal Server Error",
+        });
+      }
+    };
+
+    const studentsQueryResult = await connection.promise().query(
+      `SELECT * FROM examinee_has_sub_club 
+        JOIN examinee ON examinee_has_sub_club.examinee_id = examinee.examinee_id
+        WHERE examinee_has_sub_club.sub_club_id = ${subClubId}`
+    );
+    subClubStudents = studentsQueryResult[0];
+
+    await addSubject();
+  } catch (error) {
+    // Handle any uncaught errors, you can log them or send a generic error response
+    console.error(`Unhandled error: ${error}`);
+    res.status(500).json({
+      status: "error",
+      msg: "500 Internal Server Error",
     });
+  }
 };
 
 export const editSubject = (req, res) => {
@@ -355,6 +392,163 @@ export const getClubSubjects = async (req, res) => {
         msg: "500 internal server error",
       });
     });
+};
+
+export const getSubClubStudentsSubjects = async (req, res) => {
+  const subClubId = req.query.subClubId;
+  let clubs = [];
+  let isError = false;
+  let subClubSubjects;
+  let grades;
+  let theoreticalTotal = 0;
+  let practicalTotal = 0;
+  let total = 0;
+  let clubFitnessLevelMeasurement;
+
+  await connection
+    .promise()
+    .query(
+      `SELECT * FROM subject WHERE sub_club_id = ${subClubId} AND is_deleted = '0' ORDER BY subject_id`
+    )
+    .then((data) => {
+      subClubSubjects = data[0];
+    });
+
+  await connection
+    .promise()
+    .query(
+      `SELECT * FROM examinee_has_subject JOIN subject ON subject.subject_id = examinee_has_subject.subject_id
+      WHERE examinee_has_subject.sub_club_id = ${subClubId} AND subject.is_deleted = '0' ORDER BY examinee_has_subject.subject_id`
+    )
+    .then((data) => {
+      grades = data[0];
+
+      for (let i = 0; i < grades.length; i++) {
+        if (grades[i].subject_type === "نظري") {
+          theoreticalTotal += grades[i].examinee_grade;
+          grades.theoreticalTotal = theoreticalTotal;
+        } else if (grades[i].subject_type === "عملي") {
+          practicalTotal += grades[i].examinee_grade;
+          grades.practicalTotal = practicalTotal;
+        }
+        total += grades[i].examinee_grade;
+      }
+      console.log(grades, "GRADESSS", grades.length);
+    });
+
+  await connection
+    .promise()
+    .query(
+      `SELECT * FROM fitness_level_measurement WHERE sub_club_id = ${subClubId} ORDER BY sub_club_id`
+    )
+    .then((data) => {
+      clubFitnessLevelMeasurement = data[0];
+    });
+
+  await connection
+    .promise()
+    .query("CALL GetExamineesWithSubjects(116)")
+    .then((data) => {
+      // console.log(subClubSubjects, "AHHAHAHAHAH");
+      res.status(200).json({
+        subjects: data[0],
+        subClubSubjects: subClubSubjects,
+        grades: grades,
+        clubFitnessLevelMeasurement,
+      });
+      // console.log(data[0], subClubSubjects);
+    })
+    .catch((error) => {
+      isError = true;
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 internal server error",
+      });
+    });
+};
+
+export const getExamineeSubjectsGrades = async (req, res) => {
+  const examineeId = req.query.examineeId;
+  let clubs = [];
+  let isError = false;
+  let theoreticalTotal = 0;
+  let practicalTotal = 0;
+  let total = 0;
+
+  const calculateTotalGrades = (grades) => {
+    for (let i = 0; i < grades.length; i++) {
+      if (grades[i].subject_type === "نظري") {
+        theoreticalTotal += grades[i].examinee_grade;
+      } else if (grades[i].subject_type === "عملي") {
+        practicalTotal += grades[i].examinee_grade;
+      }
+      total += grades[i].examinee_grade;
+    }
+  };
+
+  await connection
+    .promise()
+    .query(
+      `
+      SELECT * FROM examinee_has_subject
+      JOIN subject ON subject.subject_id = examinee_has_subject.subject_id
+      WHERE examinee_id = ${examineeId} AND subject.is_deleted = '0'
+
+      `
+    )
+    .then((data) => {
+      calculateTotalGrades(data[0]);
+      console.log(
+        theoreticalTotal,
+        practicalTotal,
+        total,
+        "############################"
+      );
+      res.status(200).json({
+        examineeGrades: data[0],
+        theoreticalTotal,
+        practicalTotal,
+        total,
+      });
+    })
+    .catch((error) => {
+      isError = true;
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 internal server error",
+      });
+    });
+};
+
+export const editExamineeSubjectGrade = async (req, res) => {
+  const examineeId = req.body.examineeId;
+  const gradesObject = req.body.gradesObject;
+  const subClubId = req.body.subClubId;
+  let clubs = [];
+  let isError = false;
+  console.log(gradesObject[1].examinee_grade, "LOLOLO");
+
+  try {
+    for (let i = 0; i < gradesObject.length; i++) {
+      await connection.promise().query(
+        `
+        INSERT INTO examinee_has_subject (examinee_id, sub_club_id, subject_id, examinee_grade)
+        VALUES ('${examineeId}', '${subClubId}', '${gradesObject[i].subject_id}', '${gradesObject[i].examinee_grade}')
+        ON DUPLICATE KEY UPDATE
+        examinee_id = VALUES(examinee_id),
+        sub_club_id = VALUES(sub_club_id),
+        subject_id = VALUES(subject_id),
+        examinee_grade = VALUES(examinee_grade);        
+        `
+      );
+    }
+    res.status(200).json({ status: "ok", msg: "Grades updated successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: "error", msg: "500 Internal Server Error" });
+  }
 };
 
 export const getSubject = async (req, res) => {

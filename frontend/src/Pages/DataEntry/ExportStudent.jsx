@@ -68,28 +68,34 @@ const ExportStudent = (props) => {
 
   return (
     <>
-      <form dir="rtl" onSubmit={handleSubmit(exportFormSubmit)}>
-        <h5 className="mt-5"> اسم الملف </h5>
-        <input
-          className="form-control form-control-lg "
-          type="text"
-          aria-label=".form-control-lg example"
-          value={fileName}
-          {...register("fileNameRequired", { required: true })}
-          onChange={(e) => {
-            setFileName(e.target.value);
-          }}
-        />
-        {errors.fileNameRequired && (
-          <span className="text-danger">من فضلك ادخل اسم الملف</span>
-        )}
-        <br></br>
-        <div className="row d-flex justify-content-center mt-3">
-          <button type="submit" className="btn btn-outline-primary mt-3 w-25">
-            استخراج
-          </button>
-        </div>
-      </form>
+      <div className="container d-flex justify-content-center align-items-center">
+        <form
+          className="w-50"
+          dir="rtl"
+          onSubmit={handleSubmit(exportFormSubmit)}
+        >
+          <h5 className="mt-5"> اسم الملف </h5>
+          <input
+            className="form-control form-control-lg"
+            type="text"
+            aria-label=".form-control-lg example"
+            value={fileName}
+            {...register("fileNameRequired", { required: true })}
+            onChange={(e) => {
+              setFileName(e.target.value);
+            }}
+          />
+          {errors.fileNameRequired && (
+            <span className="text-danger">من فضلك ادخل اسم الملف</span>
+          )}
+          <br />
+          <div className="row d-flex justify-content-center mt-3">
+            <button type="submit" className="btn btn-outline-primary mt-3 w-25">
+              استخراج
+            </button>
+          </div>
+        </form>
+      </div>
     </>
   );
 };

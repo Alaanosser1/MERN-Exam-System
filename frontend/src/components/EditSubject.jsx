@@ -32,7 +32,7 @@ const EditSubject = (props) => {
       .then((data) => {
         setSubjectName(data.data.subject[0].subject_name);
         setSubjectDescription(data.data.subject[0].subject_description);
-        setSubjectGrade(data.data.subject[0].subject_description);
+        setSubjectGrade(data.data.subject[0].subject_grade);
         setSubjectType(data.data.subject[0].subject_type);
       });
   };
@@ -83,7 +83,7 @@ const EditSubject = (props) => {
           {errors.nameRequired && (
             <span className="text-danger">من فضلك ادخل اسم الفرقة</span>
           )}
-          <h5 className="mt-4">الوصف </h5>
+          {/* <h5 className="mt-4">الوصف </h5>
           <input
             className="form-control form-control-lg "
             type="text"
@@ -95,7 +95,7 @@ const EditSubject = (props) => {
               setSubjectDescription(e.target.value);
               console.log(e.target.value);
             }}
-          />
+          /> */}
           {errors.descriptionRequired && (
             <span className="text-danger">من فضلك ادخل الوصف*</span>
           )}
@@ -103,18 +103,17 @@ const EditSubject = (props) => {
           <input
             className="form-control form-control-lg "
             type="number"
-            placeholder="الوصف"
             aria-label=".form-control-lg example"
-            defaultValue={subjectGrade}
+            value={subjectGrade}
             // {...register("descriptionRequired", { required: true })}
             onChange={(e) => {
               setSubjectGrade(e.target.value);
               console.log(e.target.value);
             }}
           />
-          {errors.descriptionRequired && (
+          {/* {errors.descriptionRequired && (
             <span className="text-danger">من فضلك ادخل الوصف*</span>
-          )}
+          )} */}
           <h5 className="mt-4">نوع المادة </h5>
           <select
             {...register("subjectTypeRequired", {
@@ -134,9 +133,9 @@ const EditSubject = (props) => {
             <option value={"نظري"}> نظري</option>
             <option value={"عملي"}> عملي</option>
           </select>
-          {errors.subjectTypeRequired && (
+          {/* {errors.subjectTypeRequired && (
             <span className="text-danger">من فضلك اختر نوع المادة*</span>
-          )}
+          )} */}
           <br></br>
           <div className="row justify-content-center">
             <button type="submit" className="btn btn-outline-primary mt-3 w-25">

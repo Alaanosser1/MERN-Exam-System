@@ -30,6 +30,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage }).single("img");
+
 const examineeRouter = express.Router();
 examineeRouter.post("/addExaminee", upload, addExaminee);
 examineeRouter.post("/storeExamineeAnswer", storeExamineeAnswer);

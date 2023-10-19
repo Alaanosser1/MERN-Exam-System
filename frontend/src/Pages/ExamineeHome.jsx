@@ -53,39 +53,36 @@ const ExamineeHome = () => {
 
   return (
     <>
-      <div
-        dir="rtl"
-        style={{ overflow: "scroll", maxHeight: "1000px" }}
-        className="container examinee-home-container w-100 h-100 p-5"
-      >
-        <div className="row mb-2 bg-light p-5">
-          <div className="col-9">
-            <h2>
-              {user.rank} {user.firstName}
-            </h2>
+      <div dir="rtl" className="container">
+        <div
+          dir=""
+          style={{ overflow: "scroll", maxHeight: "1000px" }}
+          className="container examinee-home-container w-100 h-100 p-5"
+        >
+          <div className="row mb-2 bg-light p-3 align-items-center">
+            <div className="col-9">
+              <h2>
+                {user.rank} {user.firstName}
+              </h2>
+            </div>
+            <div className="col-3 text-end">
+              <button className="btn btn-outline-primary" onClick={logout}>
+                <FontAwesomeIcon icon={faSignOut} /> &nbsp; تسجيل الخروج
+              </button>
+            </div>
           </div>
-          <div className="col-3">
-            <button className="btn btn-outline-primary" onClick={logout}>
-              <FontAwesomeIcon icon={faSignOut} /> &nbsp; تسجيل الخروج
-            </button>
-          </div>
-        </div>
-        <div className="row me-3">
-          <div className="col-9">
-            <h1 className="">الامتحانات</h1>
+          <div className="row mt-4">
+            <div className="col-9">
+              <h1 className="mb-4">الامتحانات</h1>
+            </div>
           </div>
         </div>
 
-        <div className="row">
-          <hr />
+        <div className="row mt-5">
           {Object.entries(exams).map((exam) => {
-            console.log(exam[1].NumberOfQuestions);
             return (
-              <div
-                className={`col-4 d-flex justify-content-center mb-2 mt-2`}
-                key={exam[1].exam_id}
-              >
-                <div className={`card exam-card text-end `}>
+              <div className="col-4 mb-3" key={exam[1].exam_id}>
+                <div className="card custom-card text-end">
                   <div className="card-body">
                     <h4 className="card-title">
                       الفرقة: {exam[1].sub_club_name.substring(0, 30)}
@@ -97,32 +94,31 @@ const ExamineeHome = () => {
                       {exam[1].exam_description.substring(0, 30)}...
                     </p>
                     <p className="card-text">
-                      عدد الاسئلة {exam[1].NumberOfQuestions}
+                      عدد الأسئلة: {exam[1].NumberOfQuestions}
                     </p>
                     <p className="card-text">
                       الوقت: {exam[1].exam_time} دقيقة
                     </p>
-                    <div className="row">
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          startExamHandler(exam[1].exam_id);
-                        }}
-                        className={`btn btn-outline-primary 
-                        ${exam[1].isExaminedBefore == true && "disabled"}
-                        ${exam[1].NumberOfQuestions <= 0 && "disabled"}
-                        `}
-                      >
-                        ابدأ الامتحان
-                      </button>
-                    </div>
+                  </div>
+                  <div className="card-footer text-center">
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        startExamHandler(exam[1].exam_id);
+                      }}
+                      className={`btn btn-primary
+                  ${exam[1].NumberOfQuestions <= 0 && "disabled"}`}
+                      style={{ width: "100%" }}
+                    >
+                      ابدأ الامتحان
+                    </button>
                   </div>
                 </div>
               </div>
             );
           })}
-          <hr />
         </div>
+
         <div className="row">
           <Footer />
         </div>

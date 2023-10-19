@@ -8,6 +8,25 @@ body {
   padding: 0;
 }
 
+.vertical-text {
+  /* writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  transform-origin: center; */
+  font-size: x-small;
+  max-height: 20%;
+}
+
+.reports-table {
+  font-size: small;
+}
+
+.sticky-row {
+  position: sticky;
+  top: 0;
+  background-color: #ffffff;
+  z-index: 1;
+}
+
 .side-bar-container {
   height: 100%;
 }
@@ -186,4 +205,41 @@ body {
 
 .examinee-home-container {
   height: 300px;
+}
+
+.custom-card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.custom-card:hover {
+  transform: translateY(-5px);
+}
+
+.custom-card .card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.custom-card .card-text {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+
+.custom-card .btn {
+  width: 100%;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+}
+
+.custom-card .btn:hover {
+  background-color: #0056b3;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.6;
 }
