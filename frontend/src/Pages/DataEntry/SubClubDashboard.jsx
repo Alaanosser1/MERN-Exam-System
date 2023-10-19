@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Placement from "./Placement";
 import Students from "./Students";
 import Subjects from "./Subjects";
+import ClubReport from "../ClubReport";
 
 const SubClubDashboard = () => {
   const [page, setPage] = useState(2);
@@ -31,21 +32,20 @@ const SubClubDashboard = () => {
         ></Placement>
       );
     }
+    if (page === 4) {
+      return (
+        <ClubReport
+          hidePopup={setAddExamPopup}
+          setPage={setPage}
+          setExamId={setExamId}
+        ></ClubReport>
+      );
+    }
   };
   return (
     <>
-      <div className="container list-container">
+      <div dir="rtl" className="container list-container">
         <div className="row pagination-row g-0">
-          <div className="col-2 m-1">
-            <button
-              onClick={() => setPage(1)}
-              className={`w-100 btn ${
-                page == 1 ? "btn-primary" : "btn-outline-primary"
-              } `}
-            >
-              المواد
-            </button>
-          </div>
           <div className="col-2 m-1">
             <button
               onClick={() => setPage(2)}
@@ -58,12 +58,33 @@ const SubClubDashboard = () => {
           </div>
           <div className="col-2 m-1">
             <button
+              onClick={() => setPage(1)}
+              className={`w-100 btn ${
+                page == 1 ? "btn-primary" : "btn-outline-primary"
+              } `}
+            >
+              المواد
+            </button>
+          </div>
+
+          <div className="col-2 m-1">
+            <button
               onClick={() => setPage(3)}
               className={`w-100 btn ${
                 page == 3 ? "btn-primary" : "btn-outline-primary"
               } `}
             >
               قياس المستوي
+            </button>
+          </div>
+          <div className="col-2 m-1">
+            <button
+              onClick={() => setPage(4)}
+              className={`w-100 btn ${
+                page == 4 ? "btn-primary" : "btn-outline-primary"
+              } `}
+            >
+              التقارير
             </button>
           </div>
           {/* <div className="col-2">

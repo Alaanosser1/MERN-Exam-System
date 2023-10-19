@@ -32,6 +32,15 @@ const ExamineeExam = () => {
   }, []);
 
   console.log(user, "USER");
+
+  const checkExamineeExaminedBefore = () => {
+    axios.get(`http://${process.env.REACT_APP_API_IP}:4000/exam/getExam`, {
+      params: {
+        examId,
+      },
+    });
+  };
+
   const getExamData = () => {
     axios
       .get(`http://${process.env.REACT_APP_API_IP}:4000/exam/getExam`, {

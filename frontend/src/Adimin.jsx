@@ -31,6 +31,8 @@ import InstructorSignUp from "./Pages/InstructorSignUp";
 import AdminSideBar from "./components/AdminSideBar";
 import AllInstructors from "./Pages/AllInstructors";
 import EnterPlacementGrades from "./Pages/DataEntry/EnterPlacementGrades";
+import MainClubReports from "./Pages/MainClubReports";
+import SubClubsReports from "./Pages/SubClubsReports";
 
 function Admin() {
   console.log(window.location);
@@ -54,6 +56,15 @@ function Admin() {
               <Route
                 path="/mainClubExams/:mainClubId/:subClubId"
                 element={<Exams />}
+              />
+              <Route path="/mainClubReports" element={<MainClubReports />} />
+              <Route
+                path="/mainClubReports/:mainClubId"
+                element={<SubClubsReports />}
+              />
+              <Route
+                path="/mainClubReports/:mainClubId/:subClubId"
+                element={<Reports />}
               />
               <Route path="/exams/:examId" element={<EditAndPreviewExam />} />
               <Route path="exams/createExamForm" element={<CreateExamForm />} />

@@ -20,6 +20,9 @@ import {
   getPlacementOptionsValues,
   getPlacement,
   deletePlacement,
+  getSubClubStudentsSubjects,
+  getExamineeSubjectsGrades,
+  editExamineeSubjectGrade,
 } from "../controllers/sub-club-controller.js";
 
 const clubRouter = express.Router();
@@ -31,9 +34,12 @@ clubRouter.get("/getSingleSubClub", getSingleSubClub);
 clubRouter.get("/getSubClubStudents", getSubClubStudents);
 clubRouter.post("/createSubject", createSubject);
 clubRouter.post("/editSubject", editSubject);
+clubRouter.post("/editExamineeSubjectGrade", editExamineeSubjectGrade);
 clubRouter.delete("/deleteSubject", deleteSubject);
 clubRouter.get("/getClubSubjects", getClubSubjects);
 clubRouter.get("/getSubject", getSubject);
+clubRouter.get("/getSubClubStudentsSubjects", getSubClubStudentsSubjects);
+clubRouter.get("/getExamineeSubjectsGrades", getExamineeSubjectsGrades);
 clubRouter.get("/getSubClubPlacements", getSubClubPlacements);
 clubRouter.post("/createPlacement", createPlacement);
 clubRouter.get("/getPlacementOptions", getPlacementOptions);

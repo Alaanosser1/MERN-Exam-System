@@ -22,6 +22,8 @@ import MainClubExams from "./Pages/MainClubExams";
 import ViewMainQuestionBank from "./components/ViewMainQuestionBank";
 import CreateExamStep1 from "./components/CreateExamStep1";
 import SubClubsExams from "./Pages/SubClubsExams";
+import MainClubReports from "./Pages/MainClubReports";
+import SubClubsReports from "./Pages/SubClubsReports";
 
 function App() {
   console.log(window.location);
@@ -43,6 +45,15 @@ function App() {
               <Route
                 path="/mainClubExams/:mainClubId/:subClubId"
                 element={<Exams />}
+              />
+              <Route path="/mainClubReports" element={<MainClubReports />} />
+              <Route
+                path="/mainClubReports/:mainClubId"
+                element={<SubClubsReports />}
+              />
+              <Route
+                path="/mainClubReports/:mainClubId/:subClubId"
+                element={<Reports />}
               />
               <Route path="/exams/:examId" element={<EditAndPreviewExam />} />
               <Route path="exams/createExamForm" element={<CreateExamForm />} />

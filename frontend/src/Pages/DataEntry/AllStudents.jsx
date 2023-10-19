@@ -136,7 +136,7 @@ const Students = () => {
             </h2>
           </div>
           <div className="col-2 d-flex justify-content-end">
-            <button
+            {/* <button
               id="export-button"
               onClick={() => {
                 tableToArray();
@@ -144,7 +144,7 @@ const Students = () => {
               className="btn btn-outline-primary h-50 mt-4"
             >
               استخراج الي اكسيل
-            </button>
+            </button> */}
           </div>
           <div className="col-3 d-flex justify-content-end">
             <button

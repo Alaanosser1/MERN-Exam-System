@@ -1,6 +1,6 @@
 import { useState, React, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ExportStudent from "../Pages/DataEntry/ExportStudent";
 import Popup from "../components/Popup";
 
@@ -12,11 +12,17 @@ const Reports = () => {
   useEffect(() => {
     getReports();
   }, []);
+
+  const { subClubId } = useParams();
+
   const getReports = () => {
     axios
       .get(
         `http://${process.env.REACT_APP_API_IP}:4000/evaluate/getExamsReport`,
         {
+          params: {
+            subClubId,
+          },
           // headers: {
           //   "auth-token": user.token,
           // },

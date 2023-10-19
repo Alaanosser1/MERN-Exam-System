@@ -12,6 +12,8 @@ const UpdateExamineeFitnessMeasurement = (props) => {
   const [shootingBefore, setShootingBefore] = useState("");
   const [shootingTest, setShootingTest] = useState("");
   const [examineeFitnessData, setExamineeFitnessData] = useState("");
+  const [behavior, setBehavior] = useState(""); // Add behavior state
+  const [perseverance, setPerseverance] = useState(""); // Add perseverance state
 
   const user =
     JSON.parse(localStorage.getItem("instructor-token")) ||
@@ -38,9 +40,6 @@ const UpdateExamineeFitnessMeasurement = (props) => {
             subClubId,
             examineeId: props.examinee.examinee_id,
           },
-          //   headers: {
-          //     "auth-token": user.token,
-          //   },
         }
       )
       .then((res) => {
@@ -68,7 +67,8 @@ const UpdateExamineeFitnessMeasurement = (props) => {
           res.data.fitnessLeveMeasurement[0].shooting_level_before
         );
         setShootingTest(res.data.fitnessLeveMeasurement[0].shooting_level_test);
-        // setSearchResults(res.data.subjects);
+        setBehavior(res.data.fitnessLeveMeasurement[0].behavior); // Set behavior state
+        setPerseverance(res.data.fitnessLeveMeasurement[0].perseverance); // Set perseverance state
       })
       .catch((error) => {
         console.log(error);
@@ -89,6 +89,8 @@ const UpdateExamineeFitnessMeasurement = (props) => {
           shootingTest,
           subClubId,
           examineeId: props.examinee.examinee_id,
+          behavior, // Include behavior
+          perseverance, // Include perseverance
         },
         {
           headers: {
@@ -153,34 +155,7 @@ const UpdateExamineeFitnessMeasurement = (props) => {
               />
             </div>
           </div>
-          <div className="row">
-            <div className="col-6">
-              <h5 className="mt-4">القوام نهاية الفرقة</h5>
-              <input
-                className="form-control form-control-lg"
-                type="text"
-                aria-label=".form-control-lg example"
-                value={textureLevelBefore}
-                onChange={(e) => {
-                  setTextureLevelBefore(e.target.value);
-                  console.log(e.target.value);
-                }}
-              />
-            </div>
-            <div className="col-6">
-              <h5 className="mt-4">القوام نهاية الفرقة</h5>
-              <input
-                className="form-control form-control-lg"
-                type="text"
-                aria-label=".form-control-lg example"
-                value={textureLevelAfter}
-                onChange={(e) => {
-                  setTextureLevelAfter(e.target.value);
-                  console.log(e.target.value);
-                }}
-              />
-            </div>
-          </div>
+
           <div className="row">
             <div className="col-6">
               <h5 className="mt-4">الرماية بداية الفرقة</h5>
@@ -196,7 +171,7 @@ const UpdateExamineeFitnessMeasurement = (props) => {
               />
             </div>
             <div className="col-6">
-              <h5 className="mt-4"> الرماية نهاية الفرقة</h5>
+              <h5 className="mt-4"> اختبار الرماية</h5>
               <input
                 className="form-control form-control-lg"
                 type="text"
@@ -207,6 +182,77 @@ const UpdateExamineeFitnessMeasurement = (props) => {
                   console.log(e.target.value);
                 }}
               />
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-6">
+              <h5 className="mt-4">السلوك</h5>
+              <input
+                className="form-control form-control-lg"
+                type="number"
+                value={behavior}
+                min={0}
+                onChange={(e) => {
+                  setBehavior(e.target.value);
+                }}
+              />
+            </div>
+
+            <div className="col-6">
+              <h5 className="mt-4">المواظبة</h5>
+              <input
+                className="form-control form-control-lg"
+                type="number"
+                min={0}
+                value={perseverance}
+                onChange={(e) => {
+                  setPerseverance(e.target.value);
+                }}
+              />
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-6">
+              <h5 className="mt-4">القوام نهاية الفرقة</h5>
+              <select
+                onChange={(e) => {
+                  e.preventDefault();
+                  setTextureLevelBefore(e.target.value);
+                }}
+                value={textureLevelBefore}
+                id="inputState"
+                className="form-control"
+              >
+                <option selected disabled value={""}>
+                  اختر القوام بداية الفرقة
+                </option>
+                <option value={"طبيعي"}> طبيعي</option>
+                <option value={"زائد"}> زائد</option>
+                <option value={"سمنة"}> سمنة</option>
+                <option value={"سمنة مفرطة"}> سمنة مفرطة</option>
+              </select>
+            </div>
+            <div className="col-6">
+              <h5 className="mt-4">القوام نهاية الفرقة</h5>
+              <select
+                onChange={(e) => {
+                  e.preventDefault();
+                  setTextureLevelAfter(e.target.value);
+                }}
+                value={textureLevelAfter}
+                id="inputState"
+                className="form-control"
+              >
+                <option selected disabled value={""}>
+                  اختر القوام نهاية الفرقة
+                </option>
+                <option value={"طبيعي"}> طبيعي</option>
+                <option value={"زائد"}> زائد</option>
+                <option value={"سمنة"}> سمنة</option>
+                <option value={"سمنة مفرطة"}> سمنة مفرطة</option>
+              </select>
             </div>
           </div>
 

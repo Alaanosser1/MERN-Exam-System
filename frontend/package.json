@@ -24,6 +24,7 @@
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-countdown": "^2.3.5",
+    "react-data-export": "^0.6.0",
     "react-datepicker": "^4.11.0",
     "react-datetime-picker": "^5.0.3",
     "react-dom": "^18.2.0",
@@ -32,6 +33,7 @@
     "react-images-uploading": "^3.1.7",
     "react-live-clock": "^6.1.13",
     "react-multistep": "^5.5.8",
+    "react-paginate": "^8.2.0",
     "react-pro-sidebar": "^1.0.0",
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
@@ -40,7 +42,8 @@
     "sass": "^1.59.3",
     "sweetalert2": "^11.7.2",
     "sweetalert2-react-content": "^5.0.7",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "react-scripts start",

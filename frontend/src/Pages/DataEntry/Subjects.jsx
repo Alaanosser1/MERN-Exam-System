@@ -95,85 +95,78 @@ const Subjects = () => {
           ></EditMainClub>
         </Popup> */}
       </div>
-      <div className="container list-container">
-        <div className="row" dir="rtl">
-          <div className="col-9">
-            <h1 className="mt-5">المواد</h1>
-          </div>
-          <div className="col-3">
-            <button
-              onClick={() => {
-                setAddSubject(true);
-              }}
-              className="btn btn-outline-success mt-5"
-            >
-              اضافة مادة جديدة
-            </button>
-          </div>
+      <div className="row" dir="rtl">
+        <div className="col-9">
+          <h1 className="mt-5">المواد</h1>
         </div>
-        {/* <div dir="rtl" className="row m-3">
+        <div className="col-3">
+          <button
+            onClick={() => {
+              setAddSubject(true);
+            }}
+            className="btn btn-outline-success mt-5"
+          >
+            اضافة مادة جديدة
+          </button>
+        </div>
+      </div>
+      {/* <div dir="rtl" className="row m-3">
           <label htmlFor="">بحث</label>
           <StudentSearch
             content={students}
             setSearchResults={setSearchResults}
           />
         </div> */}
-        <table
-          dir="rtl"
-          className="table mt-2 table-striped border table-responsive-lg"
-        >
-          <thead>
-            <tr>
-              {/* <th scope="col">ID</th> */}
-              <th className="text-center" scope="col">
-                الاسم
-              </th>
-              <th className="text-center" scope="col">
-                الوصف
-              </th>
-              <th className="text-center" scope="col">
-                الدرجة
-              </th>
-              <th className="text-center" scope="col">
-                النوع
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {Object.entries(subjects).map((subject) => {
-              return (
-                <tr scope="row" key={subject[1].subject_id}>
-                  <td className="text-center">{subject[1].subject_name}</td>
-                  <td className="text-center">
-                    {`${subject[1].subject_description}`}
-                  </td>
-                  <td className="text-center">{subject[1].subject_grade}</td>
-                  <td className="text-center">{subject[1].subject_type}</td>
-                  <td className="text-center">
-                    <button
-                      onClick={() => {
-                        setEditSubject(true);
-                        setSubjectId(subject[1].subject_id);
-                      }}
-                      className="btn btn-outline-primary m-2"
-                    >
-                      تعديل
-                    </button>
-                    <button
-                      onClick={() => {
-                        deleteSubject(subject[1].subject_id);
-                      }}
-                      className="btn btn-outline-danger m-2"
-                    >
-                      حذف
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+      <table
+        dir="rtl"
+        className="table mt-2 table-striped border table-responsive-lg"
+      >
+        <thead>
+          <tr>
+            {/* <th scope="col">ID</th> */}
+            <th className="text-center" scope="col">
+              الاسم
+            </th>
+            <th className="text-center" scope="col">
+              الدرجة
+            </th>
+            <th className="text-center" scope="col">
+              النوع
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {Object.entries(subjects).map((subject) => {
+            return (
+              <tr scope="row" key={subject[1].subject_id}>
+                <td className="text-center">{subject[1].subject_name}</td>
+                <td className="text-center">{subject[1].subject_grade}</td>
+                <td className="text-center">{subject[1].subject_type}</td>
+                <td className="text-center">
+                  <button
+                    onClick={() => {
+                      setEditSubject(true);
+                      setSubjectId(subject[1].subject_id);
+                    }}
+                    className="btn btn-outline-primary m-2"
+                  >
+                    تعديل
+                  </button>
+                  <button
+                    onClick={() => {
+                      deleteSubject(subject[1].subject_id);
+                    }}
+                    className="btn btn-outline-danger m-2"
+                  >
+                    حذف
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </>
   );
 };

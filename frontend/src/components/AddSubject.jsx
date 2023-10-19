@@ -12,6 +12,7 @@ const AddSubject = (props) => {
     JSON.parse(localStorage.getItem("instructor-token")) ||
     JSON.parse(localStorage.getItem("data-entry-token")) ||
     JSON.parse(localStorage.getItem("admin-token"));
+
   const { subClubId } = useParams();
   const {
     register,
@@ -25,7 +26,6 @@ const AddSubject = (props) => {
         `http://${process.env.REACT_APP_API_IP}:4000/subClub/createSubject`,
         {
           subjectName,
-          subjectDescription,
           subjectGrade,
           subjectType,
           subClubId,
@@ -46,7 +46,7 @@ const AddSubject = (props) => {
     <>
       <div style={{ maxWidth: "60%" }} dir="rtl" className="container">
         <div className="row">
-          <h1 className="m-4">اضافة مادة جديدة</h1>
+          <h1 className="m-4 text-center">اضافة مادة جديدة</h1>
         </div>
         <form onSubmit={handleSubmit(formSubmit)}>
           <h5 className="mt-4"> اسم المادة </h5>
@@ -64,7 +64,7 @@ const AddSubject = (props) => {
           {errors.nameRequired && (
             <span className="text-danger">من فضلك ادخل اسم المادة</span>
           )}
-          <h5 className="mt-4">الوصف</h5>
+          {/* <h5 className="mt-4">الوصف</h5>
           <input
             className="form-control form-control-lg"
             type="text"
@@ -74,7 +74,7 @@ const AddSubject = (props) => {
               setSubjectDescription(e.target.value);
               console.log(e.target.value);
             }}
-          />
+          /> */}
           {/* {errors.descriptionRequired && (
             <span className="text-danger">من فضلك ادخل الوصف*</span>
           )} */}

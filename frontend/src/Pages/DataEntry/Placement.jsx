@@ -5,25 +5,24 @@ import Popup from "../../components/Popup";
 import PlacementOptions from "./PlacementOptions";
 import StudentSearch from "./StudentsSearch";
 import UpdateExamineeFitnessMeasurement from "../../components/UpdateExamineeFitnessMeasurement";
+import ExportStudent from "./ExportStudent";
 
 const Placement = () => {
   useEffect(() => {
     getPlacements();
   }, []);
 
-  const [subClubfitnessLeveMeasurement, setSubClubfitnessLeveMeasurement] =
+  const [subClubfitnessLevelMeasurement, setSubClubfitnessLevelMeasurement] =
     useState([]);
   const [placementId, setPlacementId] = useState("");
   const [addPlacement, setAddPlacement] = useState(false);
   const [placementOptions, setPlacementOptions] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
-  const [editPlacementGrades, setEditPlacementGrades] = useState(false);
-  const [students, setStudents] = useState("");
   const [examinee, setExaminee] = useState("");
-
-  const [editSubject, setEditSubject] = useState(false);
+  const [exportPopup, setExportPopup] = useState(false);
+  const [tableArray, setTableArray] = useState();
   const refOne = useRef(null);
-  const { subClubId, mainClubId } = useParams();
+  const { subClubId } = useParams();
 
   const getPlacements = () => {
     axios
@@ -40,17 +39,39 @@ const Placement = () => {
       )
       .then((res) => {
         console.log(
-          res.data.subClubfitnessLeveMeasurement,
+          res.data.subClubfitnessLevelMeasurement,
           "Fitness Level Measurement"
         );
-        setSubClubfitnessLeveMeasurement(
-          res.data.subClubfitnessLeveMeasurement
+        setSubClubfitnessLevelMeasurement(
+          res.data.subClubfitnessLevelMeasurement
         );
-        setSearchResults(res.data.subClubfitnessLeveMeasurement);
+        setSearchResults(res.data.subClubfitnessLevelMeasurement);
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const tableToArray = async () => {
+    setTableArray([]);
+    const trs = document.querySelectorAll("#report-table tr");
+    console.log(trs, "TRS");
+
+    for (let tr of trs) {
+      let th_td = Array.from(
+        tr.querySelectorAll(
+          "td:not(#operations-buttons), th:not(#operations-buttons)"
+        )
+      );
+      let th_td_array = th_td.map((tag) => tag.innerText);
+      console.log(th_td_array, "HAHAHAHHA");
+
+      // Use await to ensure the state update is complete
+      setTableArray((tableArray) => [...tableArray, th_td_array]);
+      console.log(tableArray, "TABLETOARRAY");
+    }
+
+    setExportPopup(true);
   };
 
   return (
@@ -67,17 +88,34 @@ const Placement = () => {
           <PlacementOptions placementId={placementId} />
           {console.log(placementId, "FROM PLACEMENT")}
         </Popup>
+        <Popup trigger={exportPopup} setTrigger={setExportPopup}>
+          <ExportStudent
+            setExportPopup={setExportPopup}
+            tableArray={tableArray}
+            setTableArray={setTableArray}
+            searchResults={searchResults}
+          />
+        </Popup>
       </div>
       <div className="">
-        <div className="row" dir="rtl">
+        <div dir="rtl" className="row">
+          <label htmlFor="">بحث</label>
           <div className="col-5">
-            <label htmlFor="" className="mt-5">
-              بحث
-            </label>
             <StudentSearch
-              content={subClubfitnessLeveMeasurement}
+              content={subClubfitnessLevelMeasurement}
               setSearchResults={setSearchResults}
             />
+          </div>
+          <div dir="ltr" className="col-7">
+            <button
+              id="export-button"
+              onClick={() => {
+                tableToArray();
+              }}
+              className="btn btn-outline-success"
+            >
+              استخراج الي اكسيل
+            </button>
           </div>
         </div>
         {/* <div dir="rtl" className="row m-3">
@@ -87,13 +125,14 @@ const Placement = () => {
             setSearchResults={setSearchResults}
           />
         </div> */}
-
+        {console.log(subClubfitnessLevelMeasurement, "HAHAHALOLOLO")}
         <table
           dir="rtl"
           className="table mt-2 table-striped border table-responsive-lg"
+          id="students-table"
         >
           <thead>
-            <tr>
+            <tr className="sticky-row">
               {/* <th scope="col">ID</th> */}
               <th className="text-center" scope="col">
                 الكود
@@ -124,6 +163,12 @@ const Placement = () => {
               </th>
               <th className="text-center" scope="col">
                 اختبار الرماية
+              </th>
+              <th className="text-center" scope="col">
+                السلوك
+              </th>
+              <th className="text-center" scope="col">
+                المواظبة
               </th>
               <th className="text-center" scope="col"></th>
             </tr>
@@ -157,7 +202,13 @@ const Placement = () => {
                     <td className="text-center">
                       {placement[1].shooting_level_test || "_"}
                     </td>
-                    <td>
+                    <td className="text-center">
+                      {placement[1].behavior || "_"}
+                    </td>
+                    <td className="text-center">
+                      {placement[1].perseverance || "_"}
+                    </td>
+                    <td id="operations-buttons">
                       <button
                         onClick={() => {
                           setAddPlacement(true);
