@@ -28,6 +28,7 @@ import Clubs from "./Clubs";
 import MainQuestionBanks from "./Pages/MainQuestionBanks";
 import Admin from "./Adimin";
 import LoginAdmin from "./Pages/LoginAdmin";
+import AllExamineeQuestionare from "./Pages/AllExamineeQuestionare";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -38,6 +39,10 @@ root.render(
       <Route path="/examineePreExam/" element={<ExamineePreExam />} />
       <Route element={<PrivateRoutesExaminee />}>
         <Route path="/examineeHome" element={<ExamineeHome />} />
+        <Route
+          path="/examineeHome/questionare"
+          element={<AllExamineeQuestionare />}
+        />
         <Route path="/ExamineeExam/:examId" element={<ExamineeExam />} />
       </Route>
       <Route path="/login" element={<Login />} />

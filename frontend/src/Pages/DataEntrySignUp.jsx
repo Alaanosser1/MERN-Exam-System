@@ -36,7 +36,6 @@ const DataEntrySignUp = () => {
         )
         .then((data) => {
           console.log(data);
-          navigate("/dataEntryLogin");
         })
         .catch((err) => {
           if (err.response.status == 409) {
@@ -60,13 +59,10 @@ const DataEntrySignUp = () => {
         <form onSubmit={handleSubmit(formSubmit)} className="m-4 p-3">
           <div class="row p-2">
             <div class="form-group col-md-6 p-2">
-              <h5 className="mb-3" for="inputEmail4">
-                الاسم
-              </h5>
+              <h5 className="mb-3">الاسم</h5>
               <input
                 type="text"
                 class="form-control"
-                id="inputEmail4"
                 placeholder="الاسم"
                 {...register("nameRequired", { required: true })}
                 onChange={(e) => {
@@ -78,14 +74,11 @@ const DataEntrySignUp = () => {
               )}
             </div>
             <div class="form-group col-md-6 p-2">
-              <h5 className="mb-3" for="inputPassword4">
-                رقم الشرطة
-              </h5>
+              <h5 className="mb-3">رقم الشرطة</h5>
               <input
                 {...register("policeNumberRequired", { required: true })}
                 type="text"
                 class="form-control"
-                id="inputPassword4"
                 placeholder="رقم الشرطة"
                 onChange={(e) => {
                   setDataEntryPoliceNumber(e.target.value);
@@ -170,37 +163,21 @@ const DataEntrySignUp = () => {
                 <option value={"مندوب شرطة"}>مندوب شرطة</option>
                 <option value={"امين شرطة"}>امين شرطة</option>
                 <option value={"امين شرطة اول"}>امين شرطة اول</option>
+                <option value={"امين شرطة ثاني"}>امين شرطة ثاني</option>
+                <option value={"امين شرطة ثالث"}>امين شرطة ثالث</option>
                 <option value={"امين شرطة ممتاز"}>امين شرطة ممتاز</option>
+                <option value={"معاون امن اول"}>معاون امن اول</option>
+                <option value={"معاون امن ثاني"}>معاون امن ثاني</option>
+                <option value={"معاون امن ثالث"}>معاون امن ثالث</option>
+                <option value={"شرطي"}>شرطي</option>
+                <option value={"خفير"}>خفير</option>
               </select>
               {errors.officerRankRequired && (
                 <span className="text-danger">من فضلك اختر الدرجة*</span>
               )}
             </div>
           </div>
-          <div class="row p-2">
-            {/* <div class="form-group col-md-6 p-2">
-              <h5 className="mb-3" for="inputState">
-                الرتبة
-              </h5>
-              <select
-                {...register("rankRequired", { required: true })}
-                id="inputState"
-                class="form-control"
-                onChange={(e) => {
-                  setInstructorRank(e.target.value);
-                  console.log(e.target.value);
-                }}
-              >
-                <option disabled selected value="">
-                  اختر الرتبة
-                </option>
-                <option value="عسكري">عسكري</option>
-              </select>
-              {errors.rankRequired && (
-                <h6 className="m-2 text-danger">من فضلك اختر الرتبة*</h6>
-              )}
-            </div> */}
-          </div>
+
           <div className="row m-4  d-flex justify-content-center align-items-center">
             <button type="submit" class="btn btn-primary mt-3 w-25">
               تسجيل
