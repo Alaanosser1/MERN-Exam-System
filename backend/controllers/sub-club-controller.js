@@ -15,6 +15,7 @@ export const createSubClub = (req, res) => {
   const attendenceGrades = req.body.attendenceGrades;
   const behaviourGrades = req.body.behaviourGrades;
   const placement = req.body.placement;
+  const studyingYear = req.body.studyingYear;
   const totalGrades =
     parseInt(theoriticalGrades) +
     parseInt(practicalGrades) +
@@ -27,13 +28,13 @@ export const createSubClub = (req, res) => {
       `INSERT INTO sub_club(sub_club_name, sub_club_description,
          sub_club_number, start_date, end_date, main_club_id,
          students_type, sub_club_type, theoritical_grades, practical_grades,
-         attendence_grades, behaviour_grades, total_grades, placement)
+         attendence_grades, behaviour_grades, total_grades, placement, studying_year)
           VALUES(
            '${clubName}','${clubDescription}','${clubNumber}',
            '${startDate}', '${endDate}', '${mainClubId}',
            '${studentsType}', '${subClubType}', '${theoriticalGrades}',
            '${practicalGrades}', '${attendenceGrades}', '${behaviourGrades}',
-           '${totalGrades}', '${placement}')`
+           '${totalGrades}', '${placement}', '${studyingYear}')`
     )
     .then((data) => {
       res.status(201).json({
@@ -890,7 +891,7 @@ export const getPlacementOptionsValues = async (req, res) => {
       JOIN examinee_placement ON
       examinee_placement.placement_option_id = placement_option.placement_option_id
       AND examinee_placement.examinee_id = '${examineeId}'
-       WHERE placement_option.placement_id = ${placementId} `
+       WHERE placement_option.placement_id = ${placementId}`
     )
     .then((data) => {
       res.status(200).json({

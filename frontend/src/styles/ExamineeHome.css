@@ -1,0 +1,59 @@
+.flex {
+  display: flex;
+  overflow: hidden;
+  justify-content: space-between;
+  border-radius: 0.375rem;
+  box-shadow: 0 1px 2px 0 rgba(0.2, 0.2, 0, 0.3);
+  margin: auto;
+  margin-top: 1.25rem;
+  overflow: hidden;
+  background-color: #fcfcfcce;
+  gap: 100px;
+  max-height: 220px;
+}
+
+.text-wrapper {
+  padding: 2rem;
+  width: 100%;
+}
+
+.primary-text {
+  margin-top: 0.9375rem;
+  margin-left: 1.25rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.secondary-text {
+  margin-top: 0.9375rem;
+  margin-left: 1.25rem;
+  color: #374151;
+}
+
+.button {
+  width: fit-content;
+  display: inline-block;
+  color: #fff;
+  background: linear-gradient(to right, #3b82f6, #2563eb, #2563eb);
+  border: none;
+  padding: 0.625rem 1.25rem;
+  font-weight: 500;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-right: 0.625rem;
+  margin-bottom: 0.625rem;
+}
+
+.button button:hover {
+  background: linear-gradient(to bottom right, #3b82f6, #2563eb, #2563eb);
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.125rem rgba(59, 130, 246, 0.5);
+}
+
+button.dark:focus {
+  box-shadow: 0 0 0 0.125rem rgba(59, 130, 246, 0.5);
+}
