@@ -140,7 +140,7 @@ const Placement = () => {
               <th className="text-center" scope="col">
                 الرتبة
               </th>
-              <th className="text-center" scope="col">
+              <th className="text-center col-3" scope="col">
                 الاسم
               </th>
               <th className="text-center" scope="col">
@@ -174,7 +174,8 @@ const Placement = () => {
             </tr>
           </thead>
           <tbody>
-            {Object.entries(searchResults).map((placement) => {
+
+            {searchResults && Object.entries(searchResults).map((placement) => {
               return (
                 <>
                   <tr scope="row" key={placement[1].examinee_id}>

@@ -67,14 +67,14 @@ export default function AdminSideBar() {
               </Link>
             </a>
           </li>
-          <li>
+          {/* <li>
             <a>
               <i className="fas fa-user"></i>
               <Link to={"/admin/AllInstructors"}>
                 <FontAwesomeIcon icon={faPen} /> &nbsp; المحاضرين
               </Link>
             </a>
-          </li>
+          </li> */}
           <li>
             <a>
               <i className="fas fa-user"></i>
