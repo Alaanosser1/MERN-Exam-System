@@ -458,6 +458,9 @@ const AddExaminee = (props) => {
                     <option value={"ا.ع لنظم معلومات المرور"}>
                       ا. ع لنظم معلومات المرور
                     </option>
+                    <option value={"ا.ع لشرطة رئاسة الجمهورية"}>
+                    ا.ع لشرطة رئاسة الجمهورية
+                    </option>
                     <option value={"قطاع أمن القاهرة"}>قطاع أمن القاهرة</option>
                     <option value={"قطاع أمن الجيزة"}>قطاع أمن الجيزة</option>
                     <option value={"مديرية أمن القاهرة"}>مديرية أمن القاهرة</option>
@@ -1113,6 +1116,9 @@ const AddExaminee = (props) => {
                     <option value={"قطاع الأمن العام"}>قطاع الأمن العام</option>
                     <option value={"ا.ع لنظم معلومات المرور"}>
                       ا. ع لنظم معلومات المرور
+                    </option>
+                    <option value={"ا.ع لشرطة رئاسة الجمهورية"}>
+                    ا.ع لشرطة رئاسة الجمهورية
                     </option>
                     <option value={"قطاع أمن القاهرة"}>قطاع أمن القاهرة</option>
                     <option value={"قطاع أمن الجيزة"}>قطاع أمن الجيزة</option>
