@@ -18,6 +18,7 @@ import {
 } from "@react-pdf/renderer";
 
 import "jspdf-autotable";
+import EditPoliceSecurity from "../../components/editStudentData/EditPoliceSecurity";
 
 // import "jspdf-arabic";
 
@@ -40,7 +41,8 @@ const StudentProfile = () => {
   const [subClubs, setSubClubs] = useState([]);
   const [placementId, setPlacementId] = useState("");
   const [placementOptions, setPlacementOptions] = useState(false);
-  const [editStudentData, setEditStudentData] = useState(false);
+  const [editStudentDataOfficer, setEditStudentDataOfficer] = useState(false);
+  const [editStudentDataSecurity, setEditStudentDataSecurity] = useState(false);
   const [listPlacementOptions, setListPlacementOptions] = useState(false);
   const refOne = useRef(null);
   let pdfContent;
@@ -299,9 +301,21 @@ const StudentProfile = () => {
         />
         {console.log(placementId, "FROM PLACEMENT")}
       </Popup>
-      <Popup trigger={editStudentData} setTrigger={setEditStudentData}>
+      <Popup
+        trigger={editStudentDataOfficer}
+        setTrigger={setEditStudentDataOfficer}
+      >
         <EditPoliceOfficer
-          setCloseEditStudent={setEditStudentData}
+          setCloseEditStudent={setEditStudentDataOfficer}
+          getStudent={getStudent}
+        />
+      </Popup>
+      <Popup
+        trigger={editStudentDataSecurity}
+        setTrigger={setEditStudentDataSecurity}
+      >
+        <EditPoliceSecurity
+          setCloseEditStudent={setEditStudentDataSecurity}
           getStudent={getStudent}
         />
       </Popup>
@@ -393,7 +407,27 @@ const StudentProfile = () => {
                 student[0].examinee_type == "ضابط" && (
                   <div className="col-6 mt-5 mb-3 h-25 d-flex justify-content-center">
                     <button
-                      onClick={() => setEditStudentData(true)}
+                      onClick={() => setEditStudentDataOfficer(true)}
+                      className="btn btn-outline-primary m-2 mt-5"
+                    >
+                      تعديل بيانات الدارس
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        downloadStudentInfoPDF(student[0]);
+                      }}
+                      className="btn btn-outline-primary m-2 mt-5"
+                    >
+                      طباعة بيانات الدارس
+                    </button>
+                  </div>
+                )}
+              {JSON.parse(localStorage.getItem("admin-token")) &&
+                student[0].examinee_type == "فرد" && (
+                  <div className="col-6 mt-5 mb-3 h-25 d-flex justify-content-center">
+                    <button
+                      onClick={() => setEditStudentDataSecurity(true)}
                       className="btn btn-outline-primary m-2 mt-5"
                     >
                       تعديل بيانات الدارس
