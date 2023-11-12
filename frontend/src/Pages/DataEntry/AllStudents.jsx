@@ -266,24 +266,16 @@ const Students = () => {
               if (student[1].examinee_type === "فرد" && page === 1) {
                 return (
                   <tr scope="row" key={student[1].club_id}>
-                    <td className="text-center">{student[1].examinee_id}</td>
-                    <td className="text-center">{student[1].examinee_name}</td>
-                    <td className="text-center">
-                      {`${student[1].examinee_type}`}
-                    </td>
-                    <td className="text-center">
+                    <td className="">{student[1].examinee_id}</td>
+                    <td className="">{student[1].examinee_name}</td>
+                    <td className="">{`${student[1].examinee_type}`}</td>
+                    <td className="">
                       {student[1].examinee_type == "مدني"
                         ? `___`
                         : `${student[1].examinee_rank}`}
                     </td>
-                    <td className="text-center">
-                      {student[1].examinee_seniority_number ||
-                        student[1].examinee_police_number ||
-                        student[1].examinee_civilian_number}
-                    </td>
-                    <td className="text-center">
-                      {student[1].examinee_entity}
-                    </td>
+                    <td className="">{student[1].examinee_police_number}</td>
+                    <td className="">{student[1].examinee_entity}</td>
                     {JSON.parse(localStorage.getItem("data-entry-token")) && (
                       <td className="text-center" id="operations-buttons">
                         <Link to={`/clubs/students/${student[1].examinee_id}`}>

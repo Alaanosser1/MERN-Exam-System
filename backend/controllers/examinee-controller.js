@@ -332,26 +332,141 @@ export const editPoliceOfficer = async (req, res) => {
     .promise()
     .query(
       `SELECT * FROM examinee WHERE
-      examinee_id = '${examineeId}'`
+      examinee_seniority_number = '${examineeSeniorityNumber}'`
     )
     .then((data) => {
-      console.log(examineeSeniorityNumber);
-      if (data.length > 0 && data[0][0].examinee_id == examineeId) {
+      // console.log(examineeSeniorityNumber);
+      if (data.length[0] > 0 && data[0][0].examinee_id == examineeId) {
         updatePoliceOfficer();
         console.log("inside available and examinee did not change code");
-      } else if (data.length > 0 && data[0][0].examinee_id != examineeId) {
+      } else if (data[0].length > 0 && data[0][0].examinee_id != examineeId) {
+        console.log("inside police number is already registered");
         res.status(400).json({
           status: "error",
           msg: "police number is already registered",
         });
-        console.log("inside police number is already registered");
         console.log(data[0]);
       } else if (data[0].length < 1) {
-        updatePoliceOfficer();
         console.log("inside police number is new");
+        updatePoliceOfficer();
+      } else if (data[0].length == 1 && data[0][0].examinee_id == examineeId) {
+        updatePoliceOfficer();
       }
     })
     .catch((error) => {
+      console.log("lol");
+      console.log(error);
+      res.status(500).json({
+        status: "error",
+        msg: "500 Internal Server Error",
+      });
+    });
+};
+
+export const editPoliceSecurity = async (req, res) => {
+  const examineeId = req.body.examineeId;
+  const examineeName = req.body.name;
+  const examineeType = req.body.type;
+  const examineePoliceNumber = req.body.policeNumber;
+  const examineeCivilianNumber = req.body.codeNumber;
+  const examineeRank = req.body.rank;
+  const examineeEntity = req.body.entity;
+  const examineeEntityType = req.body.entityType;
+  const mobileNumber = req.body.mobileNumber;
+  const mobileNumber2 = req.body.mobileNumber2;
+  const carType = req.body.carType;
+  const carNumber = req.body.carNumber;
+  const birthDate = req.body.birthDate;
+  const addressInside = req.body.addressInside;
+  const addressOutside = req.body.addressOutside;
+  const religion = req.body.religion;
+  const financeCode = req.body.financeCode;
+  const bankName = req.body.bankName;
+  const relationshipStatus = req.body.relationshipStatus;
+  const previousClubs = req.body.previousClubs;
+  const previousWorkPlaces = req.body.previousWorkPlaces;
+  const graduationDate = req.body.graduationDate;
+
+  const updatePoliceOfficer = () => {
+    connection
+      .promise()
+      .query(
+        `
+        UPDATE examinee
+        SET examinee_name = '${examineeName}',
+        examinee_police_number = '${examineePoliceNumber}',
+        examinee_type = '${examineeType}',
+        examinee_rank = '${examineeRank}',
+        examinee_entity = '${examineeEntity}',
+        examinee_entity_type = '${examineeEntityType}',
+        examinee_graduation_date = '${graduationDate}',
+        examinee_birth_date = '${birthDate}',
+        examinee_religion = '${religion}',
+        relationship_status = '${relationshipStatus}',
+        examinee_police_number = '${examineePoliceNumber}',
+        examinee_civilian_number = '${examineeCivilianNumber}',
+        examinee_mobile_number = '${mobileNumber}',
+        examinee_mobile_number2 = '${mobileNumber2}',
+        examinee_car_type = '${carType}',
+        examinee_car_number = '${carNumber}',
+        examinee_address_inside_cairo = '${addressInside}',
+        examinee_address_outside_cairo = '${addressOutside}',
+        examinee_bank_name = '${bankName}',
+        examinee_finance_code = '${financeCode}',
+        examinee_previous_clubs = '${previousClubs}',
+        examinee_previous_work_places = '${previousWorkPlaces}',
+        examinee_bank_name = '${bankName}'
+        WHERE examinee_id = '${examineeId}'
+        `
+      )
+      .then((data) => {
+        if (data[0].affectedRows != 0) {
+          res.status(200).json({
+            status: "ok",
+            msg: "Updated",
+          });
+        } else {
+          res.status(404).json({
+            msg: "No examinee with that ID",
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(500).json({
+          status: "error",
+          msg: "500 Internal Server Error",
+        });
+      });
+  };
+
+  await connection
+    .promise()
+    .query(
+      `SELECT * FROM examinee WHERE
+      examinee_police_number = '${examineePoliceNumber}'`
+    )
+    .then((data) => {
+      console.log(data[0].length, "LOLOLOL");
+      if (data.length[0] > 0 && data[0][0].examinee_id == examineeId) {
+        updatePoliceOfficer();
+        console.log("inside available and examinee did not change code");
+      } else if (data[0].length > 0 && data[0][0].examinee_id != examineeId) {
+        console.log("inside police number is already registered");
+        res.status(400).json({
+          status: "error",
+          msg: "police number is already registered",
+        });
+        console.log(data[0]);
+      } else if (data[0].length < 1) {
+        console.log("inside police number is new");
+        updatePoliceOfficer();
+      } else if (data[0].length == 1 && data[0][0].examinee_id == examineeId) {
+        updatePoliceOfficer();
+      }
+    })
+    .catch((error) => {
+      console.log("lol");
       console.log(error);
       res.status(500).json({
         status: "error",
