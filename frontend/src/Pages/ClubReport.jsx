@@ -184,111 +184,116 @@ const ClubReport = () => {
               </tr>
             </thead>
             <tbody>
-              {subjects && subjects.length > 0 ? (
-                Object.entries(subjects[0]).map((subject) => {
-                  // Check if the key starts with "مادة " (indicating it's a subject)
-                  // ...
+  {subjects && subjects.length > 0 ? (
+    Object.entries(subjects[0]).map((subject) => {
+      // Check if the key starts with "مادة " (indicating it's a subject)
+      // ...
 
-                  return (
-                    <tr scope="row" key={subject[1].subject_id}>
-                      <td className="p-2">{subject[1].examinee_id}</td>
-                      <td className="">{subject[1].examinee_rank}</td>
-                      <td className="">{subject[1].examinee_name}</td>
-                      {Object.entries(grades).map(([key, value]) => {
-                        {
-                          // console.log(value, "TYPEEEEEEE");
-                        }
-                        if (
-                          subject[1].examinee_id === value.examinee_id &&
-                          value.examinee_grade
-                        ) {
-                          if (value.subject_type === "نظري") {
-                            theoreticalTotal += value.examinee_grade;
-                          } else if (value.subject_type === "عملي") {
-                            practicalTotal += value.examinee_grade;
-                          }
-                          return (
-                            <td className="text-center" key={key}>
-                              {value.examinee_grade}
-                            </td>
-                          );
-                        } else if (
-                          !value.examinee_grade &&
-                          subject[1].examinee_id === value.examinee_id
-                        ) {
-                          return (
-                            <td className="text-center" key={key}>
-                              _
-                            </td>
-                          );
-                        }
-                      })}
-                      {Object.entries(clubFitnessLevelMeasurement).map(
-                        ([key, value]) => {
-                          {
-                            // console.log(value, "TYPEEEEEEE");
-                          }
-                          if (subject[1].examinee_id === value.examinee_id) {
-                            // if (value.subject_type === "نظري") {
-                            //   theoreticalTotal += value.examinee_grade;
-                            // } else if (value.subject_type === "عملي") {
-                            //   practicalTotal += value.examinee_grade;
-                            // }
-                            return (
-                              <>
-                                <td className="text-center" key={key}>
-                                  {value.texture_after || "_"}
-                                </td>
-                              </>
-                            );
-                          } else if (
-                            !value.examinee_grade &&
-                            subject[1].examinee_id === value.examinee_id
-                          ) {
-                            return (
-                              <td className="text-center" key={key}>
-                                _
-                              </td>
-                            );
-                          }
-                        }
-                      )}
-                      {/* Display theoretical and practical totals */}
-                      <td className="text-center">{theoreticalTotal}</td>
-                      <td className="text-center">{practicalTotal}</td>
-                      {/* Calculate and display the overall total */}
-                      <td className="text-center">
-                        {theoreticalTotal + practicalTotal}
-                      </td>
-                      <td className="text-center">
-                        {(
-                          ((theoreticalTotal + practicalTotal) /
-                            totalSubjectsGrades) *
-                          100
-                        ).toFixed(1)}
-                        %
-                      </td>
+      // Move the declarations inside the loop to reset for each student
+      let theoreticalTotal = 0;
+      let practicalTotal = 0;
 
-                      <td id="operations-buttons" className="">
-                        <button
-                          onClick={() => {
-                            setEditGrades(true);
-                            setExaminee(subject[1]);
-                          }}
-                          className="btn btn-outline-primary m-2"
-                        >
-                          تعديل
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <tr>
-                  <td colSpan="4">No subjects available</td>
-                </tr>
-              )}
-            </tbody>
+      return (
+        <tr scope="row" key={subject[1].subject_id}>
+          <td className="p-2">{subject[1].examinee_id}</td>
+          <td className="">{subject[1].examinee_rank}</td>
+          <td className="">{subject[1].examinee_name}</td>
+          {Object.entries(grades).map(([key, value]) => {
+            {
+              // console.log(value, "TYPEEEEEEE");
+            }
+            if (
+              subject[1].examinee_id === value.examinee_id &&
+              value.examinee_grade
+            ) {
+              if (value.subject_type === "نظري") {
+                theoreticalTotal += value.examinee_grade;
+              } else if (value.subject_type === "عملي") {
+                practicalTotal += value.examinee_grade;
+              }
+              return (
+                <td className="text-center" key={key}>
+                  {value.examinee_grade}
+                </td>
+              );
+            } else if (
+              !value.examinee_grade &&
+              subject[1].examinee_id === value.examinee_id
+            ) {
+              return (
+                <td className="text-center" key={key}>
+                  _
+                </td>
+              );
+            }
+          })}
+          {Object.entries(clubFitnessLevelMeasurement).map(
+            ([key, value]) => {
+              {
+                // console.log(value, "TYPEEEEEEE");
+              }
+              if (subject[1].examinee_id === value.examinee_id) {
+                // if (value.subject_type === "نظري") {
+                //   theoreticalTotal += value.examinee_grade;
+                // } else if (value.subject_type === "عملي") {
+                //   practicalTotal += value.examinee_grade;
+                // }
+                return (
+                  <>
+                    <td className="text-center" key={key}>
+                      {value.texture_after || "_"}
+                    </td>
+                  </>
+                );
+              } else if (
+                !value.examinee_grade &&
+                subject[1].examinee_id === value.examinee_id
+              ) {
+                return (
+                  <td className="text-center" key={key}>
+                    _
+                  </td>
+                );
+              }
+            }
+          )}
+        
+          <td className="text-center">{theoreticalTotal}</td>
+          <td className="text-center">{practicalTotal}</td>
+         
+          <td className="text-center">
+            {theoreticalTotal + practicalTotal}
+          </td>
+          <td className="text-center">
+            {(
+              ((theoreticalTotal + practicalTotal) /
+                totalSubjectsGrades) *
+              100
+            ).toFixed(1)}
+            %
+          </td>
+
+          <td id="operations-buttons" className="">
+            <button
+              onClick={() => {
+                setEditGrades(true);
+                setExaminee(subject[1]);
+              }}
+              className="btn btn-outline-primary m-2"
+            >
+              تعديل
+            </button>
+          </td>
+        </tr>
+      );
+    })
+  ) : (
+    <tr>
+      <td colSpan="4">No subjects available</td>
+    </tr>
+  )}
+</tbody>
+
           </table>
         </div>
       </div>

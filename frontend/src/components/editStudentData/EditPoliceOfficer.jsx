@@ -333,7 +333,9 @@ const EditPoliceOfficer = (props) => {
           <div className="row p-2">
             <div className="form-group col-md-4 p-2">
               <h5 className="mb-3">جهة العمل الحالية</h5>
+
               <EntityDropdown value={entity} onChange={setEntity} />
+                
             </div>
             <div className="form-group col-md-4 p-2">
               <h5 className="mb-3">نوع جهة العمل </h5>

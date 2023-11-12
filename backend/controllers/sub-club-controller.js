@@ -434,7 +434,7 @@ export const getSubClubStudentsSubjects = async (req, res) => {
         }
         total += grades[i].examinee_grade;
       }
-      console.log(grades, "GRADESSS", grades.length);
+      // console.log(grades, "GRADESSS", grades.length);
     });
 
   await connection
@@ -529,7 +529,7 @@ export const editExamineeSubjectGrade = async (req, res) => {
   const subClubId = req.body.subClubId;
   let clubs = [];
   let isError = false;
-  console.log(gradesObject[1].examinee_grade, "LOLOLO");
+  console.log(gradesObject[0].examinee_grade, "LOLOLO");
 
   try {
     for (let i = 0; i < gradesObject.length; i++) {

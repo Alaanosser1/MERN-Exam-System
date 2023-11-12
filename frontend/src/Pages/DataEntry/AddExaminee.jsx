@@ -461,6 +461,9 @@ const AddExaminee = (props) => {
                     <option value={"ا.ع لنظم معلومات المرور"}>
                       ا. ع لنظم معلومات المرور
                     </option>
+                    <option value={"ا.ع لشرطة رئاسة الجمهورية"}>
+                    ا.ع لشرطة رئاسة الجمهورية
+                    </option>
                     <option value={"قطاع أمن القاهرة"}>قطاع أمن القاهرة</option>
                     <option value={"قطاع أمن الجيزة"}>قطاع أمن الجيزة</option>
                     <option value={"مديرية أمن القاهرة"}>
@@ -1001,7 +1004,9 @@ const AddExaminee = (props) => {
               <div className="row p-2">
                 <div className="form-group col-md-4 p-2">
                   <h5 className="mb-3">جهة العمل الحالية</h5>
+
                   <EntityDropdown value={entity} onChange={setEntity} />
+
                   {errors.entityRequired && (
                     <span className="text-danger">
                       من فضلك اختر جهة العمل الحالية*
